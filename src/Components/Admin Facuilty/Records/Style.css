@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Gulzar&display=swap');
+.Search{
+    height: 451px;
+    display: block;
+    justify-content: center;
+    
+}
+.TextTitle{
+    font-family: 'Cairo';
+    font-size: 30px;
+    font-weight: 400;
+    color: #000000;
+    padding-top: 66px;
+    line-height: 57px;
+    text-align: center;
+}
+.SearchBar{
+    /* width: 829px; */
+    height: 82px;
+    margin: 1px 19%;
+    display: flex;
+    justify-content: center;
+}
+
+.icon{
+    margin: 22px 15px;
+}
+#searchControl{
+    width: 485px;
+    height: 40px;
+    margin-top: 15px;
+    border: 0.5px solid rgba(152, 218, 255, 1);
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgba(199, 235, 255, 0.56);
+}
+
+#Input_Select{
+    width: 145px;
+    height: 40px;
+    border: 1 solid #ffffff00;
+    border-radius: 10px;
+    background: rgba(221, 221, 221, 1);
+    font-family: 'Cairo';
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    margin: 15px;
+}
+.ResultOfSearch{
+    text-align: center;
+    padding: 15px;
+}
