@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Gulzar&display=swap');
-.Search{
+
+.Search {
     height: 451px;
     display: block;
     justify-content: center;
-    
+
 }
-.TextTitle{
+
+.TextTitle {
     font-family: 'Cairo';
     font-size: 30px;
     font-weight: 400;
@@ -14,7 +16,8 @@
     line-height: 57px;
     text-align: center;
 }
-.SearchBar{
+
+.SearchBar {
     /* width: 829px; */
     height: 82px;
     margin: 1px 19%;
@@ -22,10 +25,11 @@
     justify-content: center;
 }
 
-.icon{
+.icon {
     margin: 22px 15px;
 }
-#searchControl{
+
+#searchControl {
     width: 485px;
     height: 40px;
     margin-top: 15px;
@@ -37,7 +41,7 @@
     background-color: rgba(199, 235, 255, 0.56);
 }
 
-#Input_Select{
+#Input_Select {
     width: 145px;
     height: 40px;
     border: 1 solid #ffffff00;
@@ -49,7 +53,229 @@
     text-align: center;
     margin: 15px;
 }
-.ResultOfSearch{
+
+.ResultOfSearch {
     text-align: center;
     padding: 15px;
+}
+
+/*============================ DetailsOfControl =========================*/
+.DetailsOfControl {
+    margin: 5% 14% 2%;
+}
+
+.DetailsOfControl-Title {
+    text-align: end;
+    font-family: Cairo;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 48.72px;
+    text-align: right;
+    padding: 1%;
+
+
+}
+
+.DetailsOfControl-input {
+    text-align: end;
+
+}
+
+.DetailsOfControl-nameofcontrol {
+    width: 532px;
+    height: 54px;
+    opacity: 0px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 33.73px;
+    background: rgba(225, 225, 225, 0.63);
+    text-align: end;
+    border: 0px;
+    border-radius: 5px;
+    padding: 0px 20px;
+}
+
+.DetailsOfControl-Yeay {
+    width: 150px;
+    height: 54px;
+    opacity: 0px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 33.73px;
+    background: rgba(225, 225, 225, 0.63);
+    text-align: center;
+    border-radius: 5px;
+    border: 0px;
+    padding: 0px 20px;
+    margin-top: 30px;
+}
+
+.DetailsOfControl-Yeay-2 {
+    margin-left: 190px;
+}
+
+.DateOfControl {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.column {
+    margin: 20px;
+    text-align: center;
+}
+
+.column .TextDate {
+    margin: 8px;
+}
+
+.DetailsOfControl-Date {
+    width: 150px;
+    height: 54px;
+    opacity: 0px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 33.73px;
+    background: rgba(225, 225, 225, 0.63);
+    text-align: center;
+    border-radius: 5px;
+    border: 0px;
+    padding: 0px 20px;
+}
+
+.column .dateofcontrolText {
+    margin-top: 40px;
+    font-family: Cairo;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 48.72px;
+    text-align: center;
+}
+
+/*======================= ControlMaterials =======================*/
+
+.ControlMaterials {
+    margin: 0% 14% 2%;
+}
+
+.ControlMaterials-Title {
+    text-align: end;
+    font-family: Cairo;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 48.72px;
+    text-align: right;
+}
+
+.MaterialsOfControl {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.column_Materials {
+    margin: 18px;
+    text-align: center;
+    width: 224px;
+    height: 40px;
+    left: -20px;
+    padding: 3px 0px 0px 58px;
+}
+
+.MaterialsDate {
+    margin: 8px;
+    font-family: Cairo;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 41.23px;
+    text-align: right;
+    opacity: 1px;
+    color: rgba(100, 100, 100, 0.71);
+}
+
+/*==================== ControlMembers =======================*/
+.ControlMembers {
+    margin: 0% 14% 2%;
+}
+
+.ControlMembers-Title {
+    text-align: end;
+    font-family: Cairo;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 48.72px;
+    text-align: right;
+}
+
+.ControlMembers-Groupes {
+    margin: 0% 10% 2%;
+}
+.ControlMembers-Groupe-1{
+    margin-top: 3%;
+}
+.ControlMembers-Groupe-title {
+    font-family: Cairo;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 41.23px;
+    text-align: right;
+    text-decoration: dashed;
+
+}
+
+.ControlMembers-Groupe-Head{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: end;
+    margin-right: 10px;
+}
+.ControlMembers-Groupe-Member{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: end;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.column_ControlMembers{
+    margin: 18px;
+    text-align: center;
+    width: 224px;
+    height: 40px;
+    left: -20px;
+    padding: 3px 0px 0px 58px;
+}
+.data_column{
+    margin: 8px;
+    font-family: Cairo;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 41.23px;
+    text-align: right;
+    opacity: 1px;
+    color: rgba(100, 100, 100, 0.71);
+}
+
+
+
+
+
+
+
+
+
+/*=================================*/
+hr {
+    width: 1126px;
+    height: 0px;
+    top: 550px;
+    left: 155px;
+    gap: 0px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    border: 3px solid rgba(168, 168, 168, 1)
 }
