@@ -1,5 +1,6 @@
 import React from 'react'
-import { Footer, Header } from '../../../Layout/index'
+import Header from '../../Header'
+import Footer from '../../Footer'
 import "./Style.css"
 import searchIcon from "../../images/search.png"
 import view from "../../images/view.png"

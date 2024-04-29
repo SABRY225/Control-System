@@ -1,17 +1,18 @@
 import React from 'react'
 import { ControlMaterials, ControlMembers, DetailsOfControl, Nots, Tasks  } from '../../index'
-import { Footer, Header } from '../../../../Layout/index'
+// import Header from '../../../Header' 
+// import Footer from '../../../Footer' 
 
 export default function Home() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <DetailsOfControl />
       <ControlMaterials />
       <ControlMembers />
       <Tasks />
       <Nots />
-      <Footer />
+      {/* <Footer /> */}
       
 
     </>
