@@ -97,7 +97,7 @@
 }
 
 .DetailsOfControl-Yeay {
-    width: 150px;
+    width: 185px;
     height: 54px;
     opacity: 0px;
     font-family: Cairo;
@@ -113,12 +113,12 @@
 }
 
 .DetailsOfControl-Yeay-2 {
-    margin-left: 190px;
+    margin-left: 140px;
 }
 
 .DateOfControl {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     margin-top: 20px;
 }
 
@@ -214,9 +214,11 @@
 .ControlMembers-Groupes {
     margin: 0% 10% 2%;
 }
-.ControlMembers-Groupe-1{
+
+.ControlMembers-Groupe-1 {
     margin-top: 3%;
 }
+
 .ControlMembers-Groupe-title {
     font-family: Cairo;
     font-size: 22px;
@@ -227,13 +229,14 @@
 
 }
 
-.ControlMembers-Groupe-Head{
+.ControlMembers-Groupe-Head {
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: end;
     margin-right: 10px;
 }
-.ControlMembers-Groupe-Member{
+
+.ControlMembers-Groupe-Member {
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: end;
@@ -241,7 +244,7 @@
     margin-top: 20px;
 }
 
-.column_ControlMembers{
+.column_ControlMembers {
     margin: 18px;
     text-align: center;
     width: 224px;
@@ -249,7 +252,8 @@
     left: -20px;
     padding: 3px 0px 0px 58px;
 }
-.data_column{
+
+.data_column {
     margin: 8px;
     font-family: Cairo;
     font-size: 22px;
@@ -260,13 +264,104 @@
     color: rgba(100, 100, 100, 0.71);
 }
 
+/* =============================   Tasks   ============================= */
+.TaskOfControl {
+    margin: 0% 14% 2%;
+}
 
+.TaskOfControl-Title {
+    text-align: end;
+    font-family: Cairo;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 48.72px;
+    text-align: right;
+    padding: 1%;
 
+}
 
+.Task-Groupes {
+    margin: 0% 0% 2% 10%;
+}
 
+.box {
+    padding: 10px;
+    width: 408px;
+    top: 93px;
+    gap: 0px;
+    border-radius: 5px 0px 0px 0px;
+    opacity: 0px;
+    background: rgba(229, 229, 229, 0.46);
+}
 
+.box_Title {
+    width: 513px;
+    opacity: 0px;
+    font-family: Cairo;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    padding: 30px;
+}
 
+.nameOfMember {
+    width: 173px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 33.73px;
+    color: rgba(114, 114, 114, 0.81);
+}
 
+.dataOfTask {
+    font-family: Cairo;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 37px;
+}
+
+/* ========================    Notes   ========================== */
+.box_Notes {
+    width: 876px;
+    padding: 10px;
+    border-radius: 5px 0px 0px 0px;
+    background: rgba(229, 229, 229, 0.46);
+}
+
+.boxNotes_Title {
+    font-family: Cairo;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: end;
+    padding: 30px;
+}
+
+.dataOfNotes {
+    font-family: Cairo;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 37px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 33.73px;
+    text-align: right;
+    color: rgba(114, 114, 114, 0.81);
+
+}
+.nameOfMemberNotes
+{
+    width: 173px;
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 33.73px;
+    color: rgba(114, 114, 114, 0.81);
+    text-align: end;
+    margin-right: 30px;
+}
 
 /*=================================*/
 hr {
