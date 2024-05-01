@@ -11,6 +11,7 @@ import LayoutAPP from "./Layout/LayoutAPP";
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Admin_University from './Pages/Admin University';
 import AcademicYearDetails from './Components/Admin University/AcademicYearDetails/AcademicYearDetails';
+import CreateControl from './Components/Admin Facuilty/Manage Control/Create Control/CreateControl';
 
 
 
@@ -37,6 +38,7 @@ const routers = createBrowserRouter([
       { path: 'Admin_Facuilty', element: <Admin_Facuilty /> },
       { path: 'Admin_University', element: <Admin_University /> },
       { path: 'AcademicYearDetails', element: <AcademicYearDetails /> },
+      { path: 'CreateControl', element: <CreateControl /> },
       { path: '*', element: <ErrorPage /> },
     ],
   },
