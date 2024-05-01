@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import detailsReducer from './detailsSlice';
 
-const Store = configureStore({
+const store = configureStore({
   reducer: {
-    
-  }
+    details: detailsReducer,
+  },
 });
 
-export default Store;
+export default store;

@@ -1,0 +1,36 @@
+/* Add this to your CSS file */
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .red {
+    background-color: red;
+  }
+  
+  .gray {
+    background-color: gray;
+  }
+
+  .years-of-controls{
+    direction: rtl;
+  }
+  
+  .page{
+    height: 80vh;
+  }
+
+  .rtl{
+    direction: rtl;
+  }
+
+  .ltr{
+    direction: ltr;
+  }

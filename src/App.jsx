@@ -10,6 +10,8 @@ import Admin_Facuilty from "./Pages/Admin Facuilty";
 import LayoutAPP from "./Layout/LayoutAPP";
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Admin_University from './Pages/Admin University';
+import AcademicYearDetails from './Components/Admin University/AcademicYearDetails/AcademicYearDetails';
+
 
 
 const routers = createBrowserRouter([
@@ -34,6 +36,7 @@ const routers = createBrowserRouter([
       // { index: true, element: <Home /> },
       { path: 'Admin_Facuilty', element: <Admin_Facuilty /> },
       { path: 'Admin_University', element: <Admin_University /> },
+      { path: 'AcademicYearDetails', element: <AcademicYearDetails /> },
       { path: '*', element: <ErrorPage /> },
     ],
   },
