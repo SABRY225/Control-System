@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../Component/Header";
+// import Header from "../Component/Header";
 import { Outlet } from "react-router-dom";
-import Footer from "../Component/Footer";
+// import Footer from "../Component/Footer";
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,9 +19,9 @@ export default function LayoutAuth() {
       /> */}
 
       {/* <Header sign={true} /> */}
-      <Header />
+      {/* <Header /> */}
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

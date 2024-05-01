@@ -1,18 +1,14 @@
 import React from 'react'
-import { ControlMaterials, ControlMembers, DetailsOfControl, Notes, Tasks  } from '../../index' 
+import { ControlMaterials, ControlMembers, DetailsOfControl, InformationControl, Notes, Tasks,DataControl  } from '../../index' 
 
 export default function Home() {
   return (
     <>
-      {/* <Header /> */}
       <DetailsOfControl />
       <ControlMaterials />
       <ControlMembers />
       <Tasks />
-      <Notes />
-      {/* <Footer /> */}
-      
-
+      <Notes /> 
     </>
   )
 }

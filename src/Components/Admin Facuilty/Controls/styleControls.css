@@ -1,0 +1,179 @@
+/* ============== Home Information Controls ==================*/
+.HomeClassInfoControls {
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.ClassesControls {
+    margin-top: 5%;
+}
+
+.Semes_Acad_Title {
+    height: 54px;
+    background: rgba(225, 225, 225, 0.63);
+    margin: 3% 30%;
+    border-radius: 10px;
+}
+
+.Semes_Acad_Title-col {
+    width: 134px;
+    height: 59px;
+    font-family: Cairo;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 56.22px;
+    text-align: center;
+    color: rgba(0, 0, 0, 1);
+}
+
+.boxControl {
+    padding: 10px;
+    /* width: 408px; */
+    height: 121px;
+    top: 93px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 2px solid rgba(100, 100, 100, 0.71);
+    box-shadow: 0px 14px 14px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.dataofControl {
+    text-align: center;
+}
+
+.nameOfHeadControl {
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 33.73px;
+    text-align: center;
+    color: rgba(0, 0, 0, 1);
+
+}
+
+.nameOfJob {
+    font-family: Cairo;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 24.36px;
+    text-align: center;
+    font-family: Cairo;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 24.36px;
+    text-align: center;
+    color: rgba(67, 187, 255, 1);
+}
+
+.nameOfControl {
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 33.73px;
+    text-align: center;
+    color: rgba(0, 0, 0, 1);
+}
+
+.btn-view {
+    font-family: Cairo;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 37.48px;
+    margin: 0px 147px;
+    background: rgba(67, 187, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    border-radius: 5px;
+
+}
+
+/* =============== DataControl =============== */
+
+.btn-route {
+    text-align: center;
+    font-family: Cairo;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 37.48px;
+    background: rgba(152, 218, 255, 1);
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    padding: 5px 15px;
+    text-decoration: none;
+
+}
+
+.Active-1:hover {
+    background-color: rgba(67, 187, 255, 1);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
+    color: rgb(243, 239, 239);
+}
+
+.Active-2:hover {
+    background-color: rgba(67, 187, 255, 1);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
+    color: rgb(243, 239, 239);
+}
+
+
+/*========================= Table Of Control =========================*/
+.Title-Control {
+    font-family: Cairo;
+    font-size: 23px;
+    font-weight: 400;
+    text-align: right;
+    color: rgba(0, 0, 0, 1);
+    margin-top: 2rem;
+
+}
+
+.Table-title {
+    font-family: Cairo;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: right;
+    color: rgba(0, 0, 0, 1);
+}
+.Table-data {
+    margin: -3rem 3rem 2rem;
+    font-family: Cairo;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: right;
+    color: rgba(0, 0, 0, 1);
+}
+
+
+.Column-Table {
+    padding: 0.5rem;
+    margin: 1rem 1rem;
+    background: rgba(217, 217, 217, 1);
+    border-radius: 5px;
+
+}
+
+.text-column-table {
+    margin-left: 95px;
+    margin-right: 10px;
+    margin-top: 6px;
+    font-family: Cairo;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: right;
+    color: rgba(0, 0, 0, 1);
+}
+.text-2-column-table {
+    margin-left: 95px;
+    margin-right: 10px;
+    margin-top: 6px;
+    font-family: Cairo;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: right;
+    color: rgba(0, 0, 0, 1);
+}
+.ImagIconState{
+    width: 30px;
+    height: 30px;
+    margin-top: -3px;
+}
