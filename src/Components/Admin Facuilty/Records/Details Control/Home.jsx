@@ -1,7 +1,5 @@
 import React from 'react'
-import { ControlMaterials, ControlMembers, DetailsOfControl, Nots, Tasks  } from '../../index'
-// import Header from '../../../Header' 
-// import Footer from '../../../Footer' 
+import { ControlMaterials, ControlMembers, DetailsOfControl, Notes, Tasks  } from '../../index' 
 
 export default function Home() {
   return (
@@ -11,7 +9,7 @@ export default function Home() {
       <ControlMaterials />
       <ControlMembers />
       <Tasks />
-      <Nots />
+      <Notes />
       {/* <Footer /> */}
       
 
