@@ -1,0 +1,35 @@
+.Title-Task {
+    font-family: Cairo;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 44.98px;
+    text-align: right;
+    margin-top: 3rem;
+}
+
+.dateInput {
+    margin: 1rem 0rem;
+    text-align: center;
+}
+
+.toTask {
+    font-family: Cairo;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 33.73px;
+    text-align: right;
+
+}
+
+.TextAreaTask {
+    height: 155px;
+    border-radius: 4px;
+    border-color: rgba(152, 218, 255, 1);
+
+    background: rgba(229, 229, 229, 1);
+}
+
+.TextAreaTask:focus {
+    outline: none;
+    /* Remove default focus outline */
+}
