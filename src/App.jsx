@@ -10,6 +10,7 @@ import Admin_Facuilty from "./Pages/Admin Facuilty";
 import LayoutAPP from "./Layout/LayoutAPP";
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Admin_University from './Pages/Admin University';
+import { AnalysisControl, DataControl, InformationControl, SearchOfControl, TableOfControl } from './Components/Admin Facuilty/index';
 import AcademicYearDetails from './Components/Admin University/AcademicYearDetails/AcademicYearDetails';
 import CreateControl from './Components/Admin Facuilty/Manage Control/Create Control/CreateControl';
 import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
@@ -35,27 +36,23 @@ const routers = createBrowserRouter([
       // </ProtectedRoutes>
     ),
     children: [
-      // { index: true, element: <Home /> },
-      { path: 'Admin_Facuilty', element: <Admin_Facuilty /> },
+      { path: 'Admin_Facuilty', element: <Admin_Facuilty />   , children: [
+        { index: true, element: <InformationControl /> },
+        // { path: 'ManageControl', element: <ErrorPage /> },
+        { path: 'control', element: <DataControl /> ,children:[
+          {index:true,element:<TableOfControl/>},
+          {path:"analysis_control",element:<AnalysisControl/>}
+        ]},
+        { path: 'Records', element: <SearchOfControl /> },
+        { path: '*', element: <ErrorPage /> },
+      ], },
       { path: 'Admin_University', element: <Admin_University /> },
       { path: 'AcademicYearDetails', element: <AcademicYearDetails /> },
       { path: 'CreateControl', element: <CreateControl /> },
-      { path: 'ControlList', element: <ControlList /> },
+      { path: 'Control_List', element: <ControlList /> },
       { path: '*', element: <ErrorPage /> },
     ],
   },
-  // {
-  //   path: '/',
-    
-  //   element:
-  //   <LayoutAuth />,
-  //   children: [
-  //     { index: true, element: <Register /> },
-  //     { path: 'signup', element: <Register /> },
-  //     { path: 'signin', element: <Login /> },
-  //     { path: '*', element: <ErrorPage /> },
-  //   ],
-  // },
 ]);
 
 function App() {
