@@ -12,6 +12,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Admin_University from './Pages/Admin University';
 import AcademicYearDetails from './Components/Admin University/AcademicYearDetails/AcademicYearDetails';
 import CreateControl from './Components/Admin Facuilty/Manage Control/Create Control/CreateControl';
+import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
 
 
 
@@ -39,6 +40,7 @@ const routers = createBrowserRouter([
       { path: 'Admin_University', element: <Admin_University /> },
       { path: 'AcademicYearDetails', element: <AcademicYearDetails /> },
       { path: 'CreateControl', element: <CreateControl /> },
+      { path: 'ControlList', element: <ControlList /> },
       { path: '*', element: <ErrorPage /> },
     ],
   },
