@@ -153,7 +153,7 @@
 }
 
 .text-column-table {
-    margin-left: 95px;
+    /* margin-left: 95px; */
     margin-right: 10px;
     margin-top: 6px;
     font-family: Cairo;
@@ -176,4 +176,26 @@
     width: 30px;
     height: 30px;
     margin-top: -3px;
+}
+
+.btnSendNotes{
+    width: 102px;
+    border-radius: 6px;
+    opacity: 0px;
+    background: rgba(106, 201, 255, 1);
+    font-family: Cairo;
+    font-size: 21px;
+    font-weight: 400;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 1) ;
+    
+}
+.TextAreaFiled {
+    border: 0px;
+}
+
+.TextAreaFiled:focus {
+    outline: none;
+    /* Remove default focus outline */
 }
