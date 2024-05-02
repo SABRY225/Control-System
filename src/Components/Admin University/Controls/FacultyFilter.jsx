@@ -5,7 +5,7 @@ import DetailsOfControl from '../DetailsOfControl/DetailsOfControl';
 
 const FacultyFilter = () => {
   const [selectedFaculty, setSelectedFaculty] = useState(null);
-  const arrow = <FontAwesomeIcon icon="fa-solid fa-arrow-down-long" style={{ color: 'white' }} />;
+  
   
   const handleFacultyChange = (e) => {
     setSelectedFaculty(e.target.value);
