@@ -68,43 +68,23 @@ function Login() {
         <div className='HomeLogin  '>
             <div className="container">
                 <div className="row justify-content-center ">
-                    <div className="col-12 BorderLogin m-5">
-                        {/* Start Logo */}
-                        <div className="Logo text-center">
+                    <div class="wrapper">
+                        <div class="logo">
                             <img src={LogoUniversity} alt="LogoUniversity" className='ImageLogo' />
-                            <div className="TextLogo">
-                                <div className='Text '>South Valley Universtiy</div>
-                            </div>
                         </div>
-                        {/* End Logo */}
-                        <form onSubmit={handleSubmit} className="m-3">
-                            <div className="BlockInput">
-                                <img src={icon_user} alt="" className="icon_user" />
-                                <input type="email"
-                                    name="username"
-                                    id="username"
-                                    ref={descRef}
-                                    className="inputFiled"
-                                    placeholder="Enter your Username / Email"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
+                        <div class="text-center mt-4 name">
+                        South Valley Universtiy
+                        </div>
+                        <form class="p-3 mt-3">
+                            <div class="form-field d-flex align-items-center">
+                                <span class="far fa-user"></span>
+                                <input type="text" name="userName" id="userName" placeholder="Email / Username" />
                             </div>
-                            <div className="BlockInput">
-                                <img src={icon_password} alt="" className="icon_user" />
-                                <input type="Password"
-                                    name="Password"
-                                    id="Password"
-                                    ref={descRef}
-                                    className="inputFiled"
-                                    placeholder="Enter your Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                            <div class="form-field d-flex align-items-center">
+                                <span class="fas fa-key"></span>
+                                <input type="password" name="password" id="pwd" placeholder="Password" />
                             </div>
-                            <div className="text-center">
-                                <button className="btnSend">Login</button>
-                            </div>
+                            <button class="btn mt-3">Login</button>
                         </form>
                     </div>
                 </div>

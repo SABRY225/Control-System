@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function DetaliesWork_schedule() {
     return (
-        <div className="container">
+        <div className="container-fluid">
             {/* Title control */}
             <div className="row text-center">
                 <div className="col-12">
@@ -13,42 +13,54 @@ export default function DetaliesWork_schedule() {
             </div>
             {/* Title Table*/}
             <div className="row Table-title m-5">
-                <div className=" text-end">
-                    <div> جدول العمل</div>
+                <div className="col-12 m-3 text-end">
+                    جدول العمل
                 </div>
 
             </div>
             {/* Table Member Control */}
             <div className="row justify-content-center Table-data">
-                {/* Start */}
-                {/* المكان */}
-                <div className="col-3 Column-Table">
-                    <div className="text-column-table">كلية الحاسبات والمعلومات</div>
-                </div>
-                {/* المادة */}
-                <div className="col-3 Column-Table">
-                    <div className="text-column-table">مادة 1</div>
-                </div>
-                {/* التاريخ */}
-                <div className="col-3 Column-Table">
-                    <div className="text-column-table">2024/5/25</div>
-                </div>
-                {/* end */}
-                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">المكان</th>
+                            <th scope="col">المقرر</th>
+                            <th scope="col">الموعد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>كلية الحاسبات</td>
+                            <td>الحوسبة</td>
+                            <td>2/24/2024</td>
+                        </tr>
+                        <tr>
+                            <td>كلية الحاسبات</td>
+                            <td>الحوسبة</td>
+                            <td>2/24/2024</td>
+                        </tr>
+                        <tr>
+                            <td>كلية الحاسبات</td>
+                            <td>الحوسبة</td>
+                            <td>2/24/2024</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
             {/* Send Notes */}
             <div className="continer">
-                <div className="row justify-content-center m-5 ">
-                    <div className="col-6 border border-info p-3 rounded">
+                <div className="row justify-content-center m-1 ">
+                    <div className="col-10 border border-info p-3 rounded">
                         <form >
-                            <textarea placeholder='....ما هي ملاحظاتك' rows="5" cols="65" className='TextAreaFiled text-end' ></textarea>
+                            <textarea placeholder='....ما هي ملاحظاتك' rows="5" cols="65" className='col-12 TextAreaFiled text-end' ></textarea>
                             <button className='btnSendNotes'>Send</button>
                         </form>
 
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
     )
 }

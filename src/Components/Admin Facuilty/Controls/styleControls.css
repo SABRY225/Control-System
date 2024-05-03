@@ -1,7 +1,7 @@
 /* ============== Home Information Controls ==================*/
 .HomeClassInfoControls {
     margin-top: 5%;
-    margin-bottom: 10%;
+    margin-bottom: 17rem;
 }
 
 .ClassesControls {
@@ -9,17 +9,16 @@
 }
 
 .Semes_Acad_Title {
-    height: 54px;
-    background: rgba(225, 225, 225, 0.63);
-    margin: 3% 30%;
+    /* height: 54px; */
+    /* background: rgba(225, 225, 225, 0.63); */
+    /* margin: 3% 30%; */
     border-radius: 10px;
 }
 
 .Semes_Acad_Title-col {
-    width: 134px;
     height: 59px;
     font-family: Cairo;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 56.22px;
     text-align: center;
@@ -28,7 +27,7 @@
 
 .boxControl {
     padding: 10px;
-    /* width: 408px; */
+    width: 408px;
     height: 121px;
     top: 93px;
     border-radius: 10px;
@@ -121,7 +120,7 @@
     font-family: Cairo;
     font-size: 23px;
     font-weight: 400;
-    text-align: right;
+    /* text-align: right; */
     color: rgba(0, 0, 0, 1);
     margin-top: 2rem;
 
@@ -129,16 +128,16 @@
 
 .Table-title {
     font-family: Cairo;
-    font-size: 25px;
-    font-weight: 700;
-    text-align: right;
+    font-size: 1.44rem;
+    font-weight: 500;
+    text-align: center;
     color: rgba(0, 0, 0, 1);
 }
 .Table-data {
-    margin: -3rem 3rem 2rem;
+    margin: -3rem 1rem 2rem;
     font-family: Cairo;
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 400;
     text-align: right;
     color: rgba(0, 0, 0, 1);
 }
@@ -146,11 +145,12 @@
 
 .Column-Table {
     padding: 0.5rem;
-    margin: 1rem 1rem;
+    margin:0.5rem 0.5rem;
     background: rgba(217, 217, 217, 1);
     border-radius: 5px;
 
 }
+
 
 .text-column-table {
     /* margin-left: 95px; */
@@ -163,11 +163,9 @@
     color: rgba(0, 0, 0, 1);
 }
 .text-2-column-table {
-    margin-left: 95px;
-    margin-right: 10px;
-    margin-top: 6px;
+    margin-right: 0.5rem;
     font-family: Cairo;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 600;
     text-align: right;
     color: rgba(0, 0, 0, 1);
@@ -192,6 +190,7 @@
     
 }
 .TextAreaFiled {
+    padding: 0.5rem;
     border: 0px;
 }
 

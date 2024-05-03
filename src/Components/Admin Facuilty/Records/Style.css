@@ -3,7 +3,7 @@
 .Search {
     height: 500px;
     display: block;
-    justify-content: center;
+    margin-bottom: 17rem;
 
 }
 
@@ -359,7 +359,7 @@
     font-weight: 600;
     line-height: 33.73px;
     color: rgba(114, 114, 114, 0.81);
-    text-align: end;
+    /* text-align: end; */
     margin-right: 30px;
 }
 

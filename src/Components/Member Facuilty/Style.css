@@ -1,5 +1,6 @@
 .TitleOfTask {
     width: 480px;
+    margin-top: 2.5rem;
     height: 180px;
     border-radius: 10px;
     opacity: 0px;

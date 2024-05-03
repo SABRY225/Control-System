@@ -15,7 +15,7 @@ export default function AnalysisControl() {
             lable: 'Poll',
             data: [60, 40],
             backgroundColor: ['rgba(68, 170, 68, 1)', 'red'],
-            borderColor: ['black', 'red']
+            borderColor: ['black', 'red'],
         }]
     }
     const options = {
@@ -37,22 +37,23 @@ export default function AnalysisControl() {
                 {/* Title Table*/}
                 <div className="row Table-title m-5">
                     <div className=" text-end">
-                        <div>المواد</div>
+                        <div>المقرارت</div>
                     </div>
 
                 </div>
                 {/* Table Material Control */}
                 <div className="container">
                     <div className="row justify-content-center Table-data">
-                        <div className="col-6 text-center">
+                        <div className="col-md-4 text-center ">
                             <Doughnut
                                 data={data}
                                 options={options}>
+                                
                             </Doughnut>
                         </div>
-                        <div className="col-6">
+                        <div className="col-md-8">
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -62,7 +63,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -72,7 +73,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -82,7 +83,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -92,7 +93,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -102,7 +103,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -112,7 +113,7 @@ export default function AnalysisControl() {
                             </div>
                             {/* end */}
                             {/* Start */}
-                            <div className="col-12 Column-Table d-flex justify-content-end ">
+                            <div className="col-sm-12 Column-Table d-flex justify-content-end ">
                                 <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
                                 <div className="state-column-table ">
                                     {
@@ -128,10 +129,10 @@ export default function AnalysisControl() {
             {/*  Notes Control */}
             {/* Send Nots */}
             <div className="continer">
-                <div className="row justify-content-end m-5 ">
-                    <div className="col-6 border border-info p-3 rounded">
+                <div className="row justify-content-center m-1 ">
+                    <div className="col-10 border border-info p-3 rounded">
                         <form >
-                            <textarea placeholder='....ما هي ملاحظاتك' rows="5" cols="70" className='TextAreaFiled' ></textarea>
+                            <textarea placeholder='....ما هي ملاحظاتك' rows="5" cols="65" className='col-12 TextAreaFiled text-end' ></textarea>
                             <button className='btnSendNotes'>Send</button>
                         </form>
 
@@ -140,42 +141,38 @@ export default function AnalysisControl() {
             </div>
             {/* resever Nots */}
             <div className="continer">
-                <div className="row justify-content-end m-5 ">
-                    <div className="col-6 text-end ">
+                <div className="row justify-content-end m-3 ">
+                    <div className="col-md-12 text-center ">
                         <div className='Table-title'>ملاحظات رئيس الكنترول</div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className='container Task-Groupes' >
-                        <div className='row'>
-                            {/* Start */}
-                            <div class="col-12 box_Notes  m-3">
-                                <div className='boxNotes_Title'>وجود اوراق ناقصه </div>
-                                <div className="row">
-                                    <div className="col dataofNotes">
-                                        <div >3/24/2003</div>
-                                    </div>
-                                    <div className="col nameOfMemberNotes">
-                                        <div >د/ محمد عبدالرازق</div>
-                                    </div>
-                                </div>
+                <div className="row justify-content-center">
+                    {/* Start */}
+                    <div class="col-12 box_Notes  m-3">
+                        <div className='boxNotes_Title'>وجود اوراق ناقصه </div>
+                        <div className="row justify-content-center">
+                            <div className="col-md-6 nameOfMemberNotes">
+                                <div >3/24/2003</div>
                             </div>
-                            {/* End */}
-                            {/* Start */}
-                            <div class="col-12 box_Notes  m-3">
-                                <div className='boxNotes_Title'>وجود اوراق ناقصه </div>
-                                <div className="row">
-                                    <div className="col dataofNotes">
-                                        <div >3/24/2003</div>
-                                    </div>
-                                    <div className="col nameOfMemberNotes">
-                                        <div >د/ محمد عبدالرازق</div>
-                                    </div>
-                                </div>
+                            <div className="col-md-6  nameOfMemberNotes">
+                                <div >د/ محمد عبدالرازق</div>
                             </div>
-                            {/* End */}
                         </div>
                     </div>
+                    {/* End */}
+                    {/* Start */}
+                    <div class="col-12 box_Notes  m-3">
+                        <div className='boxNotes_Title'>وجود اوراق ناقصه </div>
+                        <div className="row justify-content-center">
+                            <div className="col-md-6 nameOfMemberNotes">
+                                <div >3/24/2003</div>
+                            </div>
+                            <div className="col-md-6  nameOfMemberNotes">
+                                <div >د/ محمد عبدالرازق</div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* End */}
                 </div>
             </div>
         </>

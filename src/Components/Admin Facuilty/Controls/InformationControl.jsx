@@ -5,10 +5,10 @@ export default function InformationControl() {
   return (
     <div className='container HomeClassInfoControls'>
       {/* Semes_Acad_Title */}
-      <div className='row  Semes_Acad_Title'>
-        <div className="col text-end Semes_Acad_Title-col">2024/2023</div>
-        <div className="col  Semes_Acad_Title-col">-------</div>
-        <div className="col text-start Semes_Acad_Title-col">semester 2</div>
+      <div className='row  Semes_Acad_Title m-2'>
+        <div className="col-5  text-end Semes_Acad_Title-col">2024/2023</div>
+        <div className="col-2   Semes_Acad_Title-col">-</div>
+        <div className="col-5   text-start Semes_Acad_Title-col">semester 2</div>
       </div>
       {/* Semes_Acad_Title */}
       <div className='container ClassesControls'>
@@ -24,9 +24,6 @@ export default function InformationControl() {
                 <div >المستوي الأول</div>
               </div>
             </div>
-            <div className="row text-center btn-view">
-              <Link to="/Admin_Facuilty/control" className='btn  w-100'>View</Link>
-            </div>
           </div>
           {/* End  */}
           {/* Start  */}
@@ -40,9 +37,6 @@ export default function InformationControl() {
                 <div >المستوي الأول</div>
               </div>
             </div>
-            <div className="row text-center btn-view">
-              <Link to="/Admin_Facuilty/control" className='btn  w-100'>View</Link>
-            </div>
           </div>
           {/* End  */}
           {/* Start  */}
@@ -55,9 +49,6 @@ export default function InformationControl() {
               <div className="col-6 text-center nameOfControl">
                 <div >المستوي الأول</div>
               </div>
-            </div>
-            <div className="row text-center btn-view">
-              <Link to="/Admin_Facuilty/control" className='btn  w-100'>View</Link>
             </div>
           </div>
           {/* End  */}

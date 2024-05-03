@@ -8,7 +8,7 @@ export default function Task_schedule() {
                     <div className='Title-Task '>اضافه مهام أعضاء الكنترول</div>
                 </div> */}
         <div className="row text-center">
-          <div className="col-md-6 TitleOfTask m-5">
+          <div className="col-md-6 TitleOfTask">
             <div className="col-12 Text_Task">حصد مادة تاريخ</div>
             <div className="col-12 btn_Task text-center"><button className='Done'>Done</button></div>
           </div>

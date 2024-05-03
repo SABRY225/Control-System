@@ -11,13 +11,14 @@ import LayoutAPP from "./Layout/LayoutAPP";
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Admin_University from './Pages/Admin University';
 import Head_Control from './Pages/Head_Control'
-import { AnalysisControl, DataControl, InformationControl, SearchOfControl, TableOfControl } from './Components/Admin Facuilty/index';
+import { AnalysisControl, DataControl, HomeControlRecodes, InformationControl, SearchOfControl, TableOfControl } from './Components/Admin Facuilty/index';
 import Login from './Components/Login/Login';
 import LayoutAuth from './Layout/LayoutAuth';
 import Member_Facuilty from './Pages/Member_Facuilty';
 import { DetaliesWork_schedule, Home, Task_schedule, Work_schedule } from './Components/Member Facuilty/index';
 import {ContentOfControl, HomeOfHead, InfoControl, TaskOfControl} from './Components/Head  Control/index';
 import AnalysisOfControl from './Components/Head  Control/Control/AnalysisOfControl';
+import Reocrd_Controles from './Pages/Reocrd_Controles';
 
 
 const routers = createBrowserRouter([
@@ -46,7 +47,10 @@ const routers = createBrowserRouter([
           {index:true,element:<TableOfControl/>},
           {path:"analysis_control",element:<AnalysisControl/>}
         ]},
-        { path: 'Records', element: <SearchOfControl /> },
+        { path: 'Records', element: <Reocrd_Controles /> ,children:[
+          {index:true,element:<SearchOfControl />},
+          {path:"control",element:<HomeControlRecodes/>}
+        ]},
         { path: '*', element: <ErrorPage /> },
       ], },
       { path: 'Admin_University', element: <Admin_University /> },

@@ -1,7 +1,7 @@
 // Records
 export {default as SearchOfControl} from "./Records/SearchOfControl"
 export {default as DetailsOfControl} from "./Records/Details Control/DetailsOfControl"
-export {default as Home} from "./Records/Details Control/Home"
+export {default as HomeControlRecodes} from "./Records/Details Control/Home"
 export {default as Notes} from "./Records/Details Control/Notes"
 export {default as Tasks} from "./Records/Details Control/Tasks"
 export {default as ControlMaterials} from "./Records/Details Control/ControlMaterials"
