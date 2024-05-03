@@ -14,8 +14,8 @@ import {
 import ControlList from '../Edite Control/Control_List';
 
 const ControlManagement = () => {
-    // const dispatch = useDispatch();
-    // const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
+    const dispatch = useDispatch();
+    const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
 
     const [controlDetails, setControlDetails] = useState({
         controlName: '',
@@ -25,7 +25,9 @@ const ControlManagement = () => {
         endDate: '',
         selectedSubject: '',
     });
-    
+    const isSmallScreen = window.matchMedia('(max-width: 576px)').matches;
+    const isMediumScreen = window.matchMedia('(min-width: 576px) and (max-width: 992px)').matches;
+    const isLargeScreen = window.matchMedia('(min-width: 992px)').matches;
 
     // const [isCreateControl, setIsCreateControl] = useState(false);
     const [isCreateActive, setIsCreateActive] = useState(false);
@@ -149,15 +151,18 @@ const ControlManagement = () => {
 
     return (
         <div className="container mt-4 rtl page">
-            <div className="container mt-4 rtl">
+            <div className="container my-4 rtl">
                 <div className="row mb-4 align-items-center justify-content-center">
                     {/* Create Control Button */}
                     <button
-                        className="btn col-2 mx-3"
+                        className="btn mx-3 col-lg-2"
                         style={{
                             backgroundColor: isCreateActive ? '#43BBFF' : '#98DAFF',
                             color: isCreateActive ? 'white' : 'black',
                             boxShadow: isCreateActive ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+                            // marginBottom: '15px',
+                            width:isLargeScreen?'15%':'35%',
+
                         }}
                         onClick={() => {
                             setIsCreateActive(true);
@@ -177,11 +182,12 @@ const ControlManagement = () => {
 
                     {/* Edit Control Button */}
                     <button
-                        className="btn col-2 mx-3"
+                        className="btn mx-3"
                         style={{
                             backgroundColor: isEditActive ? '#43BBFF' : '#98DAFF',
                             color: isEditActive ? 'white' : 'black',
                             boxShadow: isEditActive ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
+                            width:isLargeScreen?'15%':'35%',
                         }}
                         onClick={() => {
                             setIsEditActive(true);
@@ -196,7 +202,7 @@ const ControlManagement = () => {
 
             {/* Control Details Form */}
             {isCreateActive && <div className="row page">
-                <div className="col-md-3">
+                <div className="mb-5 col-md-3" style={{width:isLargeScreen?'25%':'95%',justifyContent:'center'}}>
                     <div className="form-group">
                         <label htmlFor="controlName">اسم الكنترول</label>
                         <input
@@ -340,14 +346,14 @@ const ControlManagement = () => {
                             }}
                         />
                     </div>
-                    
+
 
                 </div>
 
 
                 {/* Selected Subjects Section */}
 
-                <div className="col-md-5">
+                <div className="col-md-5 mb-5">
                     <div className="d-flex align-items-center justify-content-start mb-3">
                         {/* Dropdown */}
                         <select
@@ -382,7 +388,7 @@ const ControlManagement = () => {
                         <h5 className='mx-3 pt-2'>مواد الكنترول</h5>
                         <div className="row justify-content-center align-items-center">
                             {selectedSubjects.map((subject, index) => (
-                                <div key={index} className="subject-row col-md-5 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black' }}>
+                                <div key={index} className="subject-row rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%', }}>
                                     <span>{subject}</span>
                                     <FontAwesomeIcon
 
@@ -427,7 +433,7 @@ const ControlManagement = () => {
                         <h5 className='mx-3 p-2 my-2'> رئيس لجنة الكنترول</h5>
                         <div className="row justify-content-center align-items-center">
                             {selectedChairpersons.map((chairperson, index) => (
-                                <div key={index} className="subject-row col-md-5 col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black' }}>
+                                <div key={index} className="subject-row col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%', }}>
                                     <span>{chairperson}</span>
                                     <FontAwesomeIcon
                                         icon={faTrashAlt}
@@ -470,7 +476,7 @@ const ControlManagement = () => {
                             <h5 className='mx-3 p-2 my-2'> اعضاء لجنة الكنترول</h5>
                             <div className="row justify-content-center align-items-center">
                                 {selectedCommitteeMembers.map((committeeMember, index) => (
-                                    <div key={index} className="subject-row col-md-5 col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black' }}>                  <span>{committeeMember}</span>
+                                    <div key={index} className="subject-row col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%' }}>                  <span>{committeeMember}</span>
                                         <FontAwesomeIcon
                                             icon={faTrashAlt}
                                             style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px', }}
@@ -483,16 +489,16 @@ const ControlManagement = () => {
                     </div>
                 </div>
                 <div className='row d-flex justify-content-center align-items-center w-100 my-5'>
-                    <button className="col-1 btn fw-bold" onClick={handleSubmit}
-                        style={{ backgroundColor: '#74E474', boxShadow: '0 0px 8px rgba(0,0,0,0.35)', }}>
+                    <button className="btn fw-bold" onClick={handleSubmit}
+                        style={{ backgroundColor: '#74E474', boxShadow: '0 0px 8px rgba(0,0,0,0.35)', width:isLargeScreen?'10%':'25%', }}>
                         ارسال
                     </button>
                 </div>
 
             </div>
             }
-            {isEditActive&& <ControlList />}
-            
+            {isEditActive && <ControlList />}
+
 
 
         </div>

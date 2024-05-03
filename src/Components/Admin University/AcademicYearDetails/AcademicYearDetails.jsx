@@ -24,11 +24,11 @@ const AcademicYearDetails = () => {
   };
 
   // Function to calculate and render progress percentage
-  const calculateProgressPercentage = () => {
-    const finishedCount = subjects.filter((subject) => subject.finished).length;
-    const progressPercentage = (finishedCount / subjects.length) * 100;
-    return progressPercentage.toFixed(2); // Round to two decimal places
-  };
+  // const calculateProgressPercentage = () => {
+  //   const finishedCount = subjects.filter((subject) => subject.finished).length;
+  //   const progressPercentage = (finishedCount / subjects.length) * 100;
+  //   return progressPercentage.toFixed(2); // Round to two decimal places
+  // };
 
   return (
     <div className="academic-year-details-container rtl container page">

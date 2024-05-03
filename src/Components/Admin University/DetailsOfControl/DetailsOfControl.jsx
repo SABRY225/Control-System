@@ -15,7 +15,7 @@ const DetailsOfControl = ({ faculty }) => {
     dispatch(setDetails({ year, committeeName, committeeNickname, status, faculty, semester}));
     console.log("clicked !!");
     console.log(year, committeeName, committeeNickname, status, faculty, semester);
-    navigate('/AcademicYearDetails');
+    navigate('./AcademicYearDetails');
   };
 
   return (
@@ -35,7 +35,7 @@ const DetailsOfControl = ({ faculty }) => {
                 onClick={() => handleYearClick(yearInfo)} // Call handleYearClick on click
               >
                 <div className="d-flex">
-                  <h5 className="mx-5">{yearInfo.year}</h5>
+                  <h5>{yearInfo.year}</h5>
                   <p className="mx-5">
                     {yearInfo.committeeName} <br />
                     <span className="fw-bold" style={{ color: "#43BBFF" }}>
