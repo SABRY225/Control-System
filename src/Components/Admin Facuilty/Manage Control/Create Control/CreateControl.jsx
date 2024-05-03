@@ -14,8 +14,8 @@ import {
 import ControlList from '../Edite Control/Control_List';
 
 const ControlManagement = () => {
-    const dispatch = useDispatch();
-    const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
+    // const dispatch = useDispatch();
+    // const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
 
     const [controlDetails, setControlDetails] = useState({
         controlName: '',
