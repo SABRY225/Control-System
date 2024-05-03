@@ -2,7 +2,7 @@ import React from 'react'
 import "./Style.css"
 function Footer() {
     return (
-        <footer className='footer  '>
+        <footer className='footer  mt-5 mb-0'>
             <div className="container">
             <div className="row text-center">
                 <div className='col-lg-12'>جميع الحقوق محفوظة © جامعة جنوب الوادى 2024</div>

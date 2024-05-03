@@ -9,6 +9,10 @@ const ControlList = () => {
   const controls = useSelector((state) => state.control.controls);
   const controlDetails = useSelector((state) => state.control.controlDetails);
   const dispatch = useDispatch(); 
+
+  const isSmallScreen = window.matchMedia('(max-width: 576px)').matches;
+  const isMediumScreen = window.matchMedia('(min-width: 576px) and (max-width: 992px)').matches;
+  const isLargeScreen = window.matchMedia('(min-width: 992px)').matches;
   
 
   const handleControlClick = (control) => {
@@ -43,7 +47,7 @@ const ControlList = () => {
                 // onClick={() => handleControlClick(control)} // Call handleControlClick on click
               >
                 <div className="d-flex">
-                  <h5 className="mx-5">{control.selectedAcademicYear}</h5>
+                  <h5>{control.selectedAcademicYear}</h5>
                   <p className="mx-5">
                   {control.chairpersons} <br />
                     <span className="fw-bold" style={{ color: "#43BBFF" }}>

@@ -24,7 +24,8 @@
   }
   
   .page{
-    height: 85vh;
+    height: auto;
+    margin-bottom: 35rem;
   }
 
   .rtl{

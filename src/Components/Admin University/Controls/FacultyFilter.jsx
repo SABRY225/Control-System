@@ -56,10 +56,10 @@ const FacultyFilter = () => {
           <div className="col-md-3">
             <div className="form-group">
               <select
-                className="form-control fw-bold fs-5"
+                className="form-select fw-bold fs-5"
                 value={selectedFaculty || ''}
                 onChange={handleFacultyChange}
-                style={{ background: '#43BBFF', color: 'white' }}
+                style={{ background: '#43BBFF', color: 'white',textAlign: 'center', }}
               >
                 <option value="">اختر الكلية</option>
                 {Faculties.map((faculty, index) => {
