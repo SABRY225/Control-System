@@ -102,7 +102,7 @@
 
 }
 
-.Active-1:hover {
+/* .Active-1:hover {
     background-color: rgba(67, 187, 255, 1);
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
     color: rgb(243, 239, 239);
@@ -112,13 +112,13 @@
     background-color: rgba(67, 187, 255, 1);
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.51);
     color: rgb(243, 239, 239);
-}
+} */
 
 
 /*========================= Table Of Control =========================*/
 .Title-Control {
     font-family: Cairo;
-    font-size: 23px;
+    font-size: 1.2rem;
     font-weight: 400;
     /* text-align: right; */
     color: rgba(0, 0, 0, 1);

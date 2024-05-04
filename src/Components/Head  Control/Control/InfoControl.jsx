@@ -23,17 +23,17 @@ export default function InfoControl() {
     {/* Table Member Control */}
     <div className="row justify-content-center Table-data">
         {/* Start */}
-        <div className="col-3 Column-Table">
+        <div className="col-md-3 Column-Table">
             <div className="text-column-table">د/ محمد عبدالرازق</div>
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table">
+        <div className="col-md-3 Column-Table">
             <div className="text-column-table">د/ محمد عبدالرازق</div>
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table">
+        <div className="col-md-3 Column-Table">
             <div className="text-column-table">د/ محمد عبدالرازق</div>
         </div>
         {/* end */}
@@ -43,14 +43,14 @@ export default function InfoControl() {
     {/* Title Table*/}
     <div className="row Table-title m-5">
         <div className=" text-end">
-            <div>المواد</div>
+            <div>المقرارات</div>
         </div>
 
     </div>
     {/* Table Member Control */}
     <div className="row justify-content-center Table-data">
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">اساسيات الحاسوب</div>
             <div className="state-column-table ">
                 {
@@ -60,7 +60,7 @@ export default function InfoControl() {
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {
@@ -70,7 +70,7 @@ export default function InfoControl() {
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {
@@ -80,7 +80,7 @@ export default function InfoControl() {
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {
@@ -90,7 +90,7 @@ export default function InfoControl() {
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {
@@ -100,7 +100,7 @@ export default function InfoControl() {
         </div>
         {/* end */}
         {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {
@@ -109,7 +109,7 @@ export default function InfoControl() {
             </div>
         </div>
         {/* end */}                {/* Start */}
-        <div className="col-3 Column-Table d-flex justify-content-end ">
+        <div className="col-md-3 Column-Table d-flex justify-content-end ">
             <div className="text-2-column-table">مدخل الي  الشريعه والقانون 1</div>
             <div className="state-column-table ">
                 {

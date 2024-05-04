@@ -1,7 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function HomeOfHead() {
+    const navigate = useNavigate();
+    const headelInfoControl=()=>{
+        navigate('./control')
+    }
     return (
         <div className='container HomeClassInfoControls'>
             {/* Semes_Acad_Title */}
@@ -14,7 +18,7 @@ export default function HomeOfHead() {
             <div className='container ClassesControls'>
                 <div className='row justify-content-center'>
                     {/* Start  */}
-                    <div class="col-4 m-3 boxControl ">
+                    <div class="col-4 m-3 boxControl " onClick={headelInfoControl}>
                         <div className="row">
                             <div className="col-6 dataofControl">
                                 <div className='nameOfHeadControl'>د/ محمد عبدالرازق</div>
@@ -23,9 +27,6 @@ export default function HomeOfHead() {
                             <div className="col-6 text-center nameOfControl">
                                 <div >المستوي الأول</div>
                             </div>
-                        </div>
-                        <div className="row text-center btn-view">
-                            <Link to="/Head_Control/control" className='btn  w-100'>View</Link>
                         </div>
                     </div>
                     {/* End  */}
@@ -40,9 +41,7 @@ export default function HomeOfHead() {
                                 <div >المستوي الأول</div>
                             </div>
                         </div>
-                        <div className="row text-center btn-view">
-                            <Link to="/Head_Control/control" className='btn  w-100'>View</Link>
-                        </div>
+
                     </div>
                     {/* End  */}
                     {/* Start  */}
@@ -56,9 +55,7 @@ export default function HomeOfHead() {
                                 <div >المستوي الأول</div>
                             </div>
                         </div>
-                        <div className="row text-center btn-view">
-                            <Link to="/Head_Control/control" className='btn  w-100'>View</Link>
-                        </div>
+
                     </div>
                     {/* End  */}
                 </div>

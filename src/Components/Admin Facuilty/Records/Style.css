@@ -65,28 +65,23 @@
 }
 
 .DetailsOfControl-Title {
-    text-align: end;
     font-family: Cairo;
-    font-size: 26px;
+    font-size: 1.5rem;
     font-weight: 400;
     line-height: 48.72px;
-    text-align: right;
     padding: 1%;
-
-
 }
 
 .DetailsOfControl-input {
     text-align: end;
-
 }
 
 .DetailsOfControl-nameofcontrol {
-    width: 532px;
+    margin: 1rem 0rem;
     height: 54px;
     opacity: 0px;
     font-family: Cairo;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 33.73px;
     background: rgba(225, 225, 225, 0.63);
@@ -97,11 +92,11 @@
 }
 
 .DetailsOfControl-Yeay {
-    width: 185px;
+    margin: 1rem 0rem;
     height: 54px;
     opacity: 0px;
     font-family: Cairo;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 33.73px;
     background: rgba(225, 225, 225, 0.63);
@@ -109,30 +104,10 @@
     border-radius: 5px;
     border: 0px;
     padding: 0px 20px;
-    margin-top: 30px;
-}
-
-.DetailsOfControl-Yeay-2 {
-    margin-left: 140px;
-}
-
-.DateOfControl {
-    display: flex;
-    justify-content: end;
-    margin-top: 20px;
-}
-
-.column {
-    margin: 20px;
-    text-align: center;
-}
-
-.column .TextDate {
-    margin: 8px;
 }
 
 .DetailsOfControl-Date {
-    width: 150px;
+    /* width: 150px; */
     height: 54px;
     opacity: 0px;
     font-family: Cairo;
@@ -145,14 +120,29 @@
     border: 0px;
     padding: 0px 20px;
 }
-
-.column .dateofcontrolText {
-    margin-top: 40px;
+.TextDate{
     font-family: Cairo;
-    font-size: 26px;
+    font-size: 1rem;
     font-weight: 400;
-    line-height: 48.72px;
-    text-align: center;
+    line-height: 4rem;
+}
+.dateofcontrolText {
+    margin-top: 1.5rem;
+    font-family: Cairo;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 3rem;
+}
+@media only screen and (max-width: 768px) {
+	#first {
+		order: 2;
+	}
+	#second {
+		order: 3;
+	}
+	#third {
+		order: 1;
+	}
 }
 
 /*======================= ControlMaterials =======================*/
@@ -162,12 +152,11 @@
 }
 
 .ControlMaterials-Title {
-    text-align: end;
     font-family: Cairo;
-    font-size: 26px;
+    font-size: 1.5rem;
     font-weight: 400;
     line-height: 48.72px;
-    text-align: right;
+    padding: 1%;
 }
 
 .MaterialsOfControl {
@@ -177,22 +166,13 @@
     margin-top: 20px;
 }
 
-.column_Materials {
-    margin: 18px;
-    text-align: center;
-    width: 224px;
-    height: 40px;
-    left: -20px;
-    padding: 3px 0px 0px 58px;
-}
 
 .MaterialsDate {
-    margin: 8px;
+    margin: 0.2rem;
     font-family: Cairo;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 41.23px;
-    text-align: right;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 3rem;
     opacity: 1px;
     color: rgba(100, 100, 100, 0.71);
 }
@@ -203,12 +183,10 @@
 }
 
 .ControlMembers-Title {
-    text-align: end;
     font-family: Cairo;
-    font-size: 26px;
+    font-size: 1.8rem;
     font-weight: 400;
-    line-height: 48.72px;
-    text-align: right;
+    line-height: 3rem;
 }
 
 .ControlMembers-Groupes {
@@ -221,11 +199,10 @@
 
 .ControlMembers-Groupe-title {
     font-family: Cairo;
-    font-size: 22px;
+    font-size: 1.1rem;
     font-weight: 700;
-    line-height: 41.23px;
+    line-height: 3rem;
     text-align: right;
-    text-decoration: dashed;
 
 }
 
@@ -244,40 +221,28 @@
     margin-top: 20px;
 }
 
-.column_ControlMembers {
-    margin: 18px;
-    text-align: center;
-    width: 224px;
-    height: 40px;
-    left: -20px;
-    padding: 3px 0px 0px 58px;
-}
 
 .data_column {
-    margin: 8px;
+    margin: 1rem;
     font-family: Cairo;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 41.23px;
-    text-align: right;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 3rem;
     opacity: 1px;
     color: rgba(100, 100, 100, 0.71);
 }
 
 /* =============================   Tasks   ============================= */
-.TaskOfControl {
+.NoteOfControl,.TaskOfControl {
     margin: 0% 14% 2%;
 }
 
-.TaskOfControl-Title {
-    text-align: end;
-    font-family: Cairo;
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 48.72px;
-    text-align: right;
-    padding: 1%;
 
+.TaskOfControl-Title {
+    font-family: Cairo;
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 3rem;
 }
 
 .Task-Groupes {
@@ -285,84 +250,74 @@
 }
 
 .box {
-    padding: 10px;
-    width: 408px;
-    top: 93px;
-    gap: 0px;
-    border-radius: 5px 0px 0px 0px;
+    border-radius: 5px ;
     opacity: 0px;
     background: rgba(229, 229, 229, 0.46);
 }
 
 .box_Title {
-    width: 513px;
     opacity: 0px;
     font-family: Cairo;
-    font-size: 24px;
+    font-size: 1.2rem;
     font-weight: 600;
-    text-align: center;
-    padding: 30px;
+    padding: 2rem;
+    text-align: end;
 }
 
 .nameOfMember {
-    width: 173px;
     font-family: Cairo;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 33.73px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 3rem;
     color: rgba(114, 114, 114, 0.81);
 }
 
 .dataOfTask {
     font-family: Cairo;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: .7rem;
+    font-weight: 700;
     text-align: center;
-    margin-top: 37px;
+    margin-top: 3rem;
 }
 
 /* ========================    Notes   ========================== */
+.note-title{
+    font-family: Cairo;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 3rem;
+}
 .box_Notes {
-    width: 876px;
     padding: 10px;
-    border-radius: 5px 0px 0px 0px;
+    border-radius: 5px;
     background: rgba(229, 229, 229, 0.46);
 }
 
 .boxNotes_Title {
     font-family: Cairo;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 600;
     text-align: end;
-    padding: 30px;
+    padding: 2rem;
 }
 
-.dataOfNotes {
-    font-family: Cairo;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 37px;
-    font-family: Cairo;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 33.73px;
-    text-align: right;
-    color: rgba(114, 114, 114, 0.81);
-
-}
 .nameOfMemberNotes
 {
-    width: 173px;
     font-family: Cairo;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 33.73px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 3rem;
     color: rgba(114, 114, 114, 0.81);
-    /* text-align: end; */
-    margin-right: 30px;
 }
-
+.dataofNote{
+    margin: 1rem 0rem 0rem;
+    font-family: Cairo;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.3rem;
+    color: rgba(114, 114, 114, 0.81);
+}
 /*=================================*/
 hr {
     width: 1126px;

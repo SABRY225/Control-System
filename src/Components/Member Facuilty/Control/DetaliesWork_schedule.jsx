@@ -51,7 +51,7 @@ export default function DetaliesWork_schedule() {
             {/* Send Notes */}
             <div className="continer">
                 <div className="row justify-content-center m-1 ">
-                    <div className="col-10 border border-info p-3 rounded">
+                    <div className="col-10 border  p-3 rounded">
                         <form >
                             <textarea placeholder='....ما هي ملاحظاتك' rows="5" cols="65" className='col-12 TextAreaFiled text-end' ></textarea>
                             <button className='btnSendNotes'>Send</button>
