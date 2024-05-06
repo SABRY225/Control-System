@@ -51,6 +51,9 @@
     font-size: 15px;
     font-weight: 400;
     color: #FFFFFF;
+    position: relative;
+    bottom: -95px;
+    width: 100%;
 }
 .main {
     font-size: 16px;
