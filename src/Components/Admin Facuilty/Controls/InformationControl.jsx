@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./styleControls.css"
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 export default function InformationControl() {
+  const tok = useSelector((state) => state.auth.token);
+  const [data, setData] = useState([]);
+  const getData = async () => {
+    const { data } = await axios.get('http://localhost:5120/Controls/allControllers', {
+        headers: {
+            'Authorization': 'Bearer ' + tok
+        }
+    });
+    setData(data);
+};
+useEffect(() => {
+    getData();
+}, []);
+console.log(data[0]);
   return (
     <div className='container HomeClassInfoControls'>
       {/* Semes_Acad_Title */}

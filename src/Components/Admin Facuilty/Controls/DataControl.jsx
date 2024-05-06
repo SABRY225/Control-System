@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
 import TableOfControl from './TableOfControl';
 import AnalysisControl from './AnalysisControl';
 export default function DataControl() {

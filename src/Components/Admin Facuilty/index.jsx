@@ -12,4 +12,7 @@ export {default as DataControl} from "./Controls/DataControl"
 export {default as AnalysisControl} from "./Controls/AnalysisControl"
 export {default as TableOfControl} from "./Controls/TableOfControl"
 
-//
+// Register
+export {default as Materiales} from "./Register/Materiales"
+export {default as Members} from "./Register/Members"
+export {default as RgisterMember_Materiales} from "./Register/RgisterMember_Materiales"

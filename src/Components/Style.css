@@ -8,11 +8,20 @@
 
 .Logo{
     font-family: Cairo;
-    font-size: 22px;
+    font-size: 1.8rem;
     font-weight: 400;
     color: #000000;
     padding-top: 2px;
-    line-height: 37px;
+    line-height: 3rem;
+}
+.nav-item-navbar {
+    margin: 0rem 2rem;
+    font-family: Cairo;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #000000;
+    padding-top: 2px;
+    line-height: 3rem;
 }
 .User{
     display: flex;

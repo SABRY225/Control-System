@@ -45,10 +45,9 @@ export default function ContentOfControl() {
     };
     return (
         <>
-            <div className="container ">
+            <div className="container text-center ">
                 <div className="d-flex pt-2 pl-2 ">
                     <div className="col-md m-2 ">
-                        {/* <NavLink to="/Head_Control/control/tasks" className='btn-route  Active-2'>المهام </NavLink> */}
                         <button
                             className="btn mx-3"
                             style={{
@@ -64,7 +63,6 @@ export default function ContentOfControl() {
                         </button>
                     </div>
                     <div className="col-md m-2 ">
-                        {/* <NavLink to="/Head_Control/control/analysis_control" className='btn-route  Active-2'>الاحصائيات </NavLink> */}
                         <button
                             className="btn mx-3"
                             style={{
@@ -80,7 +78,6 @@ export default function ContentOfControl() {
                         </button>
                     </div>
                     <div className="col-md  m-2">
-                        {/* <NavLink to="" className='btn-route   Active-1'>الكنترول </NavLink> */}
                         <button
                             className="btn mx-3"
                             style={{

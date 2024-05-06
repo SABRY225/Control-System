@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    isLoggedIn: false,
-    role: 'student',
+    token: '',
+    role: '',
     username: '',
     firstName: '',
     lastName: '',
     email: '',
-    dob: '',
 };
 
 
@@ -15,24 +14,29 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        loginSuccess: (state) => {
-            state.isLoggedIn = true;
+        loginSuccess: (state,{ payload }) => {
+            state.token = payload;
         },
         logoutSuccess: (state) => {
-            state.isLoggedIn = false;
+            state.token = '';
         },
-        isStudent: (state) => {
-            state.role = 'student';
+        isAdminUniversity: (state) => {
+            state.role = 'AdminUniversity';
         },
-        isTeacher: (state) => {
-            state.role = 'Teacher';
+        isAdminFaculty: (state) => {
+            state.role = 'AdminFaculty';
+        },
+        isHeadControl: (state) => {
+            state.role = 'HeadControl';
+        },
+        isMemberControl: (state) => {
+            state.role = 'MemberControl';
         },
         setName: (state, { payload }) => {
             state.firstName = payload;
         },
-
     }
 });
 
-export const { loginSuccess, logoutSuccess, isStudent, isTeacher, setName } = authSlice.actions;
+export const { loginSuccess, logoutSuccess,isAdminUniversity, isAdminFaculty,isHeadControl, isMemberControl, setName } = authSlice.actions;
 export default authSlice.reducer;

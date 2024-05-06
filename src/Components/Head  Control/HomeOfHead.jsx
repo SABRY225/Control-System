@@ -9,12 +9,6 @@ export default function HomeOfHead() {
     return (
         <div className='container HomeClassInfoControls'>
             {/* Semes_Acad_Title */}
-            <div className='row  Semes_Acad_Title'>
-                <div className="col text-end Semes_Acad_Title-col">2024/2023</div>
-                <div className="col  Semes_Acad_Title-col">-------</div>
-                <div className="col text-start Semes_Acad_Title-col">semester 2</div>
-            </div>
-            {/* Semes_Acad_Title */}
             <div className='container ClassesControls'>
                 <div className='row justify-content-center'>
                     {/* Start  */}

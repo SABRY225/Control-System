@@ -1,0 +1,6 @@
+export {default as Head_Control} from "./Head_Control"
+export {default as Admin_Facuilty} from "./Admin_Facuilty"
+export {default as Admin_University} from "./Admin_University"
+export {default as RegisterPages} from "./RegisterPages"
+export {default as Reocrd_Controles} from "./Reocrd_Controles"
+export {default as Member_Facuilty} from "./Member_Facuilty"

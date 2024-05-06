@@ -1,68 +1,55 @@
 
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, isStudent, isTeacher, setName } from '../../Redux/authSlice';
+import React, {useState } from "react";
+import { useDispatch } from 'react-redux';
+import { loginSuccess, isAdminUniversity, isAdminFaculty,isHeadControl,isMemberControl, setName } from '../../Redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Login.css"
-import icon_user from "../../assets/icon_user.png";
-import icon_password from "../../assets/icon_password.png";
 import LogoUniversity from "../../assets/Logo.png"
-const onEscape = function (action) {
-    window && window.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") {
-            action();
-        };
-    });
-};
+
 function Login() {
-    const [username, setUsername] = useState("");
+    const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [removeFocus, setRemoveFocus] = useState(false);
-    const myInputRef = useRef(null);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (username.trim() === "" || password.trim() === "") {
-            setError("Please enter both username and password.");
+        if (userName.trim() === "" || password.trim() === "") {
+            alert("Please enter both username and password.");
             return;
         }
-        // try {
-        //     // Make a POST request to the authentication endpoint
-        //     const response = await axios.post(
-        //         'https://edume-app-88352f017fde.herokuapp.com/auth/login',
-        //         { username, password }
-        //     );
-        //     // Handle successful login
-        //     console.log("Login successful:", response.data);
-        //     console.log("role:", response.data.role);
-        //     if (response.data.role === 'student') {
-        //         dispatch(isStudent());
-        //     } else {
-        //         dispatch(isTeacher());
-        //     }
-        //     let name = response.data.firstName + " " + response.data.lastName;
-        //     dispatch(setName(name));
-
-        //     dispatch(loginSuccess());
-        //     toast.success(`Wellcome ${response.data.firstName}😊`);
-        //     navigate('/Home');
-
-        // } catch (error) {
-        //     // Handle login error
-        //     console.error("Login error:", error);
-        //     setError("Invalid username or password. Please try again.");
-        // }
+        try {
+            // Make a POST request to the authentication endpoint
+            const response = await axios.post(
+                'http://localhost:5120/Account/login',
+                { userName, password }
+            );
+            // Handle successful login
+            console.log("Login successful:", response.data);
+            // if (response.data.roles[0] === 'AdminUniversity') {
+            //     dispatch(isAdminUniversity());
+            //     navigate('/Admin_University');
+            // } else if (response.data.roles[0] === 'AdminFaculty')  {
+            //     dispatch(isAdminFaculty());
+            //     navigate('/Admin_Facuilty');
+            // }else if (response.data.roles[0] === 'HeadControl')  {
+            //     dispatch(isHeadControl());
+            //     navigate('/Head_Control');
+            // }else   {
+            //     dispatch(isMemberControl());
+            //     navigate('/Member_Facuilty');
+            // }
+            // let name = response.data.name;
+            // dispatch(setName(name));
+            dispatch(loginSuccess(response.data.token));
+            navigate('/Admin_Facuilty');
+        } catch (error) {
+            console.log("Login error:", error);
+        }
     };
-    const descRef = useRef();
-    onEscape(() => {
-        descRef.blur();
-    });
 
     return (
         <div className='HomeLogin  '>
@@ -73,23 +60,23 @@ function Login() {
                             <img src={LogoUniversity} alt="LogoUniversity" className='ImageLogo' />
                         </div>
                         <div class="text-center mt-4 name">
-                        South Valley Universtiy
+                            South Valley Universtiy
                         </div>
-                        <form class="p-3 mt-3">
+                        <form class="p-3 mt-3" onSubmit={handleSubmit}>
                             <div class="form-field d-flex align-items-center">
                                 <span class="far fa-user"></span>
-                                <input type="text" name="userName" id="userName" placeholder="Email / Username" />
+                                <input type="text" name="userName" id="userName" placeholder="Email / Username" value={userName}
+                                    onChange={(e) => setUsername(e.target.value)} />
                             </div>
                             <div class="form-field d-flex align-items-center">
                                 <span class="fas fa-key"></span>
-                                <input type="password" name="password" id="pwd" placeholder="Password" />
+                                <input type="password" name="password" id="pwd" placeholder="Password" value={password}
+                                    onChange={(e) => setPassword(e.target.value)} />
                             </div>
                             <button class="btn mt-3">Login</button>
                         </form>
                     </div>
                 </div>
-
-
             </div>
         </div>
     )

@@ -30,7 +30,7 @@ const ControlManagement = () => {
     const isLargeScreen = window.matchMedia('(min-width: 992px)').matches;
 
     // const [isCreateControl, setIsCreateControl] = useState(false);
-    const [isCreateActive, setIsCreateActive] = useState(false);
+    const [isCreateActive, setIsCreateActive] = useState(true);
     const [isEditActive, setIsEditActive] = useState(false);
 
 
