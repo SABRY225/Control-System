@@ -19,9 +19,20 @@ import AcademicYearDetails from './Components/Admin University/AcademicYearDetai
 import Controls from './Components/Admin University/Controls/Controls';
 import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
 import ProtectedRoutes from './Components/ProtectedRoutes/ProtectedRoutes';
+import JustFirst from './Layout/JustFirst';
 
 
 const routers = createBrowserRouter([
+  {
+    path: '/',
+    element: (<JustFirst />)
+    ,
+    children: [
+      { index: true, element: <Login /> },
+      { path: 'signin', element: <Login /> },
+      { path: '*', element: <ErrorPage /> },
+    ],
+  },
   {
     path: '/',
     element: (
