@@ -42,9 +42,9 @@ const FacultyFilter = () => {
 
   // Mocked control status data (replace with actual data)
   
-  // console.log(Faculties);
+  console.log(Faculties);
   
-  // console.log(selectedFaculty.controls);;
+  // console.log(selectedFaculty.controls);
   return (
     <div className="container my-5">
       <div className="page">
@@ -56,12 +56,12 @@ const FacultyFilter = () => {
                 value={selectedFaculty || ""}
                 onChange={handleFacultyChange}
                 style={{
-                  background: "#43BBFF",
-                  color: "white",
+                  // background: "#43BBFF",
+                  //   color: "white",
                   textAlign: "center",
                 }}
               >
-                <option value="">اختر الكلية</option>
+                <option value="#">اختر الكلية</option>
                 {Faculties.map((faculty) => {
                   return (
                     <option
@@ -78,8 +78,15 @@ const FacultyFilter = () => {
             </div>
           </div>
         </div>
-        {selectedFaculty && (
-          <DetailsOfControl controls={selectedFaculty.controls} />
+        {selectedFaculty && selectedFaculty.controls.length > 0 && (
+          <DetailsOfControl
+            faculty={selectedFaculty}
+          />
+        )}
+        {selectedFaculty && selectedFaculty.controls.length == 0 && (
+          <p style={{ textAlign: "center", margin: "2rem" }}>
+            Not Found Controls
+          </p>
         )}
       </div>
     </div>

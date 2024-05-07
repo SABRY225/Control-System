@@ -1,22 +1,77 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
-import { subjects } from './subjects';
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+// import { subjects } from "./subjects";
+import axios from "axios";
 
 const AcademicYearDetails = () => {
   // Retrieve yearInfo from Redux store using useSelector
-  const { year, committeeName, committeeNickname, status,faculty, semester } = useSelector((state) => state.details);
+  const [HeadControl, setHeadControl] = useState('');
+  const [subjects,setSubjects] = useState([]);
+  const { control, faculty } = useSelector((state) => state.details);
+  const tok = useSelector((state) => state.auth.token);
+  // console.log(control);
+  const getControlSubject = useCallback(() => {
+    async function getControlSubject() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5120/Subject/subjects-of-control?controld=" +
+            control.id,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
+        setSubjects(response.data);
+        console.log("Login successful:", response.data);
+      } catch (error) {
+        console.log("Login error:", error);
+      }
+    }
+    getControlSubject();
+  }, [tok]);
+
+
+  const getHead = useCallback(() => {
+    async function getHead() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5120/users/headConrol/" + control.id,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
+        setHeadControl(response.data.user.name);
+        // console.log("Login successful:", response.data);
+      } catch (error) {
+        console.log("Login error:", error);
+      }
+    }
+    getHead();
+  }, [tok]);
+  // Call getNode() within useEffect to ensure it's called after component mount
+  useEffect(() => {
+    getHead();
+    getControlSubject();
+  }, [getHead]);
 
   // Function to render progress circles based on subject status
   const renderProgressCircles = () => {
     return subjects.map((subject, index) => {
       const isFinished = subject.finished;
-      const circleColor = isFinished ? 'green' : 'gray';
-      const checkColor = isFinished ? 'green' : 'gray';
+      const circleColor = isFinished ? "green" : "gray";
+      const checkColor = isFinished ? "green" : "gray";
 
       return (
-        <div key={index} className="progress-circle" style={{ borderColor: circleColor }}>
+        <div
+          key={index}
+          className="progress-circle"
+          style={{ borderColor: circleColor }}
+        >
           <FontAwesomeIcon icon={faCircleCheck} style={{ color: checkColor }} />
         </div>
       );
@@ -33,19 +88,27 @@ const AcademicYearDetails = () => {
   return (
     <div className="academic-year-details-container rtl container page">
       <div className="details-line my-5 d-sm-inline-block d-lg-flex justify-content-start align-items-center">
-        <span className='fw-bold fs-5'>
-         كنترول {year} كلية {faculty} لعام {semester} تحت ادارة عميد الكلية {committeeName} ورئيس الكنترول {committeeName}
+        <span className="fw-bold fs-5">
+          كنترول {control.acaD_YEAR} كلية {faculty.name} لعام{" "}
+          {control.faculity_Semester} تحت ادارة
+          عميد الكلية {control.userCreator.name} ورئيس الكنترول {HeadControl}
         </span>
-        <div className={`status-indicator ${status}`} style={{marginRight:'2vh'}} />
+        {/* <div className={`status-indicator ${status}`} style={{marginRight:'2vh'}} /> */}
       </div>
 
       <div className="subjects-container">
         <div className="subjects-column">
           <h4>المواد</h4>
-          {subjects.map((subject, index) => (
-            <div key={index} className="subject fs-5">
+          {subjects.map((subject) => (
+            <div key={subject.id} className="subject fs-5">
               <span>{subject.name}</span>
-              { subject.finished&& <FontAwesomeIcon className='mx-3 fw-bold' icon={faCircleCheck} style={{ color:'#44AA44', }} />}
+              {subject.isDone && (
+                <FontAwesomeIcon
+                  className="mx-3 fw-bold"
+                  icon={faCircleCheck}
+                  style={{ color: "#44AA44" }}
+                />
+              )}
             </div>
           ))}
         </div>
