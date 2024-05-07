@@ -26,11 +26,8 @@ const authSlice = createSlice({
         isAdminFaculty: (state) => {
             state.role = 'AdminFaculty';
         },
-        isHeadControl: (state) => {
-            state.role = 'HeadControl';
-        },
-        isMemberControl: (state) => {
-            state.role = 'MemberControl';
+        isStaff: (state) => {
+            state.role = 'Staff';
         },
         setName: (state, { payload }) => {
             state.firstName = payload;
@@ -38,5 +35,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { loginSuccess, logoutSuccess,isAdminUniversity, isAdminFaculty,isHeadControl, isMemberControl, setName } = authSlice.actions;
+export const { loginSuccess, logoutSuccess,isAdminUniversity, isAdminFaculty,isStaff, setName } = authSlice.actions;
 export default authSlice.reducer;

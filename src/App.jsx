@@ -14,7 +14,7 @@ import Login from './Components/Login/Login';
 import LayoutAuth from './Layout/LayoutAuth';
 import { DetaliesWork_schedule, Home, Task_schedule, Work_schedule } from './Components/Member Facuilty/index';
 import { ContentOfControl, EditeTask, HomeOfHead, InfoControl, TaskOfControl } from './Components/Head  Control/index';
-import ControlManagement from './Components/Admin Facuilty/Manage Control/Create Control/CreateControl';
+import ControlManagement from './Components/Admin Facuilty/Manage Control/Create Control/MangeControl';
 import AcademicYearDetails from './Components/Admin University/AcademicYearDetails/AcademicYearDetails';
 import Controls from './Components/Admin University/Controls/Controls';
 import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
@@ -54,7 +54,7 @@ const routers = createBrowserRouter([
           { path: 'AcademicYearDetails', element: <AcademicYearDetails />, },
         ],
       },
-      { path: 'Head_Control', element: <Head_Control />,children:[
+      { path: 'Staff', element: <Head_Control />,children:[
         { index:true, element: <HomeOfHead /> },
         { path:'control', element: <ContentOfControl />},
       ] },

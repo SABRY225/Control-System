@@ -1,7 +1,7 @@
 
 import React, {useState } from "react";
 import { useDispatch } from 'react-redux';
-import { loginSuccess, isAdminUniversity, isAdminFaculty,isHeadControl,isMemberControl, setName } from '../../Redux/authSlice';
+import { loginSuccess, isAdminUniversity, isAdminFaculty, isStaff } from '../../Redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,27 +25,26 @@ function Login() {
             // Make a POST request to the authentication endpoint
             const response = await axios.post(
                 'http://localhost:5120/Account/login',
-                { userName, password }
+                { userName, password },{
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
             );
             // Handle successful login
             console.log("Login successful:", response.data);
-            // if (response.data.roles[0] === 'AdminUniversity') {
-            //     dispatch(isAdminUniversity());
-            //     navigate('/Admin_University');
-            // } else if (response.data.roles[0] === 'AdminFaculty')  {
-            //     dispatch(isAdminFaculty());
-            //     navigate('/Admin_Facuilty');
-            // }else if (response.data.roles[0] === 'HeadControl')  {
-            //     dispatch(isHeadControl());
-            //     navigate('/Head_Control');
-            // }else   {
-            //     dispatch(isMemberControl());
-            //     navigate('/Member_Facuilty');
-            // }
-            // let name = response.data.name;
-            // dispatch(setName(name));
+            if (response.data.roles[0] === 'AdminUniversity') {
+                dispatch(isAdminUniversity());
+                navigate('/Admin_University');
+            } else if (response.data.roles[0] === 'AdminFaculty')  {
+                dispatch(isAdminFaculty());
+                navigate('/Admin_Facuilty');
+            }else if (response.data.roles[0] === 'Staff')  {
+                dispatch(isStaff());
+                navigate('/Staff');
+            }
             dispatch(loginSuccess(response.data.token));
-            navigate('/Admin_Facuilty');
+            console.log(response.data);
         } catch (error) {
             console.log("Login error:", error);
         }

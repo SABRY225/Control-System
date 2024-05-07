@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 export default function ProtectedRoutes(props) {
     const isLoggedIn = useSelector((state) => state.auth.token);
-    if (isLoggedIn) {
+    if (isLoggedIn !== " ") {
         return props.children;
     }
     else {

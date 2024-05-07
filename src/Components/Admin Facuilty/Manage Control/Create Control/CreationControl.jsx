@@ -1,92 +1,155 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { subjects } from './subjects';
-import { chairpers } from './chairpers';
-import { committeeMem } from './committeeMem';
-import {
-    addControl,
-    addSelectedSubject,
-    removeSelectedSubject,
-    clearSelectedSubjects,
-} from '../../../../Redux/controlSlice';
-import ControlList from '../Edite Control/Control_List';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ControlManagement = () => {
+import axios from 'axios';
+
+export default function CreationControl() {
+    // const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
     const dispatch = useDispatch();
-    const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
+    const fId = useSelector((state) => state.Profile.Fid);
+    const tok = useSelector((state) => state.auth.token);
+    console.log(tok);
+    console.log(fId);
+    // start values
+    const [name, setName] = useState("")
+    const [faculity_Phase, setFaculity_Phase] = useState("")
+    const [faculity_Node, setFaculity_Node] = useState("")
+    const [start_Date, setStart_Date] = useState("")
+    const [end_Date, SetEnd_Date] = useState("")
+    const [acaD_YEAR, setAcaD_YEAR] = useState("")
+    const [faculity_Semester, setFaculity_Semester] = useState("")
+    // const [controlManagerID, SetControlManagerID] = useState("")
+    // const [controlSubjectsIDs, SetControlSubjectsIDs] = useState([])
+    // const [contorlUsersIDs, SetContorlUsersIDs] = useState([])
+    // End Values
+    // Initialize state variable 'data' as an empty array
+    const [data, setData] = useState([]);
+    // Initialize state variable 'dataStaff' as an empty array
+    const [dataStaff, setDataStaff] = useState([]);
 
-    const [controlDetails, setControlDetails] = useState({
-        controlName: '',
-        academicYear: '',
-        term: '',
-        startDate: '',
-        endDate: '',
-        selectedSubject: '',
-    });
-    const isSmallScreen = window.matchMedia('(max-width: 576px)').matches;
-    const isMediumScreen = window.matchMedia('(min-width: 576px) and (max-width: 992px)').matches;
-    const isLargeScreen = window.matchMedia('(min-width: 992px)').matches;
-
-    // const [isCreateControl, setIsCreateControl] = useState(false);
-    const [isCreateActive, setIsCreateActive] = useState(true);
-    const [isEditActive, setIsEditActive] = useState(false);
-
-
-    const [selectedChairperson, setSelectedChairperson] = useState('');
-    const [selectedChairpersons, setSelectedChairpersons] = useState([]);
-
-    const [selectedCommitteeMember, setSelectedCommitteeMember] = useState('');
-    const [selectedCommitteeMembers, setSelectedCommitteeMembers] = useState([]);
-
-    const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
-    const [includeMajor, setIncludeMajor] = useState(false);
-    const [selectedMajor, setSelectedMajor] = useState('');
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setControlDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
+    // Function to fetch subject data
+    const getSubject = async () => {
+        try {
+            const { data } = await axios.get(
+                'http://localhost:5120/Subject/subjects-by-faculty-id', // API endpoint URL
+                {
+                    params: { fId }, // Parameters passed to the API endpoint
+                    headers: {
+                        Authorization: "Bearer " + tok, // Authorization token
+                        "Content-Type": "application/json", // Content type
+                    },
+                }
+            );
+            setData(data); // Set the retrieved data to the state variable 'data'
+        } catch (error) {
+            console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
+        }
     };
 
+    // Function to fetch staff data
+    const getStaff = async () => {
+        try {
+            const dataStaff = await axios.get(
+                'http://localhost:5120/Users/staff-by-faculty-id', // API endpoint URL
+                {
+                    params: { fId }, // Parameters passed to the API endpoint
+                    headers: {
+                        Authorization: "Bearer " + tok, // Authorization token
+                        "Content-Type": "application/json", // Content type
+                    },
+                }
+            );
+            setDataStaff(dataStaff); // Set the retrieved data to the state variable 'dataStaff'
+        } catch (error) {
+            console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
+        }
+    };
+
+    // Execute the 'getSubject' and 'getStaff' functions when the component mounts
+    useEffect(() => {
+        getSubject();
+        getStaff();
+    }, []);
+
+    // Store subjects data in 'subjects' variable
+    const subjects = data;
+    const chairpers = dataStaff.data;
+    console.log(data);
+    console.log(chairpers);
+
+    // controlManagerID
+    const [selectedChairperson, setSelectedChairperson] = useState('');
+    const [selectedChairpersons, setSelectedChairpersons] = useState([]);
+    const [personsIDs, setPersonsIDs] = useState([]);
+    //
+    const [selectedCommitteeMember, setSelectedCommitteeMember] = useState('');
+    const [selectedCommitteeMembers, setSelectedCommitteeMembers] = useState([]);
+    const [selectedCommitteeMembersId, setSelectedCommitteeMembersIDs] = useState([]);
+
+    const [includeMajor, setIncludeMajor] = useState(false);
+    const [selectedMajor, setSelectedMajor] = useState('');
+    
+    //  controlSubjectsIDs
+    const [selectedSubject, setSelectedSubject] = useState('');
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
+    const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
+
     const handleAddSubject = () => {
-        const { selectedSubject } = controlDetails;
+        if (selectedSubject && !selectedSubjects.includes(selectedSubject)) {
+            const selectedSubjectObject = subjects.find(chairperson => chairperson.id === selectedSubject);
 
-        if (selectedSubject) {
-            // Check if the selectedSubject is already in the selectedSubjects array
-            const isSubjectAlreadySelected = selectedSubjects.includes(selectedSubject);
-
-            if (!isSubjectAlreadySelected) {
-                dispatch(addSelectedSubject(selectedSubject));
-                setControlDetails((prevDetails) => ({
-                    ...prevDetails,
-                    selectedSubject: '',
-                }));
+            if (selectedSubjectObject) {
+                setSelectedSubjects([...selectedSubjects, selectedSubjectObject.name]);
+                setSelectedSubjectsIDs([...selectedSubjectsIDs, selectedSubjectObject.id]);
+                setSelectedSubject('');
+            }
             } else {
                 // Subject is already selected, you can show a message or handle it as per your requirement
-                alert('This subject is already added.');
+                alert('غير قابل لتكرار المقرر');
             }
         }
+
+    const handleRemoveSubject = (subject) => {
+        // dispatch(removeSelectedSubject(subject));
+        const updatedSubject = selectedSubjects.filter((cp) => cp !== subject);
+        let updatedSubjectID;
+        for (let index = 0; index < chairpers.length; index++) {
+            if (subject === subjects[index].name) {
+                updatedSubjectID = subjects[index].id;
+                break; // Once found, exit the loop
+            }
+        }
+        const updatedSubjectNowIDs = selectedSubjectsIDs.filter(id => id !== updatedSubjectID);
+        setSelectedSubjects(updatedSubject);
+        setSelectedSubjectsIDs(updatedSubjectNowIDs);
+
     };
 
     const handleAddChairperson = () => {
-        if (selectedChairperson && !selectedChairpersons.includes(selectedChairperson)) {
-            setSelectedChairpersons([...selectedChairpersons, selectedChairperson]);
-            setSelectedChairperson('');
-        }
-        else {
-            // chairperson is already selected, you can show a message or handle it as per your requirement
-            alert('This chairperson is already added.');
+        if (selectedChairperson && !selectedChairpersons.includes(selectedChairperson) && selectedChairpersons< 2) {
+            const selectedChairpersonObject = chairpers.find(chairperson => chairperson.id === selectedChairperson);
+
+            if (selectedChairpersonObject) {
+                setSelectedChairpersons([...selectedChairpersons, selectedChairpersonObject.name]);
+                setPersonsIDs([...personsIDs, selectedChairpersonObject.id]);
+                setSelectedChairperson('');
+            }
+        } else {
+            // Chairperson is already selected or the input is empty
+            alert('اختيار رئيس كنترول واحد فقط');
         }
     };
 
     const handleAddCommitteeMember = () => {
         if (selectedCommitteeMember && !selectedCommitteeMembers.includes(selectedCommitteeMember)) {
-            setSelectedCommitteeMembers([...selectedCommitteeMembers, selectedCommitteeMember]);
-            setSelectedCommitteeMember('');
+            const selectedCommitteeMembersObject = chairpers.find(chairperson => chairperson.id === selectedCommitteeMember);
+            if (selectedCommitteeMembersObject) {
+                setSelectedCommitteeMembers([...selectedCommitteeMembers, selectedCommitteeMembersObject.name]);
+                setSelectedCommitteeMembersIDs([...selectedCommitteeMembersId, selectedCommitteeMembersObject.id]);
+                setSelectedCommitteeMember('');
+            }
         }
         else {
             // committee member is already selected, you can show a message or handle it as per your requirement
@@ -95,18 +158,34 @@ const ControlManagement = () => {
     };
 
     const handleRemoveChairperson = (chairperson) => {
-        const updatedChairpersons = selectedChairpersons.filter((cp) => cp !== chairperson);
+        const updatedChairpersons = selectedChairpersons.filter(cp => cp !== chairperson);
+        let updatedPersonsID;
+        for (let index = 0; index < chairpers.length; index++) {
+            if (chairperson === chairpers[index].name) {
+                updatedPersonsID = chairpers[index].id;
+                break; // Once found, exit the loop
+            }
+        }
+        const updatedPersonsIDs = personsIDs.filter(id => id !== updatedPersonsID);
         setSelectedChairpersons(updatedChairpersons);
+        setPersonsIDs(updatedPersonsIDs);
     };
 
     const handleRemoveCommitteeMember = (committeeMember) => {
         const updatedCommitteeMember = selectedCommitteeMembers.filter((cp) => cp !== committeeMember);
+        let updatedcommitteeMemberID;
+        for (let index = 0; index < chairpers.length; index++) {
+            if (committeeMember === chairpers[index].name) {
+                updatedcommitteeMemberID = chairpers[index].id;
+                break; // Once found, exit the loop
+            }
+        }
+        const updatedcommteeMemberIDs = selectedCommitteeMembersId.filter(id => id !== updatedcommitteeMemberID);
         setSelectedCommitteeMembers(updatedCommitteeMember);
+        setSelectedCommitteeMembersIDs(updatedcommteeMemberIDs);
     };
 
-    const handleRemoveSubject = (subject) => {
-        dispatch(removeSelectedSubject(subject));
-    };
+
 
     // Handle checkbox toggle for including major
     const handleIncludeMajorChange = (e) => {
@@ -116,106 +195,57 @@ const ControlManagement = () => {
             setSelectedMajor('');
         }
     };
-
-
-    const handleSubmit = () => {
-        const { controlName, academicYear, term, startDate, endDate } = controlDetails;
-        const newControl = {
-            name: controlName,
-            academicYear,
-            selectedAcademicYear,
-            term,
-            startDate,
-            endDate,
-            subjects: selectedSubjects,
-            chairpersons: selectedChairpersons, // Include selected chairpersons in the control data
-            committeeMembers: selectedCommitteeMembers, // Include selected chairpersons in the control data
-        };
-        dispatch(addControl(newControl));
-        dispatch(clearSelectedSubjects());
-        setControlDetails({
-            controlName: '',
-            academicYear: '',
-            term: '',
-            startDate: '',
-            endDate: '',
-            selectedSubject: '',
-        });
-        setSelectedChairperson('');
-        setSelectedChairpersons([]);
-        setSelectedCommitteeMember('');
-        setSelectedCommitteeMembers([]);
+    console.log(selectedChairpersons);
+    console.log(personsIDs);
+    console.log(selectedCommitteeMembers);
+    console.log(selectedCommitteeMembersId);
+    console.log(selectedSubjects);
+    console.log(selectedSubjectsIDs);
+    console.log(selectedChairperson);
+    //
+    let controlManagerID =selectedChairperson;
+    let controlSubjectsIDs =selectedSubjectsIDs;
+    let contorlUsersIDs=selectedCommitteeMembersId;
+    const handleSubmit = async() => {
+        try {
+            // Make a POST request to the authentication endpoint
+            const response = await axios.post(
+                `http://localhost:5120/Controls/craete/${fId}`,
+                { name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,controlSubjectsIDs,contorlUsersIDs},{
+                    headers: {
+                        Authorization: "Bearer " + tok, // Authorization token
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            // Handle successful login
+            console.log("Login successful:", response.data);
+        
+        } catch (error) {
+            console.log("Login error:", error);
+        }
     };
 
 
 
     return (
-        <div className="container mt-4 rtl page">
-            <div className="container my-4 rtl">
-                <div className="row mb-4 align-items-center justify-content-center">
-                    {/* Create Control Button */}
-                    <button
-                        className="btn mx-3 col-lg-2"
-                        style={{
-                            backgroundColor: isCreateActive ? '#43BBFF' : '#98DAFF',
-                            color: isCreateActive ? 'white' : 'black',
-                            boxShadow: isCreateActive ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
-                            // marginBottom: '15px',
-                            width:isLargeScreen?'15%':'35%',
+        <form onSubmit={handleSubmit}>
 
-                        }}
-                        onClick={() => {
-                            setIsCreateActive(true);
-                            setIsEditActive(false);
-                            setControlDetails({
-                                controlName: '',
-                                academicYear: '',
-                                term: '',
-                                startDate: '',
-                                endDate: '',
-                                selectedSubject: '',
-                            });
-                        }}
-                    >
-                        إنشاء كنترول
-                    </button>
-
-                    {/* Edit Control Button */}
-                    <button
-                        className="btn mx-3"
-                        style={{
-                            backgroundColor: isEditActive ? '#43BBFF' : '#98DAFF',
-                            color: isEditActive ? 'white' : 'black',
-                            boxShadow: isEditActive ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
-                            width:isLargeScreen?'15%':'35%',
-                        }}
-                        onClick={() => {
-                            setIsEditActive(true);
-                            setIsCreateActive(false);
-                        }}
-                    >
-                        تعديل كنترول
-                    </button>
-                </div>
-            </div>
-
-
-            {/* Control Details Form */}
-            {isCreateActive && <div className="row page">
-                <div className="mb-5 col-md-3" style={{width:isLargeScreen?'25%':'95%',justifyContent:'center'}}>
+            <div className="row ">
+                <div className="mb-5 col-md justify-content-center" >
                     <div className="form-group">
                         <label htmlFor="controlName">اسم الكنترول</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="controlName"
-                            name="controlName"
-                            value={controlDetails.controlName}
-                            onChange={handleInputChange}
+                            id="name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
-                                color: controlDetails.controlName ? 'black' : '#646464',
                             }}
+                            required
                         />
                     </div>
                     <div className="form-group">
@@ -223,43 +253,43 @@ const ControlManagement = () => {
                         <input
                             type="text"
                             className="form-control"
-                            id="academicYear"
-                            name="academicYear"
-                            value={controlDetails.academicYear}
-                            onChange={handleInputChange}
+                            id="acaD_YEAR"
+                            name="acaD_YEAR"
+                            value={acaD_YEAR}
+                            onChange={(e) => setAcaD_YEAR(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
-                                color: controlDetails.academicYear ? 'black' : '#646464',
                             }}
-                            placeholder='ex: 23/24'
+                            placeholder='ex: 2023/2024'
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="term">الفصل الدراسي</label>
                         <select
                             className="form-select"
-                            id="term"
-                            name="term"
-                            value={controlDetails.term}
-                            onChange={handleInputChange}
+                            id="faculity_Semester"
+                            name="faculity_Semester"
+                            value={faculity_Semester}
+                            onChange={(e) => setFaculity_Semester(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
                                 color: 'black',
                             }}
                         >
                             <option value="">اختر الفصل الدراسي</option>
-                            <option value="الفصل الدراسي الأول">الفصل الدراسي الأول</option>
-                            <option value="الفصل الدراسي الثاني">الفصل الدراسي الثاني</option>
+                            <option value="الفصل الأول">الفصل الدراسي الأول</option>
+                            <option value="الفصل الثاني">الفصل الدراسي الثاني</option>
+                            <option value="الفصل الصيفي">الفصل الدراسي الصيفي</option>
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="academicYear">السنة الدراسية</label>
+                        <label htmlFor="faculity_Phase">السنة الدراسية</label>
                         <select
                             className="form-select"
-                            id="academicYear"
-                            name="academicYear"
-                            value={selectedAcademicYear}
-                            onChange={(e) => setSelectedAcademicYear(e.target.value)}
+                            id="faculity_Phase"
+                            name="faculity_Phase"
+                            value={faculity_Phase}
+                            onChange={(e) => setFaculity_Phase(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
                                 color: 'black',
@@ -295,24 +325,18 @@ const ControlManagement = () => {
                     {/* Render select dropdown for major if includeMajor is true */}
                     {includeMajor && (
                         <div>
-                            <select
-                                className="form-select"
-                                id="major"
-                                name="major"
-                                value={selectedMajor}
-                                onChange={(e) => setSelectedMajor(e.target.value)}
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="faculity_Node"
+                                name="faculity_Node"
+                                value={faculity_Node}
+                                onChange={(e) => setFaculity_Node(e.target.value)}
                                 style={{
                                     backgroundColor: '#E1E1E1',
-                                    color: 'black',
                                 }}
-                            >
-                                <option value="">اختر التخصص / الشعبة</option>
-                                {/* Populate options dynamically based on available majors */}
-                                {/* Example: */}
-                                <option value="علوم الحاسب">علوم الحاسب</option>
-                                <option value="هندسة البرمجيات">هندسة البرمجيات</option>
-                                {/* Add more options as needed */}
-                            </select>
+                                placeholder='الشعبة /التخصص'
+                            />
                         </div>
                     )}
 
@@ -321,13 +345,12 @@ const ControlManagement = () => {
                         <input
                             type="date"
                             className="form-control"
-                            id="startDate"
-                            name="startDate"
-                            value={controlDetails.startDate}
-                            onChange={handleInputChange}
+                            id="start_Date"
+                            name="start_Date"
+                            value={start_Date}
+                            onChange={(e) => setStart_Date(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
-                                color: controlDetails.startDate ? 'black' : '#646464',
                             }}
                         />
                     </div>
@@ -336,21 +359,16 @@ const ControlManagement = () => {
                         <input
                             type="date"
                             className="form-control"
-                            id="endDate"
-                            name="endDate"
-                            value={controlDetails.endDate}
-                            onChange={handleInputChange}
+                            id="end_Date"
+                            name="end_Date"
+                            value={end_Date}
+                            onChange={(e) => SetEnd_Date(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
-                                color: controlDetails.endDate ? 'black' : '#646464',
                             }}
                         />
                     </div>
-
-
                 </div>
-
-
                 {/* Selected Subjects Section */}
 
                 <div className="col-md-5 mb-5">
@@ -359,16 +377,14 @@ const ControlManagement = () => {
                         <select
                             className="form-select"
                             style={{ backgroundColor: '#CFEEFF', color: 'black', width: '35%', }}
-                            onChange={(e) => setControlDetails({ ...controlDetails, selectedSubject: e.target.value })}
-                            value={controlDetails.selectedSubject}
+                            value={selectedSubject}
+                            onChange={(e) => setSelectedSubject(e.target.value)}
                         >
                             <option value="">
-
                                 المواد <FontAwesomeIcon icon={faChevronDown} style={{ color: 'gray' }} />
-
                             </option>
                             {subjects.map((subject, index) => (
-                                <option key={index} value={subject.name}>
+                                <option key={index} value={subject.id}>
                                     {subject.name}
                                 </option>
                             ))}
@@ -376,10 +392,10 @@ const ControlManagement = () => {
                         {/* Add button */}
                         <button
                             className="btn mx-3"
-                            onClick={() => handleAddSubject(controlDetails.selectedSubject)}
+                            onClick={handleAddSubject}
                             style={{ backgroundColor: '#43BBFF', color: 'white' }}
                         >
-                            اضافة <FontAwesomeIcon icon={faPlus} />
+                            <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
                     {/* Display selected subjects */}
@@ -391,7 +407,6 @@ const ControlManagement = () => {
                                 <div key={index} className="subject-row rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%', }}>
                                     <span>{subject}</span>
                                     <FontAwesomeIcon
-
                                         icon={faTrashAlt}
                                         style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' }}
                                         onClick={() => handleRemoveSubject(subject)}
@@ -414,10 +429,11 @@ const ControlManagement = () => {
                         >
                             <option value="">اختر رئيس لجنة الكنترول</option>
                             {/* Populate options dynamically from chairpersons data */}
-                            {chairpers.map((chairperson, index) => (
-                                <option key={index} value={chairperson}>
-                                    {chairperson}
+                            {chairpers && chairpers.map((chairperson, index) => (
+                                <option key={index} value={chairperson.id}>
+                                    {chairperson.name}
                                 </option>
+
                             ))}
                         </select>
                         <button
@@ -425,7 +441,7 @@ const ControlManagement = () => {
                             onClick={handleAddChairperson}
                             style={{ backgroundColor: '#43BBFF', color: 'white' }}
                         >
-                            اضافة <FontAwesomeIcon icon={faPlus} />
+                            <FontAwesomeIcon icon={faPlus} />
 
                         </button>
                     </div>
@@ -433,16 +449,22 @@ const ControlManagement = () => {
                         <h5 className='mx-3 p-2 my-2'> رئيس لجنة الكنترول</h5>
                         <div className="row justify-content-center align-items-center">
                             {selectedChairpersons.map((chairperson, index) => (
-                                <div key={index} className="subject-row col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%', }}>
-                                    <span>{chairperson}</span>
-                                    <FontAwesomeIcon
-                                        icon={faTrashAlt}
-                                        style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px', }}
-                                        onClick={() => handleRemoveChairperson(chairperson)}
-                                    />
-                                </div>
+                                <>
+                                    <div key={index} className="subject-row col-sm-10 rounded-2 mx-3 my-2" style={{ backgroundColor: '#D9D9D9', color: 'black', width: '40%', }}>
+                                        <span>{chairperson}</span>
+
+                                        <FontAwesomeIcon
+                                            icon={faTrashAlt}
+                                            style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px', }}
+                                            onClick={() => handleRemoveChairperson(chairperson)}
+                                        />
+                                    </div>
+                                </>
                             ))}
+
+
                         </div>
+
                     </div>
 
                     {/* Committee Members Section */}
@@ -456,9 +478,9 @@ const ControlManagement = () => {
                             >
                                 <option value="">اختر اعضاء لجنة الكنترول</option>
                                 {/* Populate options dynamically from chairpersons data */}
-                                {committeeMem.map((committeeMember, index) => (
-                                    <option key={index} value={committeeMember}>
-                                        {committeeMember}
+                                {chairpers && chairpers.map((committeeMember, index) => (
+                                    <option key={index} value={committeeMember.id}>
+                                        {committeeMember.name}
                                     </option>
                                 ))}
                             </select>
@@ -467,7 +489,7 @@ const ControlManagement = () => {
                                 onClick={handleAddCommitteeMember}
                                 style={{ backgroundColor: '#43BBFF', color: 'white' }}
                             >
-                                اضافة <FontAwesomeIcon icon={faPlus} />
+                                <FontAwesomeIcon icon={faPlus} />
 
                             </button>
                         </div>
@@ -487,23 +509,17 @@ const ControlManagement = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div className='row d-flex justify-content-center align-items-center w-100 my-5'>
-                    <button className="btn fw-bold" onClick={handleSubmit}
-                        style={{ backgroundColor: '#74E474', boxShadow: '0 0px 8px rgba(0,0,0,0.35)', width:isLargeScreen?'10%':'25%', }}>
+
+
+                <div className=' d-flex justify-content-center align-items-center w-100 my-5'>
+                    <button className="btn btn-outline-success " style={{ padding: "0.5rem 4rem" }}>
                         ارسال
                     </button>
                 </div>
-
             </div>
-            }
-            {isEditActive && <ControlList />}
+        </form>
 
-
-
-        </div>
-
-    );
-};
-
-export default ControlManagement;
+    )
+}
