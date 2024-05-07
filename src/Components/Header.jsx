@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Style.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutSuccess, setName } from '../Redux/authSlice';
+import { loginSuccess, logoutSuccess, setName } from '../Redux/authSlice';
 import {setFid, setId} from '../Redux/ProfileSlice'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -13,20 +13,27 @@ export default function Header() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const getData = async () => {
-        const { data } = await axios.get('http://localhost:5120/Users/current-user', {
+        try {
+            const { data } = await axios.get('http://localhost:5120/Users/current-user', {
             headers: {
                 'Authorization': 'Bearer ' + tok,
                 "Content-Type": "application/json"
             }
         });
         setData(data);
+        } catch (error) {
+            if(error.message ==="Request failed with status code 401"){
+                dispatch(loginSuccess(""))
+            }
+        }
+
     };
     useEffect(() => {
         getData();
     }, []);
-    console.log(data.faculityEmployeeID);
+    console.log(data);
     dispatch(setId(data.id))  
-    dispatch(setFid(data.faculityEmployeeID))  
+    dispatch(setFid(data.facultyID))  
     dispatch(setName(data.name));
 
     const logout = () => {

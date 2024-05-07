@@ -33,9 +33,8 @@ export default function CreationControl() {
     const getSubject = async () => {
         try {
             const { data } = await axios.get(
-                'http://localhost:5120/Subject/subjects-by-faculty-id', // API endpoint URL
+                `http://localhost:5120/Subject/faculty/${fId}`, // API endpoint URL
                 {
-                    params: { fId }, // Parameters passed to the API endpoint
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
                         "Content-Type": "application/json", // Content type
@@ -206,11 +205,12 @@ export default function CreationControl() {
     let controlManagerID =selectedChairperson;
     let controlSubjectsIDs =selectedSubjectsIDs;
     let contorlUsersIDs=selectedCommitteeMembersId;
-    const handleSubmit = async() => {
+    const handleSubmit = async(e) => {
+        e.preventDefault();
         try {
             // Make a POST request to the authentication endpoint
             const response = await axios.post(
-                `http://localhost:5120/Controls/craete/${fId}`,
+                `http://localhost:5120/Controls/create/${fId}`,
                 { name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,controlSubjectsIDs,contorlUsersIDs},{
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
