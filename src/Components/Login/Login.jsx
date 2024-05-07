@@ -14,7 +14,6 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (userName.trim() === "" || password.trim() === "") {
@@ -33,13 +32,13 @@ function Login() {
             );
             // Handle successful login
             console.log("Login successful:", response.data);
-            if (response.data.roles[0] === 'AdminUniversity') {
+            if (response.data.roles === 'AdminUniversity') {
                 dispatch(isAdminUniversity());
                 navigate('/Admin_University');
-            } else if (response.data.roles[0] === 'AdminFaculty')  {
+            } else if (response.data.roles === 'AdminFaculty')  {
                 dispatch(isAdminFaculty());
                 navigate('/Admin_Facuilty');
-            }else if (response.data.roles[0] === 'Staff')  {
+            }else if (response.data.roles === 'Staff')  {
                 dispatch(isStaff());
                 navigate('/Staff');
             }
