@@ -21,7 +21,7 @@ export default function Members() {
             </div>
             <div className="control-row-register col">
               <label htmlFor="password">Password</label>
-              <input id="password" type="password" name="password" />
+              <input id="password" type="text" password="name" />
             </div>
             <div className="control-row-register col">
               <label htmlFor="cp">Confirm Password</label>
