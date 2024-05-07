@@ -27,7 +27,7 @@ export default function Members() {
           },
         }
       );
-
+      event.target.reset();
       console.log("Login successful:", response.data);
     } catch (error) {
       console.log("Login error:", error);

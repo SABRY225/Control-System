@@ -46,14 +46,14 @@ export default function CreationControl() {
             console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
         }
     };
-
+    console.log(fId);
     // Function to fetch staff data
     const getStaff = async () => {
         try {
             const dataStaff = await axios.get(
-                'http://localhost:5120/Users/staff-by-faculty-id', // API endpoint URL
+                'http://localhost:5120/Users/user-for-faculty', // API endpoint URL
                 {
-                    params: { fId }, // Parameters passed to the API endpoint
+                    params: { id:fId }, // Parameters passed to the API endpoint
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
                         "Content-Type": "application/json", // Content type
@@ -114,7 +114,7 @@ export default function CreationControl() {
         // dispatch(removeSelectedSubject(subject));
         const updatedSubject = selectedSubjects.filter((cp) => cp !== subject);
         let updatedSubjectID;
-        for (let index = 0; index < chairpers.length; index++) {
+        for (let index = 0; index < subjects.length; index++) {
             if (subject === subjects[index].name) {
                 updatedSubjectID = subjects[index].id;
                 break; // Once found, exit the loop
@@ -202,16 +202,27 @@ export default function CreationControl() {
     console.log(selectedSubjectsIDs);
     console.log(selectedChairperson);
     //
-    let controlManagerID =selectedChairperson;
+    let controlManagerID =personsIDs[0];
     let controlSubjectsIDs =selectedSubjectsIDs;
     let contorlUsersIDs=selectedCommitteeMembersId;
+
+    ///
+    
+    
+
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
+            const formData ={name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,controlSubjectsIDs,contorlUsersIDs};
+            const jsonData = JSON.stringify(formData);
+
+            console.log(jsonData);
+            console.log(formData);
             // Make a POST request to the authentication endpoint
             const response = await axios.post(
                 `http://localhost:5120/Controls/create/${fId}`,
-                { name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,controlSubjectsIDs,contorlUsersIDs},{
+                jsonData ,{
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
                         "Content-Type": "application/json",
@@ -219,10 +230,11 @@ export default function CreationControl() {
                 }
             );
             // Handle successful login
-            console.log("Login successful:", response.data);
+            console.log("Control successful:", response.data);
+            alert(response.data)
         
         } catch (error) {
-            console.log("Login error:", error);
+            console.log("Control error:", error);
         }
     };
 
@@ -343,7 +355,7 @@ export default function CreationControl() {
                     <div className="form-group">
                         <label htmlFor="startDate">تاريخ البدء</label>
                         <input
-                            type="date"
+                            type="datetime-local"
                             className="form-control"
                             id="start_Date"
                             name="start_Date"
@@ -357,7 +369,7 @@ export default function CreationControl() {
                     <div className="form-group">
                         <label htmlFor="endDate">تاريخ الانتهاء</label>
                         <input
-                            type="date"
+                            type="datetime-local"
                             className="form-control"
                             id="end_Date"
                             name="end_Date"
@@ -391,6 +403,7 @@ export default function CreationControl() {
                         </select>
                         {/* Add button */}
                         <button
+                        type='button'
                             className="btn mx-3"
                             onClick={handleAddSubject}
                             style={{ backgroundColor: '#43BBFF', color: 'white' }}
@@ -437,6 +450,7 @@ export default function CreationControl() {
                             ))}
                         </select>
                         <button
+                            type='button'
                             className="btn mx-3"
                             onClick={handleAddChairperson}
                             style={{ backgroundColor: '#43BBFF', color: 'white' }}
@@ -485,6 +499,7 @@ export default function CreationControl() {
                                 ))}
                             </select>
                             <button
+                                type='button'
                                 className="btn mx-3"
                                 onClick={handleAddCommitteeMember}
                                 style={{ backgroundColor: '#43BBFF', color: 'white' }}
