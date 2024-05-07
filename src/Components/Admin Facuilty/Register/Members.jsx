@@ -1,11 +1,46 @@
+import axios from "axios";
 import "./FromRegisterStyle.css";
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Members() {
+  const tok = useSelector((state) => state.auth.token);
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    // Convert form data to JSON
+    const fd = new FormData(event.target);
+    const formData = Object.fromEntries(fd.entries());
+    console.log(formData);
+
+    try {
+      const jsonData = JSON.stringify(formData);
+      console.log(jsonData);
+
+      const response = await axios.post(
+        "http://localhost:5120/account/register",
+        jsonData, // Pass JSON data here
+        {
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Login successful:", response.data);
+    } catch (error) {
+      console.log("Login error:", error);
+    }
+  };
+
   return (
     <>
       <div className="containerRegister">
-        <form action="#" style={{display: "flex",flexDirection: "column"}}>
+        <form
+          onSubmit={onSubmit}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <div className="row">
             <div className="control-row-register col">
               <label htmlFor="name">Name</label>
@@ -25,7 +60,7 @@ export default function Members() {
             </div>
             <div className="control-row-register col">
               <label htmlFor="cp">Confirm Password</label>
-              <input id="cp" type="password" name="password" />
+              <input id="cp" type="password" name="confirmPassword" />
             </div>
             <div className="control-row-register col">
               <label htmlFor="scientificDegree">Scientific Degree</label>
@@ -36,7 +71,7 @@ export default function Members() {
               />
             </div>
           </div>
-          <button type="submit" class="mt-3">
+          <button type="submit" className="mt-3">
             اضافة عضو جديد
           </button>
         </form>

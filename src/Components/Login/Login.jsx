@@ -14,7 +14,6 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (userName.trim() === "" || password.trim() === "") {
