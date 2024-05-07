@@ -27,7 +27,7 @@ export default function Members() {
           },
         }
       );
-
+      event.target.reset();
       console.log("Login successful:", response.data);
     } catch (error) {
       console.log("Login error:", error);
@@ -56,7 +56,7 @@ export default function Members() {
             </div>
             <div className="control-row-register col">
               <label htmlFor="password">Password</label>
-              <input id="password" type="text" password="name" />
+              <input id="password" type="password" name="password" />
             </div>
             <div className="control-row-register col">
               <label htmlFor="cp">Confirm Password</label>
