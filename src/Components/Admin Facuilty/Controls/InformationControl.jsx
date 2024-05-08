@@ -50,7 +50,7 @@ export default function InformationControl() {
       }
     };
     getControls();
-  }, []);
+  }, [Fid]);
 
   useEffect(() => {
     getControls();

@@ -8,6 +8,7 @@ export default function HomeControlRecodes() {
   const IdControl = useSelector((state) => state.Profile.IdControlRecord);
   // State to store the fetched data
   const [dataControl, setDataControl] = useState('');
+  const [dataSubject, setDataSubject] = useState('');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,14 +27,34 @@ export default function HomeControlRecodes() {
         console.log(error);
       } 
     };
+    const fetchDataSubject = async () => {
+      try {
+        // Fetch data from the API using axios
+        const response = await axios.get('http://localhost:5120/Subject/subjects-of-control',
+        {
+          params: { Controld:IdControl },
+            headers: {
+                Authorization: "Bearer " + tok, // Authorization token
+                "Content-Type": "application/json", // Content type
+            },
+        });
+        // Set the fetched data
+        setDataSubject(response.data);
 
+      } catch (error) {
+        console.log(error);
+      } 
+    };
     // Call the fetchData function
     fetchData();
+    fetchDataSubject();
   },[]);
+  console.log(dataControl.name);
+  console.log(dataSubject);
   return (
     <>
       <DetailsOfControl dataControl={dataControl}  />
-      <ControlMaterials />
+      <ControlMaterials dataSubject={dataSubject}/>
       <ControlMembers />
       <Tasks />
       <Notes /> 

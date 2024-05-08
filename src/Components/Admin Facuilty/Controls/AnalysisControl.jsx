@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 export default function AnalysisControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
@@ -42,7 +41,7 @@ export default function AnalysisControl() {
       }
     };
     getControlSubject();
-  }, []);
+  }, [control.control.id]);
 
   const getNote = useCallback(() => {
     const getNote = async () => {
@@ -63,7 +62,7 @@ export default function AnalysisControl() {
       }
     };
     getNote();
-  }, []);
+  }, [control.control.id]);
 
   useEffect(() => {
     getControlSubject();
@@ -132,12 +131,9 @@ export default function AnalysisControl() {
               <div className="col-md-4 text-center ">
                 <Doughnut data={data} options={options}></Doughnut>
               </div>
-              <div className="col-md-8">
+              <div className="col-md-8 rtl ">
                 {controlSubjects.map((subject) => (
-                  <div
-                    key={subject.id}
-                    className="subject fs-5 d-flex flex-row-reverse"
-                  >
+                  <div key={subject.id} className="subject fs-5">
                     <span>{subject.name}</span>
                     {subject.isDone > 0 && (
                       <FontAwesomeIcon

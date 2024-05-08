@@ -32,6 +32,7 @@ const AcademicYearDetails = () => {
     getControlSubject();
   }, [tok]);
 
+
   const getHead = useCallback(() => {
     async function getHead() {
       try {
@@ -112,44 +113,36 @@ const AcademicYearDetails = () => {
           {control.userCreator.name} ورئيس الكنترول {HeadControl}
           {/* Render circle with dynamic color */}
         </span>
-          <span
-            className="circle mx-3"
-            style={{
-              backgroundColor: circleColor,
-              borderRadius: "50%",
-              width: "25px",
-              height: "25px",
-              display: "inline-block",
-              
-            }}
-          ></span>
+        <span
+          className="circle mx-3"
+          style={{
+            backgroundColor: circleColor,
+            borderRadius: "50%",
+            width: "25px",
+            height: "25px",
+            display: "inline-block",
+          }}
+        ></span>
       </div>
 
-      <div className="subjects-container">
-        <div
-          className="progress-circle-container"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <div className="subjects-column">
-            <h4>المواد</h4>
-            {subjects.map((subject) => (
-              <div key={subject.id} className="subject fs-5">
-                <span>{subject.name}</span>
-                {subject.isDone > 0 && (
-                  <FontAwesomeIcon
-                    className="mx-3 fw-bold"
-                    icon={faCircleCheck}
-                    style={{
-                      color: "#44AA44",
-                    }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="col-md-4 text-center ">
-            <Doughnut data={data} options={options}></Doughnut>
-          </div>
+      <div className="subjects-container d-flex justify-content-between flex-row-reverse">
+        <div className="col-md-4 text-center ">
+          <Doughnut data={data} options={options}></Doughnut>
+        </div>
+        <div className="subjects-column">
+          <h4>المواد</h4>
+          {subjects.map((subject) => (
+            <div key={subject.id} className="subject fs-5">
+              <span>{subject.name}</span>
+              {subject.isDone > 0 && (
+                <FontAwesomeIcon
+                  className="mx-3 fw-bold"
+                  icon={faCircleCheck}
+                  style={{ color: "#44AA44" }}
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
       <div className="continer">
@@ -167,7 +160,9 @@ const AcademicYearDetails = () => {
 
             return (
               <div class="col-12 box_Notes  m-3 rtl">
-                <div className="m-3 rtl" style={{fontSize:"20px"}}>{note.description}</div>
+                <div className="m-3 rtl" style={{ fontSize: "20px" }}>
+                  {note.description}
+                </div>
                 <div className="d-flex justify-content-between">
                   <div className="nameOfMemberNotes rtl mx-4">
                     <div>د/ {note.writeBy.name}</div>
