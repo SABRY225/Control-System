@@ -1,64 +1,94 @@
-import React from 'react'
-import "../Style.css"
+import React, { useCallback, useEffect, useState } from "react";
+import "../Style.css";
+import axios from "axios";
+import { useSelector } from "react-redux";
 export default function Task_schedule() {
+  const [Tasks, setTasks] = useState([]);
+  const control = useSelector((state) => state.details.control);
+  const tok = useSelector((state) => state.auth.token);
+  const getControlTask = useCallback(() => {
+    const getControlTask = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5120/controlTask/get-tasks-by-control-id?Cid=" +
+            control.control.id,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
+        setTasks(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getControlTask();
+  }, []);
+
+  useEffect(() => {
+    getControlTask();
+  }, [getControlTask]);
+
+  const DoneTask = async ({ id }) => {
+    try {
+      const { data } = await axios.put(
+        "http://localhost:5120/controlTask/isDone?Tid=" + id,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + tok,
+          },
+        }
+      );
+      // console.log(data);
+      getControlTask();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
-      <div className="container">
-        {/* <div className="row m-2">
-                    <div className='Title-Task '>اضافه مهام أعضاء الكنترول</div>
-                </div> */}
-        <div className="row text-center">
-          <div className="col-md-6 TitleOfTask">
-            <div className="col-12 Text_Task">حصد مادة تاريخ</div>
-            <div className="col-12 btn_Task text-center"><button className='Done'>Done</button></div>
-          </div>
-          <div className="col-md-6">
-            <div className="col-md-12 TextDataTask">قام رائس الكلية د/ محمد عبدالرازق عبده باضافة هذه المهمه للاعضاء</div>
-            <div className="col-md-12 ">
-              <div className="col MemberDataTask">يليلسي</div>
-              <div className="col MemberDataTask">Ahmed Sabry</div>
-            </div>
-            <div className="col-md-12 DateTask">اخر موعد للتسليم 2/24/2024</div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <hr />
-        </div>
-      </div>
+      
       <div className="container">
         <div className="row m-2">
-          <div className='Title-Task '>المهام</div>
+          <div className="Title-Task ">المهام</div>
         </div>
         <div className="row justify-content-center">
           {/* Start */}
-          <div className="col-md-3 task m-2">
-            <div className="col-12 d-flex task-head p-2 text-center">
-              <div className="col-12">انتهت</div>
-            </div>
-            <div className="col-12 task-title text-center p-2">حصد درجات المادة</div>
-          </div>
-          {/* End */}
-          {/* Start */}
-          <div className="col-md-3 task m-2">
-            <div className="col-12 d-flex task-head p-2 text-center">
-              <div className="col-12">انتهت</div>
-            </div>
-            <div className="col-12 task-title text-center p-2">حصد درجات المادة</div>
-          </div>
-          {/* End */}
-          {/* Start */}
-          <div className="col-md-3 task m-2">
-            <div className="col-12 d-flex task-head p-2 text-center">
-              <div className="col-12">انتهت</div>
-            </div>
-            <div className="col-12 task-title text-center p-2">حصد درجات المادة</div>
-          </div>
+          {Tasks.map((task) => {
+            return (
+              <div key={task.id} className="col-md-3 task m-2">
+                <div className="col-12 d-flex justify-content-between align-items-center task-head p-2 text-center">
+                  {!task.isDone && (
+                    <button
+                      className="Done"
+                      type="button"
+                      onClick={() => DoneTask(task)}
+                    >
+                      Done
+                    </button>
+                  )}
+                  <div>{task.isDone > 0 ? "انتهت" : "لم انتهت"}</div>
+                </div>
+                <div className="col-12 task-title text-center p-2">
+                  {task.description}
+                </div>
+                <div className="col-md-12 ">
+                  {task.users.map((user) => {
+                    return (
+                      <div className="col MemberDataTask">{user.name}</div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
           {/* End */}
         </div>
       </div>
     </>
-  )
+  );
 }
-

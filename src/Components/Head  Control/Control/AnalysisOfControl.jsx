@@ -92,6 +92,24 @@ export default function AnalysisOfControl() {
       console.log(error.message);
     }
   };
+
+  const makeSubjectDone = async ({ id }) => {
+    console.log(id);
+    try {
+      const response = await axios.put(
+        "http://localhost:5120/subject/isDone/" + id,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + tok,
+          },
+        }
+      );
+      getControlSubject();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   const data = {
     labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
     datasets: [
@@ -132,17 +150,21 @@ export default function AnalysisOfControl() {
               </div>
               <div className="col-md-8">
                 {controlSubjects.map((subject) => (
-                  <div key={subject.id} className="subject fs-5 d-flex flex-row-reverse">
+                  <div
+                    key={subject.id}
+                    className="subject fs-5 d-flex flex-row-reverse"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => makeSubjectDone(subject)}
+                  >
                     <span>{subject.name}</span>
-                    {subject.isDone > 0 && (
-                      <FontAwesomeIcon
-                        className="mx-3 fw-bold"
-                        icon={faCircleCheck}
-                        style={{
-                          color: "#44AA44",
-                        }}
-                      />
-                    )}
+                    <FontAwesomeIcon
+                      className="mx-3 fw-bold"
+                      icon={faCircleCheck}
+                      style={{
+                        color: subject.isDone > 0 ? "#44AA44" : "red",
+                        cursor: "pointer",
+                      }}
+                    />
                   </div>
                 ))}
               </div>
