@@ -1,7 +1,8 @@
 import React from 'react'
 import "../Style.css"
 
-export default function ControlMaterials() {
+const ControlMaterials= (data) => {
+  let dataSubject =data.dataSubject;
   return (
     <>
       <div className='ControlMaterials '>
@@ -9,16 +10,14 @@ export default function ControlMaterials() {
         <div className='col-lg-12 ControlMaterials-Title'>بيانات مقرارات الكنترول</div>
         </div>
         {/* Row Start */}
-        <div className='row text-center' >
-          <div className='col-md-4'>
-            <div className='MaterialsDate'>مادة1</div>
+        <div className='row justify-content-center' >
+
+          {dataSubject.map(item => (
+            <div className='col-md-4'>
+            <div className='MaterialsDate'>{item.name}</div>
           </div>
-          <div className='col-md-4'>
-            <div className='MaterialsDate'>مادة1</div>
-          </div>
-          <div className='col-md-4'>
-            <div className='MaterialsDate'>مادة1</div>
-          </div>
+          ))}
+
         </div>
         {/* Row End */}
       </div>
@@ -32,3 +31,4 @@ export default function ControlMaterials() {
   )
 }
 
+export default ControlMaterials;
