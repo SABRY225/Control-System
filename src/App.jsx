@@ -25,74 +25,83 @@ import Edite_Control from './Components/Admin Facuilty/Manage Control/Edite Cont
 
 const routers = createBrowserRouter([
   {
-    path: '/',
-    element: (<JustFirst />)
-    ,
+    path: "/",
+    element: <JustFirst />,
     children: [
       { index: true, element: <Login /> },
-      { path: 'signin', element: <Login /> },
-      { path: '*', element: <ErrorPage /> },
+      { path: "signin", element: <Login /> },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
   {
-    path: '/',
+    path: "/",
     element: (
       <ProtectedRoutes>
-      <LayoutAPP />
+        <LayoutAPP />
       </ProtectedRoutes>
     ),
     children: [
-      { path: '/', element: <Home /> },
+      { path: "/", element: <Home /> },
       {
-        path: 'Admin_Facuilty', element: <Admin_Facuilty />, children: [
+        path: "Admin_Facuilty",
+        element: <Admin_Facuilty />,
+        children: [
           { index: true, element: <InformationControl /> },
-          { path: 'CreateControl', element: <ControlManagement /> },
-          { path:'Edite_Control', element: <Edite_Control />},
+          { path: "CreateControl", element: <ControlManagement /> },
+          { path: "Edite_Control", element: <Edite_Control /> },
           {
-            path: 'control', element: <DataControl />
+            path: "control",
+            element: <DataControl />,
           },
-          { path: 'Records', element: <Reocrd_Controles /> ,children:[
-            {index:true,element:<SearchOfControl />},
-            {path:"control",element:<HomeControlRecodes/>}
-          ]},
-          { path: 'Register', element: <RegisterPages /> ,children:[
-            {index:true,element:<RgisterMember_Materiales />},
-          ]},
-          { path: '*', element: <ErrorPage /> },
-        ],
-      },
-      {
-        path: 'Admin_University', element: <Admin_University />, children: [
-          { index: true, element: <Controls />, },
-          { path: 'AcademicYearDetails', element: <AcademicYearDetails />, },
-        ],
-      },
-      { path: 'Staff', element: <Head_Control />,children:[
-        { index:true, element: <HomeOfHead /> },
-        { path:'control', element: <ContentOfControl />},
-        
-      ] },
-      {
-        path: 'Member_Facuilty', element: <Member_Facuilty />, children: [
-          { index: true, element: <Home /> },
           {
-            path: 'control', element: <Work_schedule />, children: [
+            path: "Records",
+            element: <Reocrd_Controles />,
+            children: [
+              { index: true, element: <SearchOfControl /> },
+              { path: "control", element: <HomeControlRecodes /> },
+            ],
+          },
+          {
+            path: "Register",
+            element: <RegisterPages />,
+            children: [{ index: true, element: <RgisterMember_Materiales /> }],
+          },
+          { path: "*", element: <ErrorPage /> },
+        ],
+      },
+      {
+        path: "Admin_University",
+        element: <Admin_University />,
+        children: [
+          { index: true, element: <Controls /> },
+          { path: "AcademicYearDetails", element: <AcademicYearDetails /> },
+        ],
+      },
+      {
+        path: "Staff",
+        element: <Head_Control />,
+        children: [
+          { index: true, element: <HomeOfHead /> },
+          { path: "control", element: <ContentOfControl /> },
+          {
+            path: "controlMember",
+            element: <Work_schedule />,
+            children: [
               { index: true, element: <DetaliesWork_schedule /> },
               { path: "tasks", element: <Task_schedule /> },
-            ]
+            ],
           },
-        ]
+        ],
       },
-      { path: '*', element: <ErrorPage /> },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
   {
-    path: '/',
-    element:
-      <LayoutAuth />,
+    path: "/",
+    element: <LayoutAuth />,
     children: [
-      { path: 'signin', element: <Login /> },
-      { path: '*', element: <ErrorPage /> },
+      { path: "signin", element: <Login /> },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
 ]);

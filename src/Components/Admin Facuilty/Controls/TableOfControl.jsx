@@ -58,8 +58,8 @@ export default function TableOfControl() {
     getControlSubject();
   }, [getControlMember]);
 
-  console.log(controlMembers);
-  console.log(controlSubjects);
+  // console.log(controlMembers);
+  // console.log(controlSubjects);
 
   return (
     <div className="container rtl">
@@ -79,11 +79,14 @@ export default function TableOfControl() {
       {/* Table Member Control */}
       <div className="row justify-content-center Table-data">
         {controlMembers.map((member) => {
-          return (
-            <div className="col-md-3 Column-Table rtl">
-              <div className="text-column-table">د/ {member.name}</div>
-            </div>
-          );
+          // console.log(member.JobType);
+          if (member.jobType === "Member") {
+            return (
+              <div className="col-md-3 Column-Table rtl">
+                <div className="text-column-table">د/ {member.user.name}</div>
+              </div>
+            );
+          }
         })}
       </div>
 
@@ -96,8 +99,9 @@ export default function TableOfControl() {
       {/* Table Member Control */}
       <div className="row justify-content-center Table-data">
         {controlSubjects.map((subject) => {
+          console.log(subject.isDone);
           return (
-            <div className="col-md-4 Column-Table d-flex justify-content-end ">
+            <div className="col-md-4 Column-Table d-flex flex-row-reverse justify-content-end">
               <div className="text-2-column-table">{subject.name}</div>
               <div className="state-column-table ">
                 {subject.isDone ? (

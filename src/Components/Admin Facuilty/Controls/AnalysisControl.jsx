@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
 export default function AnalysisControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
@@ -131,16 +132,19 @@ export default function AnalysisControl() {
               <div className="col-md-4 text-center ">
                 <Doughnut data={data} options={options}></Doughnut>
               </div>
-              <div className="col-md-8 rtl ">
+              <div className="col-md-8">
                 {controlSubjects.map((subject) => (
-                  <div key={subject.id} className="subject fs-5">
+                  <div
+                    key={subject.id}
+                    className="subject fs-5 d-flex flex-row-reverse"
+                  >
                     <span>{subject.name}</span>
-                    {controlSubjects.isDone > 0 && (
+                    {subject.isDone > 0 && (
                       <FontAwesomeIcon
                         className="mx-3 fw-bold"
                         icon={faCircleCheck}
                         style={{
-                          color: "#44AA44" ,
+                          color: "#44AA44",
                         }}
                       />
                     )}
@@ -152,7 +156,7 @@ export default function AnalysisControl() {
         </div>
       </div>
       {/*  Notes Control */}
-        {/* Send Nots */}
+      {/* Send Nots */}
       <div className="continer">
         <div className="row justify-content-center m-1 ">
           <div className="col-10 border border-info p-3 rounded">
@@ -187,13 +191,13 @@ export default function AnalysisControl() {
             return (
               <div class="col-12 box_Notes  m-3">
                 <div className="boxNotes_Title">{note.description}</div>
-                <div className="row justify-content-center">
-                  <div className="col-md-6 nameOfMemberNotes">
+                <div className="d-flex justify-content-between">
+                  <div className="nameOfMemberNotes rtl mx-4">
                     <div>
                       {year}-{month}-{day}
                     </div>
                   </div>
-                  <div className="col-md-6  nameOfMemberNotes rtl">
+                  <div className="nameOfMemberNotes rtl mx-4">
                     <div>د/ {note.writeBy.name}</div>
                   </div>
                 </div>
