@@ -133,9 +133,9 @@ export default function Header() {
                   id="navbarSupportedContent"
                 >
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item nav-item-navbar">
-                      <Link class="nav-link" to="control">
-                        الكنترولات{" "}
+                    <li className="nav-item nav-item-navbar">
+                      <Link className="nav-link" to="/Staff/">
+                        الكنترولات
                       </Link>
                     </li>
                   </ul>

@@ -50,7 +50,7 @@ export default function InformationControl() {
       }
     };
     getControls();
-  }, []);
+  }, [Fid]);
 
   useEffect(() => {
     getControls();
@@ -75,7 +75,6 @@ export default function InformationControl() {
       {/* Semes_Acad_Title */}
       <div className="container ClassesControls">
         <div className="row justify-content-center">
-          {/* Start  */}
           {controls.map((control) => {
             // console.log(control.control);
             return (

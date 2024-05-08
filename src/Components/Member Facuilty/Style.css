@@ -17,21 +17,17 @@
 }
 
 .Done {
-    width: 116px;
-    margin: 5rem 0rem 1rem;
+    padding: 5px ;
     border-radius: 10px;
     border: 0px;
     opacity: 0px;
     font-family: Cairo;
-    font-size: 25px;
-    font-weight: 700;
     text-align: center;
     color: rgba(255, 255, 255, 1);
     background: rgba(116, 228, 116, 1);
 }
 .Done:hover{
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
-
 }
 
 .TextDataTask{
@@ -46,13 +42,12 @@
     background: rgba(67, 187, 255, 1);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
     font-family: Cairo;
-    font-size: 15px;
-    font-weight: 700;
     text-align: left;
     color: rgba(255, 255, 255, 1);
     margin: .5rem 0rem;
-    padding: 0.5rem;
+    padding: 0.2rem 0.5rem;
     text-align: end;
+    border-radius: 5px;
 }
 
 .DateTask{

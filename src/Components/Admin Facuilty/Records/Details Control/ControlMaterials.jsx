@@ -1,11 +1,8 @@
 import React from 'react'
 import "../Style.css"
 
-const ControlMaterials = (data) => {
-  // const [dataSubject, setDataSubject] = useState([])
-  // setDataSubject(data.dataSubject)
-  console.log(data.dataSubject);
-  const Subject = data.dataSubject
+const ControlMaterials= (data) => {
+  let dataSubject =data.dataSubject;
   return (
     <>
       <div className='ControlMaterials '>
@@ -15,11 +12,12 @@ const ControlMaterials = (data) => {
         {/* Row Start */}
         <div className='row justify-content-center' >
 
-          {Subject.map(item => (
-                      <div className='col-md-4' key={item.id}>
-                      <div className='MaterialsDate'>{item.name}</div>
-                    </div>
+          {dataSubject.map(item => (
+            <div className='col-md-4'>
+            <div className='MaterialsDate'>{item.name}</div>
+          </div>
           ))}
+
         </div>
         {/* Row End */}
       </div>
