@@ -61,14 +61,14 @@ const AcademicYearDetails = () => {
 
   // Function to render progress circles based on subject status
   const renderProgressCircles = () => {
-    return subjects.map((subject, index) => {
-      const isFinished = subject.finished;
+    return subjects.map((subject) => {
+      const isFinished = subject.isDone;
       const circleColor = isFinished ? "green" : "gray";
       const checkColor = isFinished ? "green" : "gray";
 
       return (
         <div
-          key={index}
+          key={subject.id}
           className="progress-circle"
           style={{ borderColor: circleColor }}
         >
@@ -79,11 +79,11 @@ const AcademicYearDetails = () => {
   };
 
   // Function to calculate and render progress percentage
-  // const calculateProgressPercentage = () => {
-  //   const finishedCount = subjects.filter((subject) => subject.finished).length;
-  //   const progressPercentage = (finishedCount / subjects.length) * 100;
-  //   return progressPercentage.toFixed(2); // Round to two decimal places
-  // };
+  const calculateProgressPercentage = () => {
+    const finishedCount = subjects.filter((subject) => subject.finished).length;
+    const progressPercentage = (finishedCount / subjects.length) * 100;
+    return progressPercentage.toFixed(2); // Round to two decimal places
+  };
 
   return (
     <div className="academic-year-details-container rtl container page">
@@ -93,7 +93,6 @@ const AcademicYearDetails = () => {
           {control.faculity_Semester} تحت ادارة
           عميد الكلية {control.userCreator.name} ورئيس الكنترول {HeadControl}
         </span>
-        {/* <div className={`status-indicator ${status}`} style={{marginRight:'2vh'}} /> */}
       </div>
 
       <div className="subjects-container">
