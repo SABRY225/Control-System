@@ -20,6 +20,7 @@ import Controls from './Components/Admin University/Controls/Controls';
 import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
 import ProtectedRoutes from './Components/ProtectedRoutes/ProtectedRoutes';
 import JustFirst from './Layout/JustFirst';
+import Edite_Control from './Components/Admin Facuilty/Manage Control/Edite Control/Edite_Control';
 
 
 const routers = createBrowserRouter([
@@ -46,6 +47,7 @@ const routers = createBrowserRouter([
         path: 'Admin_Facuilty', element: <Admin_Facuilty />, children: [
           { index: true, element: <InformationControl /> },
           { path: 'CreateControl', element: <ControlManagement /> },
+          { path:'Edite_Control', element: <Edite_Control />},
           {
             path: 'control', element: <DataControl />
           },
@@ -68,6 +70,7 @@ const routers = createBrowserRouter([
       { path: 'Staff', element: <Head_Control />,children:[
         { index:true, element: <HomeOfHead /> },
         { path:'control', element: <ContentOfControl />},
+        
       ] },
       {
         path: 'Member_Facuilty', element: <Member_Facuilty />, children: [

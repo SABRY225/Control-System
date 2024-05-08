@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     id:'',
-    Fid:''
+    Fid:'',
+    IdControl:' ',
+    IdControlRecord:' ',
 };
 
 
@@ -17,8 +19,14 @@ const profileSlice = createSlice({
         setFid: (state, { payload }) => {
             state.Fid = payload;
         },
+        setIdControl: (state, { payload }) => {
+            state.IdControl = payload;
+        },
+        setIdControlRecord: (state, { payload }) => {
+            state.IdControlRecord = payload;
+        },
     }
 });
 
-export const {setId ,setFid} = profileSlice.actions;
+export const {setId ,setFid,setIdControl,setIdControlRecord} = profileSlice.actions;
 export default profileSlice.reducer;

@@ -10,19 +10,17 @@ export default function CreationControl() {
     const dispatch = useDispatch();
     const fId = useSelector((state) => state.Profile.Fid);
     const tok = useSelector((state) => state.auth.token);
-    console.log(tok);
-    console.log(fId);
+    
+    // console.log(tok);
+    // console.log(fId);
     // start values
     const [name, setName] = useState("")
-    const [faculity_Phase, setFaculity_Phase] = useState("")
-    const [faculity_Node, setFaculity_Node] = useState("")
-    const [start_Date, setStart_Date] = useState("")
-    const [end_Date, SetEnd_Date] = useState("")
-    const [acaD_YEAR, setAcaD_YEAR] = useState("")
-    const [faculity_Semester, setFaculity_Semester] = useState("")
-    // const [controlManagerID, SetControlManagerID] = useState("")
-    // const [controlSubjectsIDs, SetControlSubjectsIDs] = useState([])
-    // const [contorlUsersIDs, SetContorlUsersIDs] = useState([])
+    const [faculity_Phase, setFaculity_Phase] = useState("");
+    const [faculity_Node, setFaculity_Node] = useState("");
+    const [start_Date, setStart_Date] = useState("");
+    const [end_Date, SetEnd_Date] = useState("");
+    const [acaD_YEAR, setAcaD_YEAR] = useState("");
+    const [faculity_Semester, setFaculity_Semester] = useState("");
     // End Values
     // Initialize state variable 'data' as an empty array
     const [data, setData] = useState([]);
@@ -46,7 +44,7 @@ export default function CreationControl() {
             console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
         }
     };
-    console.log(fId);
+    // console.log(fId);
     // Function to fetch staff data
     const getStaff = async () => {
         try {
@@ -70,13 +68,13 @@ export default function CreationControl() {
     useEffect(() => {
         getSubject();
         getStaff();
-    }, []);
+    },[]);
 
     // Store subjects data in 'subjects' variable
     const subjects = data;
     const chairpers = dataStaff.data;
-    console.log(data);
-    console.log(chairpers);
+    // console.log(data);
+    // console.log(chairpers);
 
     // controlManagerID
     const [selectedChairperson, setSelectedChairperson] = useState('');
@@ -95,8 +93,10 @@ export default function CreationControl() {
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
 
-    const handleAddSubject = () => {
-        if (selectedSubject && !selectedSubjects.includes(selectedSubject)) {
+    const handleAddSubject = () => 
+        {
+
+            if (selectedSubject && !selectedSubjectsIDs.includes(selectedSubject)) {
             const selectedSubjectObject = subjects.find(chairperson => chairperson.id === selectedSubject);
 
             if (selectedSubjectObject) {
@@ -127,7 +127,7 @@ export default function CreationControl() {
     };
 
     const handleAddChairperson = () => {
-        if (selectedChairperson && !selectedChairpersons.includes(selectedChairperson) && selectedChairpersons< 2) {
+        if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons< 2) {
             const selectedChairpersonObject = chairpers.find(chairperson => chairperson.id === selectedChairperson);
 
             if (selectedChairpersonObject) {
@@ -142,7 +142,7 @@ export default function CreationControl() {
     };
 
     const handleAddCommitteeMember = () => {
-        if (selectedCommitteeMember && !selectedCommitteeMembers.includes(selectedCommitteeMember)) {
+        if (selectedCommitteeMember && !selectedCommitteeMembersId.includes(selectedCommitteeMember)) {
             const selectedCommitteeMembersObject = chairpers.find(chairperson => chairperson.id === selectedCommitteeMember);
             if (selectedCommitteeMembersObject) {
                 setSelectedCommitteeMembers([...selectedCommitteeMembers, selectedCommitteeMembersObject.name]);
@@ -194,17 +194,17 @@ export default function CreationControl() {
             setSelectedMajor('');
         }
     };
-    console.log(selectedChairpersons);
-    console.log(personsIDs);
-    console.log(selectedCommitteeMembers);
-    console.log(selectedCommitteeMembersId);
-    console.log(selectedSubjects);
-    console.log(selectedSubjectsIDs);
-    console.log(selectedChairperson);
+    // console.log(selectedChairpersons);
+    // console.log(personsIDs);
+    // console.log(selectedCommitteeMembers);
+    // console.log(selectedCommitteeMembersId);
+    // console.log(selectedSubjects);
+    // console.log(selectedSubjectsIDs);
+    // console.log(selectedChairperson);
     //
     let controlManagerID =personsIDs[0];
-    let controlSubjectsIDs =selectedSubjectsIDs;
-    let contorlUsersIDs=selectedCommitteeMembersId;
+    let SubjectsIds =selectedSubjectsIDs;
+    let UsersIds=selectedCommitteeMembersId;
 
     ///
     
@@ -214,7 +214,7 @@ export default function CreationControl() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const formData ={name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,controlSubjectsIDs,contorlUsersIDs};
+            const formData ={name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,SubjectsIds,UsersIds};
             const jsonData = JSON.stringify(formData);
 
             console.log(jsonData);
@@ -535,6 +535,5 @@ export default function CreationControl() {
                 </div>
             </div>
         </form>
-
     )
 }

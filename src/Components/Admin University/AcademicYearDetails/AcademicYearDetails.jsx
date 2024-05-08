@@ -116,7 +116,7 @@ const AcademicYearDetails = () => {
         <div className="progress-circle-container">
           {renderProgressCircles()}
           <div className="progress-percentage">
-            <span>{calculateProgressPercentage()}%</span>
+            {/* <span>{calculateProgressPercentage()}%</span> */}
           </div>
         </div>
       </div>
