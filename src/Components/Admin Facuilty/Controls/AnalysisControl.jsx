@@ -15,6 +15,8 @@ export default function AnalysisControl() {
   const HeadControl = control.user.name;
   const [controlSubjects, setControlsSubject] = useState([]);
   const [Notes, setNotes] = useState([]);
+  const [countIsDone, setCountIsDone] = useState(0);
+
   const getControlSubject = useCallback(() => {
     const getControlSubject = async () => {
       try {
@@ -27,6 +29,12 @@ export default function AnalysisControl() {
             },
           }
         );
+        let cnt = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].isDone) cnt++;
+        }
+        // console.log(cnt,(cnt / data.length) * 100);
+        setCountIsDone((cnt / data.length) * 100);
         setControlsSubject(data);
       } catch (error) {
         console.log(error.message);
@@ -34,7 +42,7 @@ export default function AnalysisControl() {
     };
     getControlSubject();
   }, []);
-    
+
   const getNote = useCallback(() => {
     const getNote = async () => {
       try {
@@ -59,43 +67,43 @@ export default function AnalysisControl() {
   useEffect(() => {
     getControlSubject();
     getNote();
-  }, [getControlSubject,getNote]);
+  }, [getControlSubject, getNote]);
 
-//   const onSendNote = async (event) => {
-//     event.preventDefault();
+  const onSendNote = async (event) => {
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const formData = Object.fromEntries(fd.entries());
+    console.log(formData);
+    const jsonNote = JSON.stringify(formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:5120/controlnotes?Cid=" + control.control.id,
+        jsonNote,
+        {
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      event.target.reset();
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-//     const fd = new FormData(event.target);
-//     const formData = Object.fromEntries(fd.entries());
-//     console.log(formData);
-//       const jsonNote = JSON.stringify(formData);
-//     try {
-//       const response = await axios.post(
-//         "http://localhost:5120/controlnotes?Cid=" + control.control.id,
-//         jsonNote,
-//         {
-//           headers: {
-//             Authorization: "Bearer " + tok,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       console.log(response.data);
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
-
-  //   const data = {
-  //     labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
-  //     datasets: [
-  //       {
-  //         lable: "Poll",
-  //         data: [60, 40],
-  //         backgroundColor: ["rgba(68, 170, 68, 1)", "red"],
-  //         borderColor: ["black", "red"],
-  //       },
-  //     ],
-  //     };
+  const data = {
+    labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
+    datasets: [
+      {
+        lable: "Poll",
+        data: [countIsDone, 100 - countIsDone],
+        backgroundColor: ["rgba(68, 170, 68, 1)", "red"],
+        borderColor: ["black", "red"],
+      },
+    ],
+  };
   //   console.log(controlSubjects);
   const options = {};
   const isAccepted = true;
@@ -121,17 +129,21 @@ export default function AnalysisControl() {
           <div className="container">
             <div className="row justify-content-center Table-data m-0">
               <div className="col-md-4 text-center ">
-                {/* <Doughnut data={data} options={options}></Doughnut> */}
+                <Doughnut data={data} options={options}></Doughnut>
               </div>
               <div className="col-md-8 rtl ">
                 {controlSubjects.map((subject) => (
                   <div key={subject.id} className="subject fs-5">
                     <span>{subject.name}</span>
-                    <FontAwesomeIcon
-                      className="mx-3 fw-bold"
-                      icon={faCircleCheck}
-                      style={{ color: subject.isDone ? "#44AA44" : "#757575" }}
-                    />
+                    {controlSubjects.isDone > 0 && (
+                      <FontAwesomeIcon
+                        className="mx-3 fw-bold"
+                        icon={faCircleCheck}
+                        style={{
+                          color: "#44AA44" ,
+                        }}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -140,17 +152,17 @@ export default function AnalysisControl() {
         </div>
       </div>
       {/*  Notes Control */}
-      {/* Send Nots */}
+        {/* Send Nots */}
       <div className="continer">
         <div className="row justify-content-center m-1 ">
           <div className="col-10 border border-info p-3 rounded">
-            <form >
+            <form onSubmit={onSendNote}>
               <textarea
                 placeholder="....ما هي ملاحظاتك"
                 rows="5"
                 cols="65"
                 className="col-12 TextAreaFiled text-end"
-                name="note"
+                name="description"
               ></textarea>
               <button className="btnSendNotes">Send</button>
             </form>
@@ -166,12 +178,20 @@ export default function AnalysisControl() {
         </div>
         <div className="row justify-content-center">
           {Notes.map((note) => {
+            let dateObj = new Date(note.writeDate);
+            // Extract year, month, and day from the date object
+            let year = dateObj.getFullYear();
+            let month = dateObj.getMonth() + 1; // Months are zero-indexed, so add 1
+            let day = dateObj.getDate();
+
             return (
               <div class="col-12 box_Notes  m-3">
                 <div className="boxNotes_Title">{note.description}</div>
                 <div className="row justify-content-center">
                   <div className="col-md-6 nameOfMemberNotes">
-                    <div>{note.writeDate}</div>
+                    <div>
+                      {year}-{month}-{day}
+                    </div>
                   </div>
                   <div className="col-md-6  nameOfMemberNotes rtl">
                     <div>د/ {note.writeBy.name}</div>
