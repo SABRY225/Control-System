@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default function ControlMembers() {
+ const ControlMembers=(Props)=> {
+  const [Head,setHead]=useState([]);
+  const [Member,setMember]=useState([]);
+  for (const key in Props.dataMember) {
+    if(console.log(Props.dataMember[key].jobType==="Head")){
+      setHead(Props.dataMember[key].user.name);
+    }else{
+      setMember(Props.dataMember[key].user.name);
+    }
+  }
+  console.log(Head);
+  console.log(Member);
   return (
     <>
       <div className='ControlMembers'>
@@ -46,3 +57,4 @@ export default function ControlMembers() {
   )
 }
 
+export default ControlMembers

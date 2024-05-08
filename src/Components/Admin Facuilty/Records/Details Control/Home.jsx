@@ -1,43 +1,107 @@
-import React, { useEffect, useState } from 'react'
-import { ControlMaterials, ControlMembers, DetailsOfControl, InformationControl, Notes, Tasks,DataControl  } from '../../index' 
+import React, { useEffect, useState } from 'react';
+import { ControlMaterials, ControlMembers, DetailsOfControl, Notes, Tasks } from '../../index';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 export default function HomeControlRecodes() {
   const tok = useSelector((state) => state.auth.token);
   const IdControl = useSelector((state) => state.Profile.IdControlRecord);
-  // State to store the fetched data
-  const [dataControl, setDataControl] = useState('');
+  console.log(IdControl);
+  const [dataControl, setDataControl] = useState({});
+  const [dataSubject, setDataSubject] = useState([]);
+  const [dataMember, setDataMember] = useState([]);
+  const [dataNotes, setDataNotes] = useState([]);
+  const [dataTasks, setDataTasks] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch data from the API using axios
-        const response = await axios.get(`http://localhost:5120/Controls/detail/${IdControl}`,
-        {
-            headers: {
-                Authorization: "Bearer " + tok, // Authorization token
-                "Content-Type": "application/json", // Content type
-            },
+        const response = await axios.get(`http://localhost:5120/Controls/detail/${IdControl}`, {
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
         });
-        // Set the fetched data
         setDataControl(response.data);
-
       } catch (error) {
         console.log(error);
-      } 
+      }
     };
 
-    // Call the fetchData function
+    const fetchDataSubject = async () => {
+      try {
+        const response = await axios.get('http://localhost:5120/Subject/subjects-of-control', {
+          params: { Controld: IdControl },
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
+        });
+        setDataSubject(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchDataMemeber = async () => {
+      try {
+        const response = await axios.get('http://localhost:5120/Users/user-for-control', {
+          params: { Controld: IdControl },
+          headers: {
+            Authorization: "Bearer " + tok,
+          },
+        });
+        setDataMember(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchDataNotes = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5120/ControlNotes/control/${IdControl}`, {
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
+        });
+        setDataNotes(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const fetchDataTasks = async () => {
+      try {
+        const response = await axios.get('http://localhost:5120/ControlTask/get-tasks-by-control-id', {
+          params: { Cid: IdControl },
+          headers: {
+            Authorization: "Bearer " + tok,
+            "Content-Type": "application/json",
+          },
+        });
+        setDataTasks(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchData();
-  },[]);
+    fetchDataSubject();
+    // fetchDataMemeber();
+    fetchDataNotes()
+    fetchDataTasks()
+  }, [IdControl, tok]);
+
+  console.log(dataControl.name);
+  console.log(dataSubject);
+  console.log(dataMember);
+
   return (
     <>
-      <DetailsOfControl dataControl={dataControl}  />
-      <ControlMaterials />
-      <ControlMembers />
-      <Tasks />
-      <Notes /> 
+      <DetailsOfControl dataControl={dataControl} />
+      <ControlMaterials dataSubject={dataSubject} />
+      {/* <ControlMembers dataMember={dataMember} /> */}
+      <Tasks dataTasks={dataTasks} />
+      <Notes dataNotes={dataNotes} />
     </>
-  )
+  );
 }
-

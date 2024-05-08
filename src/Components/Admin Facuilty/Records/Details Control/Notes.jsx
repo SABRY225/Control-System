@@ -1,6 +1,7 @@
 import React from 'react'
-
-export default function Notes() {
+ const Notes=(data)=> {
+  console.log(data.dataNotes);
+  const Notes = data.dataNotes;
   return (
     <>
     <div className="NoteOfControl">
@@ -11,17 +12,19 @@ export default function Notes() {
       </div>
       <div className='row justify-content-center'>
         {/* Start */}
-        <div class="col-md-10 box m-2">
-              <div className='box_Title'>حصد دراجات ماده 1 </div>
+        {Notes.map(item => (
+            <div class="col-md-5 box m-2" key={item.id}>
+              <div className='box_Title'>{item.description}</div>
               <div className="row">
-                <div className="col dataofNote">
-                  <div >3/24/2003</div>
+                <div className="col dataofTask">
+                  <div className="dataOfTask">{item.writeDate}</div>
                 </div>
                 <div className="col memberOfTask">
-                  <div className='nameOfMember'>د/ محمد عبدالرازق</div>
+                  <div className='nameOfMember'>{item.writeBy.name}</div>
                 </div>
               </div>
             </div>
+          ))}
         {/* End */}
 
       </div>
@@ -31,3 +34,5 @@ export default function Notes() {
   )
 }
 
+
+export default Notes

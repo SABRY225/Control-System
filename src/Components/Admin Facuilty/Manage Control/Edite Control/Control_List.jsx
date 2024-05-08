@@ -14,7 +14,7 @@ const ControlList = () => {
   // allControllers
   useEffect(() => {
     getControl();
-  });
+  },[tok]);
 
   const [dataControl, setDataControl] = useState([]);
   const getControl = async () => {

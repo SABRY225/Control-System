@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function Tasks() {
+const Tasks = (data) => {
+  console.log(data.dataTasks);
+  const Tasks = data.dataTasks;
   return (
     <>
       <div className='TaskOfControl'>
@@ -8,35 +10,18 @@ export default function Tasks() {
           <div className='col-12 TaskOfControl-Title'>المهام</div>
         </div>
         {/* <div className='container Task-Groupes' > */}
-          <div className='row justify-content-center'>
-            {/* Start */}
-            <div class="col-md-5 box m-2">
-              <div className='box_Title'>حصد دراجات ماده 1 </div>
-              <div className="row">
-                <div className="col dataofTask">
-                  <div className="dataOfTask">3/24/2003</div>
-                </div>
-                <div className="col memberOfTask">
-                  <div className='nameOfMember'>د/ محمد عبدالرازق</div>
-                  <div className='nameOfMember'>د/ محمد عبدالرازق</div>
-                </div>
-              </div>
+        <div className='row justify-content-center'>
+          {/* Start */}
+          {Tasks.map(item => (
+            <div class="col-md-5 box m-2" key={item.id}>
+              <div className='box_Title'>{item.description}</div>
             </div>
-            <div class="col-md-5 box m-2">
-              <div className='box_Title'>حصد دراجات ماده 1 </div>
-              <div className="row">
-                <div className="col dataofTask">
-                  <div className="dataOfTask">3/24/2003</div>
-                </div>
-                <div className="col memberOfTask">
-                  <div className='nameOfMember'>د/ محمد عبدالرازق</div>
-                  <div className='nameOfMember'>د/ محمد عبدالرازق</div>
-                </div>
-              </div>
-            </div>
-            {/* End */}
-          </div>
+          ))}
+
+
+          {/* End */}
         </div>
+      </div>
       {/* </div> */}
       <div className="container">
         <div className="row">
@@ -47,4 +32,4 @@ export default function Tasks() {
 
   )
 }
-
+export default Tasks
