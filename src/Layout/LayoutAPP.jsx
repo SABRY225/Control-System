@@ -21,7 +21,7 @@ export default function LayoutAPP() {
       <Header />
       <Offline>{notifyOffline()}</Offline>
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

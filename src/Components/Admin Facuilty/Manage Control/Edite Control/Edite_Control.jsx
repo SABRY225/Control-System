@@ -12,7 +12,9 @@ function Edite_Control() {
         getSubject();
         fetchData();
         getStaff();
-    },[]);
+        // getSubjectControl();
+        // getStaffControl();
+    },[fId,CId,token]);
 
     // Handle checkbox toggle for including major
     const handleIncludeMajorChange = (e) => {
@@ -26,7 +28,8 @@ function Edite_Control() {
     //  controlSubjectsIDs
     const [selectedSubject, setSelectedSubject] = useState('');
     const [selectedSubjects, setSelectedSubjects] = useState([]);
-    const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
+    const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);  
+    const [selectedSubjectsRevers, setSelectedSubjectsRevers] = useState([]);
     const [dataSubject,setDataSubject]=useState([])
     // Function to fetch subject data
     const getSubject = async () => {
@@ -45,6 +48,28 @@ function Edite_Control() {
                 console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
             }
         };
+    // const getSubjectControl = async () => {
+    //         try {
+    //             const { data } = await axios.get(
+    //                 'http://localhost:5120/Subject/subjects-of-control', // API endpoint URL
+    //                 {
+    //                     params: { controld :CId },
+    //                     headers: {
+    //                         Authorization: "Bearer " + token, // Authorization token
+    //                         "Content-Type": "application/json", // Content type
+    //                     },
+    //                 }
+    //             );
+    //             setSelectedSubjectsRevers(data); // Set the retrieved data to the state variable 'data'
+    //             // for (const key in selectedSubjectsRevers) {
+    //             //     setSelectedSubjects([...selectedSubjects,selectedSubjectsRevers[key].name]);
+    //             //     setSelectedSubjectsIDs([...selectedSubjectsIDs,selectedSubjectsRevers[key].id])
+    //             // }
+    //         } catch (error) {
+    //             console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
+    //         }
+    //     };
+
     const subjects = dataSubject;
     const handleAddSubject = () => {
         if (selectedSubject && !selectedSubjectsIDs.includes(selectedSubject)) {
@@ -79,6 +104,7 @@ function Edite_Control() {
     // controlManagerID
     const [selectedChairperson, setSelectedChairperson] = useState('');
     const [selectedChairpersons, setSelectedChairpersons] = useState([]);
+    const [selectedChairpersonsRevers, setSelectedChairpersonsRevers] = useState([]);
     const [personsIDs, setPersonsIDs] = useState([]);
     const [dataStaff, setDataStaff] = useState([]);
     const getStaff = async () => {
@@ -98,6 +124,24 @@ function Edite_Control() {
             console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
         }
     };
+    // const getStaffControl = async () => {
+    //     try {
+    //         const dataStaff = await axios.get(
+    //             'http://localhost:5120/Users/user-for-control', // API endpoint URL
+    //             {
+    //                 params: { controlId :CId }, // Parameters passed to the API endpoint
+    //                 headers: {
+    //                     Authorization: "Bearer " + token, // Authorization token
+    //                     "Content-Type": "application/json", // Content type
+    //                 },
+    //             }
+    //         );
+    //         setSelectedChairpersonsRevers(dataStaff); 
+    //         console.log(selectedChairpersonsRevers);
+    //     } catch (error) {
+    //         console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
+    //     }
+    // };
     const chairpers = dataStaff.data;
     const handleAddChairperson = () => {
         if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 2) {
@@ -212,7 +256,7 @@ function Edite_Control() {
             }
         };
 
-    console.log(dataControl.name);
+    console.log(dataControl);
     const [name, setName] = useState('');
     const [faculity_Phase, setFaculity_Phase] = useState('')
     const [faculity_Node, setFaculity_Node] = useState('');
@@ -234,7 +278,7 @@ function Edite_Control() {
                             className="form-control"
                             id="name"
                             name="name"
-                            value={name}
+                            value={dataControl.name}
                             onChange={(e) => setName(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -249,7 +293,7 @@ function Edite_Control() {
                             className="form-control"
                             id="acaD_YEAR"
                             name="acaD_YEAR"
-                            value={acaD_YEAR}
+                            value={dataControl.acaD_YEAR}
                             onChange={(e) => setAcaD_YEAR(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -263,7 +307,7 @@ function Edite_Control() {
                             className="form-select"
                             id="faculity_Semester"
                             name="faculity_Semester"
-                            value={faculity_Semester}
+                            value={dataControl.faculity_Semester}
                             onChange={(e) => setFaculity_Semester(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -282,7 +326,7 @@ function Edite_Control() {
                             className="form-select"
                             id="faculity_Phase"
                             name="faculity_Phase"
-                            value={faculity_Phase}
+                            value={dataControl.faculity_Phase}
                             onChange={(e) => setFaculity_Phase(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -323,7 +367,7 @@ function Edite_Control() {
                                 className="form-control"
                                 id="faculity_Node"
                                 name="faculity_Node"
-                                value={faculity_Node}
+                                value={dataControl.faculity_Node}
                                 onChange={(e) => setFaculity_Node(e.target.value)}
                                 style={{
                                     backgroundColor: '#E1E1E1',
@@ -339,7 +383,7 @@ function Edite_Control() {
                             className="form-control"
                             id="start_Date"
                             name="start_Date"
-                            value={start_Date}
+                            value={dataControl.start_Date}
                             onChange={(e) => setStart_Date(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -353,7 +397,7 @@ function Edite_Control() {
                             className="form-control"
                             id="end_Date"
                             name="end_Date"
-                            value={end_Date}
+                            value={dataControl.end_Date}
                             onChange={(e) => SetEnd_Date(e.target.value)}
                             style={{
                                 backgroundColor: '#E1E1E1',
@@ -506,8 +550,8 @@ function Edite_Control() {
 
                 </div>
                 <div className=' d-flex justify-content-center align-items-center w-100 my-5'>
-                    <button className="btn btn-outline-success " style={{ padding: "0.5rem 4rem" }}>
-                        ارسال
+                    <button className="btn btn-outline-primary " style={{ padding: "0.5rem 4rem" }}>
+                        تعديل
                     </button>
                     </div>
             </div>

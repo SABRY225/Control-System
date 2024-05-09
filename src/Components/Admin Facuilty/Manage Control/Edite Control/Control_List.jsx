@@ -7,6 +7,7 @@ import { setIdControl } from '../../../../Redux/ProfileSlice';
 import { useNavigate } from 'react-router-dom';
 
 const ControlList = () => {
+  const fId = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,13 +15,13 @@ const ControlList = () => {
   // allControllers
   useEffect(() => {
     getControl();
-  },[tok]);
+  },[]);
 
   const [dataControl, setDataControl] = useState([]);
   const getControl = async () => {
     try {
       const dataOFControl = await axios.get(
-        'http://localhost:5120/Controls/allControllers', // API endpoint URL
+        'http://localhost:5120/Controls/'+fId, // API endpoint URL
         {
           headers: {
             Authorization: "Bearer " + tok, // Authorization token

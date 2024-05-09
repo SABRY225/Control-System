@@ -231,10 +231,10 @@ export default function CreationControl() {
             );
             // Handle successful login
             console.log("Control successful:", response.data);
-            alert(response.data)
+            alert("تم انشاء الكنترول بنجاح")
         
         } catch (error) {
-            console.log("Control error:", error);
+            alert("يرجي اعادة المحاولة ")
         }
     };
 
@@ -273,6 +273,7 @@ export default function CreationControl() {
                                 backgroundColor: '#E1E1E1',
                             }}
                             placeholder='ex: 2023/2024'
+                            required
                         />
                     </div>
                     <div className="form-group">
@@ -287,6 +288,7 @@ export default function CreationControl() {
                                 backgroundColor: '#E1E1E1',
                                 color: 'black',
                             }}
+                            required
                         >
                             <option value="">اختر الفصل الدراسي</option>
                             <option value="الفصل الأول">الفصل الدراسي الأول</option>
@@ -306,6 +308,7 @@ export default function CreationControl() {
                                 backgroundColor: '#E1E1E1',
                                 color: 'black',
                             }}
+                            required
                         >
                             <option value="">اختر السنة الدراسية</option>
                             <option value="السنة الدراسية الأولى">السنة الدراسية الأولى</option>
@@ -328,6 +331,7 @@ export default function CreationControl() {
                                 backgroundColor: '#43BBFF',
                                 color: 'black',
                             }}
+                            required
                         />
                         <label className="form-check-label" htmlFor="includeMajorCheckbox">
                             تحديد التخصص / الشعبة
@@ -348,6 +352,7 @@ export default function CreationControl() {
                                     backgroundColor: '#E1E1E1',
                                 }}
                                 placeholder='الشعبة /التخصص'
+                                required
                             />
                         </div>
                     )}
@@ -364,6 +369,7 @@ export default function CreationControl() {
                             style={{
                                 backgroundColor: '#E1E1E1',
                             }}
+                            required
                         />
                     </div>
                     <div className="form-group">
@@ -378,6 +384,7 @@ export default function CreationControl() {
                             style={{
                                 backgroundColor: '#E1E1E1',
                             }}
+                            required
                         />
                     </div>
                 </div>
@@ -391,6 +398,7 @@ export default function CreationControl() {
                             style={{ backgroundColor: '#CFEEFF', color: 'black', width: '35%', }}
                             value={selectedSubject}
                             onChange={(e) => setSelectedSubject(e.target.value)}
+                            required
                         >
                             <option value="">
                                 المواد <FontAwesomeIcon icon={faChevronDown} style={{ color: 'gray' }} />
@@ -439,6 +447,7 @@ export default function CreationControl() {
                             style={{ backgroundColor: '#CFEEFF', color: 'black', width: '55%', }}
                             value={selectedChairperson}
                             onChange={(e) => setSelectedChairperson(e.target.value)}
+                            required
                         >
                             <option value="">اختر رئيس لجنة الكنترول</option>
                             {/* Populate options dynamically from chairpersons data */}

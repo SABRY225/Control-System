@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "./FromRegisterStyle.css";
 
+
 export default function Materiales() {
   const tok = useSelector((state) => state.auth.token);
   const [facultyNode, setFacultyNode] = useState([]);
@@ -71,9 +72,13 @@ export default function Materiales() {
         }
       );
       event.target.reset();
-      console.log("Login successful:", response.data);
+      // console.log("Login successful:", response.data);
+      alert("تم تسجيل المادة بنجاح")
     } catch (error) {
-      console.log("Login error:", error);
+      // console.log("Login error:", error);
+      alert("يرجي أعادة المحاولة")
+
+
     }
   };
   // console.log(facultyNode);
@@ -87,15 +92,15 @@ export default function Materiales() {
           <div className="row">
             <div className="control-row-register col col-lg-6">
               <label htmlFor="name">Name</label>
-              <input id="name" type="text" name="name" />
+              <input id="name" type="text" name="name" required/>
             </div>
             <div className="control-row-register col col-lg-6">
               <label htmlFor="code">Code</label>
-              <input id="code" type="text" name="code" />
+              <input id="code" type="text" name="code" required/>
             </div>
             <div className="control-row-register col col-lg-6">
               <label htmlFor="credit_Hours">Credit Hours</label>
-              <input id="credit_Hours" type="number" name="credit_Hours" />
+              <input id="credit_Hours" type="number" name="credit_Hours" required />
             </div>
             <div className="control-row-register col col-lg-6">
               <label htmlFor="faculty_node">Faculty Node</label>
@@ -103,6 +108,7 @@ export default function Materiales() {
                 class="form-select"
                 id="faculty_node"
                 name="faculityNodeID"
+                required
               >
                 {facultyNode.map(fn => {
                   return <option value={fn.code}>{fn.name}</option>

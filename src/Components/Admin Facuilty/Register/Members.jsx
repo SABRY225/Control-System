@@ -28,9 +28,10 @@ export default function Members() {
         }
       );
       event.target.reset();
-      console.log("Login successful:", response.data);
+      alert("تم تسجيل المستخدم بنجاح")
     } catch (error) {
-      console.log("Login error:", error);
+      alert("يرجي اعادة المحاولة ")
+
     }
   };
 
@@ -44,23 +45,23 @@ export default function Members() {
           <div className="row">
             <div className="control-row-register col">
               <label htmlFor="name">Name</label>
-              <input id="name" type="text" name="name" />
+              <input id="name" type="text" name="name" required />
             </div>
             <div className="control-row-register col">
               <label htmlFor="username">name-user</label>
-              <input id="username" type="text" name="userName" />
+              <input id="username" type="text" name="userName" required/>
             </div>
             <div className="control-row-register col">
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" name="email" />
+              <input id="email" type="email" name="email" required />
             </div>
             <div className="control-row-register col">
               <label htmlFor="password">Password</label>
-              <input id="password" type="password" name="password" />
+              <input id="password" type="password" name="password" required/>
             </div>
             <div className="control-row-register col">
               <label htmlFor="cp">Confirm Password</label>
-              <input id="cp" type="password" name="confirmPassword" />
+              <input id="cp" type="password" name="confirmPassword" required />
             </div>
             <div className="control-row-register col">
               <label htmlFor="scientificDegree">Scientific Degree</label>
@@ -68,6 +69,7 @@ export default function Members() {
                 id="scientificDegree"
                 type="text"
                 name="scientificDegree"
+                required
               />
             </div>
           </div>
