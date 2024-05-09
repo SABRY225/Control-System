@@ -34,7 +34,7 @@ export default function SearchOfControl() {
             console.error('Error fetching data:', error);
         }
     };
-    console.log(originalData);
+    // console.log(originalData);
     const buttonStyles = {
         width: '15vw',
         height: '40px',
@@ -53,62 +53,78 @@ export default function SearchOfControl() {
 
     }
     return (
-        <>
-            <div className='Search container'>
-                <div className='row TextTitle'>
-                    <div className="col-md-12"> البحث عن لجنة كنترول</div>
-                </div>
-                <div className='SearchBar row text-center '>
-                    <div className="col-md">
-                        <select name="Acad_Year" id="Input_Select"
-                            style={{
-                                backgroundColor: '#E1E1E1',
-                                color: 'black',
-                                width: '40vw',
-                            }}
-                            value={acad_Year}
-                            onChange={(e) => setAcad_Year(e.target.value)}
-                        >
-                            <option defulat value=" ">العام الأكاديمي</option>
-                            <option value="2023/2024">2023/2024</option>
-                            <option value="2024/2025">2024/2025</option>
-                            <option value="2025/2026">2025/2026</option>
-                            <option value="2026/2027">2026/2027</option>
-                            <option value="2027/2028">2027/2028</option>
-                            <option value="2028/2029">2028/2029</option>
-                            <option value="2029/2030">2029/2030</option>
-                            <option value="2031/2032">2031/2032</option>
-                        </select>
-                    </div>
-                    <div className="col-md">
-                        <button type="submit" className='mt-3' onClick={handleSearch}
-                            style={buttonStyles}>البحث</button>
-                    </div>
-                </div>
-                <div className='ResultOfSearch m-5'>
-                    {originalData.length == 0 ? (
-                        <div className="col-md-12 my-3">
-                            <p className="text-center fs-2 fw-bold">لا يوجد لجان كنترول   </p>
-                        </div>
-                    ) : (
-                        <div className="row justify-content-center text-center years-of-controls">
-                            {/* Displaying Controls */}
-                            {originalData.map((control) => (
-                                <div key={control.id} className="col-md-5" onClick={()=>headelPageRecord(control.id)}>
-                                    <div
-                                        className="d-flex flex-column justify-content-center  rounded-2 mt-4 p-3 border border-3 control-card"
-                                        // 
-                                    >
-                                        <div className="d-flex ">
-                                            <h5 className='col-8'>{control.name}</h5>
-                                            <h5 className='col-4'>{control.faculity_Semester}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>)}
-                </div>
+      <>
+        <div className="Search container">
+          <div className="row TextTitle">
+            <div className="col-md-12"> البحث عن لجنة كنترول</div>
+          </div>
+          <div className="SearchBar row text-center ">
+            <div className="col-md">
+              <select
+                name="Acad_Year"
+                id="Input_Select"
+                style={{
+                  backgroundColor: "#E1E1E1",
+                  color: "black",
+                  width: "40vw",
+                }}
+                value={acad_Year}
+                onChange={(e) => setAcad_Year(e.target.value)}
+              >
+                <option defulat value=" ">
+                  العام الأكاديمي
+                </option>
+                <option value="2024/2025">2024/2025</option>
+                <option value="2023/2024">2023/2024</option>
+                <option value="2022/2023">2022/2023</option>
+                <option value="2021/2022">2021/2022</option>
+                <option value="2020/2021">2020/2021</option>
+                <option value="2019/2020">2019/2020</option>
+                <option value="2018/2019">2018/2019</option>
+                <option value="2017/2018">2017/2018</option>
+                <option value="2016/2017">2016/2017</option>
+              </select>
             </div>
-        </>
-    )
+            <div className="col-md">
+              <button
+                type="submit"
+                className="mt-3"
+                onClick={handleSearch}
+                style={buttonStyles}
+              >
+                البحث
+              </button>
+            </div>
+          </div>
+          <div className="ResultOfSearch m-5">
+            {originalData.length == 0 ? (
+              <div className="col-md-12 my-3">
+                <p className="text-center fs-2 fw-bold">لا يوجد لجان كنترول </p>
+              </div>
+            ) : (
+              <div className="row justify-content-center text-center years-of-controls">
+                {/* Displaying Controls */}
+                {originalData.map((control) => (
+                  <div
+                    key={control.id}
+                    className="col-md-5"
+                    onClick={() => headelPageRecord(control.id)}
+                  >
+                    <div
+                      className="d-flex flex-column justify-content-center  rounded-2 mt-4 p-3 border border-3 control-card"
+                      //
+                    >
+                      <div className="d-flex ">
+                        <h5 className="col-8">{control.name}</h5>
+                        <h5 className="col-4">{control.faculity_Semester}</h5>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    );
 }

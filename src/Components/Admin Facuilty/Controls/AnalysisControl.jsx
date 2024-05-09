@@ -87,6 +87,7 @@ export default function AnalysisControl() {
         }
       );
       event.target.reset();
+      alert("Note is sended successfully");
       console.log(response.data);
     } catch (error) {
       console.log(error.message);

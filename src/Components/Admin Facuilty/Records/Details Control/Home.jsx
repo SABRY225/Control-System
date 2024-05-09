@@ -19,7 +19,6 @@ export default function HomeControlRecodes() {
         const response = await axios.get(`http://localhost:5120/Controls/detail/${IdControl}`, {
           headers: {
             Authorization: "Bearer " + tok,
-            "Content-Type": "application/json",
           },
         });
         setDataControl(response.data);
@@ -45,12 +44,15 @@ export default function HomeControlRecodes() {
 
     const fetchDataMemeber = async () => {
       try {
-        const response = await axios.get('http://localhost:5120/Users/user-for-control', {
-          params: { Controld: IdControl },
-          headers: {
-            Authorization: "Bearer " + tok,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:5120/Users/user-for-control",
+          {
+            params: { controlId: IdControl },
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
         setDataMember(response.data);
       } catch (error) {
         console.log(error);
@@ -62,7 +64,6 @@ export default function HomeControlRecodes() {
         const response = await axios.get(`http://localhost:5120/ControlNotes/control/${IdControl}`, {
           headers: {
             Authorization: "Bearer " + tok,
-            "Content-Type": "application/json",
           },
         });
         setDataNotes(response.data);
@@ -86,20 +87,21 @@ export default function HomeControlRecodes() {
     };
     fetchData();
     fetchDataSubject();
-    // fetchDataMemeber();
-    fetchDataNotes()
-    fetchDataTasks()
+    fetchDataMemeber();
+    fetchDataNotes();
+    fetchDataTasks();
   }, [IdControl, tok]);
 
   console.log(dataControl.name);
   console.log(dataSubject);
   console.log(dataMember);
-
+  console.log(dataTasks);
+  console.log(dataNotes);
   return (
     <>
       <DetailsOfControl dataControl={dataControl} />
       <ControlMaterials dataSubject={dataSubject} />
-      {/* <ControlMembers dataMember={dataMember} /> */}
+      <ControlMembers dataMember={dataMember} />
       <Tasks dataTasks={dataTasks} />
       <Notes dataNotes={dataNotes} />
     </>
