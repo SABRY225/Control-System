@@ -12,36 +12,34 @@ export default function DetaliesWork_schedule() {
   const tok = useSelector((state) => state.auth.token);
 
   const HeadControl = control.user.name;
-  const isAccepted = true;
 
   const getControlMember = useCallback(() => {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/users/user-for-control?controlId=" +
-            control.control.id,
+          process.env.REACT_APP_USEROFCONTROL ,
           {
+            params:{controlId:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
         setControlsMember(data);
-        //   console.log(data);
       } catch (error) {
         console.log(error.message);
       }
     };
     getControlMember();
-  }, []);
+  }, [control.control.id,tok]);
 
   const getControlSubject = useCallback(() => {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Subject/subjects-of-control?controld=" +
-            control.control.id,
+          process.env.REACT_APP_SUBJECTOFCONTROL,
           {
+            params:{controld:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -60,8 +58,6 @@ export default function DetaliesWork_schedule() {
     getControlSubject();
   }, [getControlMember]);
 
-  
-    
   const onSendNote = async (event) => {
     event.preventDefault();
     const fd = new FormData(event.target);
@@ -70,9 +66,10 @@ export default function DetaliesWork_schedule() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        "http://localhost:5120/controlnotes?Cid=" + control.control.id,
+        process.env.REACT_APP_CONTROLNOTES ,
         jsonNote,
         {
+          params:{Cid:control.control.id},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",

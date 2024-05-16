@@ -10,8 +10,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 
-import EditeTask from "./EditeTask";
-import { Link } from "react-router-dom";
 import axios from "axios";
 export default function TaskOfControl() {
   const control = useSelector((state) => state.details.control);
@@ -402,7 +400,7 @@ export default function TaskOfControl() {
                   {year}-{month}-{day}
                 </div>
                 <div className="col-3">
-                  {task.isDone ? "انتهت" : "لم انتهت"}
+                  {task.isDone ? "انتهت" : "لم تنتهي"}
                 </div>
               </div>
               <div className="col-12 task-title text-center p-2">

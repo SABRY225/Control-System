@@ -1,36 +1,39 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setDetails } from "../../Redux/detailsSlice.jsx";
 
 export default function HomeOfHead() {
   const [controls, setControls] = useState([]);
-  const [me, setMe] = useState();
+  const Uid=useSelector((state) => state.Profile.id)
   const Fid = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const getControls = useCallback(() => {
+    console.log(Uid);
     const getControls = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Controls/" + Fid,
+          process.env.REACT_APP_CONTROLSOFUSER+Uid ,
           {
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
-        for (const control of data) {
-          // console.log(control);
+        console.log(data);
+        for (const DetilesControl of data) {
+          const control=DetilesControl.control
+          console.log(control);
           try {
             const {
               data: { user },
             } = await axios.get(
-              "http://localhost:5120/users/headConrol/" + control.id,
+              process.env.REACT_APP_HEADCONTROL+control.id,
               {
                 headers: {
                   Authorization: "Bearer " + tok,
@@ -47,22 +50,7 @@ export default function HomeOfHead() {
         console.log(error.message);
       }
     };
-    const getMe = async () => {
-      try {
-        const { data } = await axios.get(
-          "http://localhost:5120/users/current-user",
-          {
-            headers: {
-              Authorization: "Bearer " + tok,
-            },
-          }
-        );
-        setMe(data.id);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getMe();
+
     getControls();
   }, [Fid]);
 
@@ -73,7 +61,7 @@ export default function HomeOfHead() {
   const handleSendControl = (control) => {
     // console.log(control);
     dispatch(setDetails({ control: control }));
-    if (control.user.id == me) navigate("./control");
+    if (control.user.id == Uid) navigate("./control");
     else navigate("controlMember");
   };
   return (

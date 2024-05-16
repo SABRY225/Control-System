@@ -13,7 +13,6 @@ function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (userName.trim() === "" || password.trim() === "") {
@@ -23,7 +22,7 @@ function Login() {
         try {
             // Make a POST request to the authentication endpoint
             const response = await axios.post(
-                'http://localhost:5120/Account/login',
+                process.env.REACT_APP_LOGIN,
                 { userName, password },{
                     headers: {
                         "Content-Type": "application/json",

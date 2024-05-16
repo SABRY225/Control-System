@@ -16,7 +16,7 @@ export default function HomeControlRecodes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5120/Controls/detail/${IdControl}`, {
+        const response = await axios.get(process.env.REACT_APP_DETAILCONTROLS+IdControl, {
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -29,7 +29,7 @@ export default function HomeControlRecodes() {
 
     const fetchDataSubject = async () => {
       try {
-        const response = await axios.get('http://localhost:5120/Subject/subjects-of-control', {
+        const response = await axios.get(process.env.REACT_APP_SUBJECTOFCONTROL, {
           params: { Controld: IdControl },
           headers: {
             Authorization: "Bearer " + tok,
@@ -45,7 +45,7 @@ export default function HomeControlRecodes() {
     const fetchDataMemeber = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5120/Users/user-for-control",
+          process.env.REACT_APP_USEROFCONTROL,
           {
             params: { controlId: IdControl },
             headers: {
@@ -61,7 +61,7 @@ export default function HomeControlRecodes() {
 
     const fetchDataNotes = async () => {
       try {
-        const response = await axios.get(`http://localhost:5120/ControlNotes/control/${IdControl}`, {
+        const response = await axios.get(process.env.REACT_APP_NOTESOFCONTROL+IdControl, {
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -73,7 +73,7 @@ export default function HomeControlRecodes() {
     };
     const fetchDataTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:5120/ControlTask/get-tasks-by-control-id', {
+        const response = await axios.get(process.env.REACT_APP_TASKSOFCONTROL, {
           params: { Cid: IdControl },
           headers: {
             Authorization: "Bearer " + tok,
@@ -92,11 +92,6 @@ export default function HomeControlRecodes() {
     fetchDataTasks();
   }, [IdControl, tok]);
 
-  console.log(dataControl.name);
-  console.log(dataSubject);
-  console.log(dataMember);
-  console.log(dataTasks);
-  console.log(dataNotes);
   return (
     <>
       <DetailsOfControl dataControl={dataControl} />

@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setDetails } from "../../../Redux/detailsSlice";
-import { academicYears } from "./academicYears";
 import "./DetailsOfControl.css";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +8,7 @@ const DetailsOfControl = ({ faculty }) => {
   const { controls } = faculty;
 
   const semester = `${new Date().getFullYear()}/${
-    new Date().getFullYear() + 1
+    new Date().getFullYear() - 1
   }`;
   // Mocked semester value (can be fetched from admin settings or API)
   const dispatch = useDispatch();
@@ -27,7 +26,7 @@ const DetailsOfControl = ({ faculty }) => {
       <div className="page">
         <div className="row justify-content-center text-center years-of-controls">
           <div className="col-md-12 my-3">
-            <h4>Semester - {semester}</h4>
+            <h4>{semester}</h4>
           </div>
 
           {/* Displaying Academic Years */}
@@ -43,7 +42,7 @@ const DetailsOfControl = ({ faculty }) => {
                   <p>
                     {control.userCreator.name} <br />
                     <span className="fw-bold" style={{ color: "#43BBFF" }}>
-                      رائس الكلية
+                      عميد الكلية
                     </span>
                   </p>
                 </div>

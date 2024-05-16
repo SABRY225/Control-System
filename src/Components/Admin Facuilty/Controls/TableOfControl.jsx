@@ -16,9 +16,9 @@ export default function TableOfControl() {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/users/user-for-control?controlId=" +
-            control.control.id,
+          process.env.REACT_APP_USEROFCONTROL,
           {
+            params:{controlId:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -37,9 +37,9 @@ export default function TableOfControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Subject/subjects-of-control?controld=" +
-            control.control.id,
+          process.env.REACT_APP_SUBJECTOFCONTROL,
           {
+            params:{controld:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -57,9 +57,6 @@ export default function TableOfControl() {
     getControlMember();
     getControlSubject();
   }, [getControlMember]);
-
-  // console.log(controlMembers);
-  // console.log(controlSubjects);
 
   return (
     <div className="container rtl">

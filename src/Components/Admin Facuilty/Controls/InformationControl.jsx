@@ -20,7 +20,7 @@ export default function InformationControl() {
     const getControls = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Controls/" + Fid,
+          process.env.REACT_APP_CONTROLS + Fid,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -35,7 +35,7 @@ export default function InformationControl() {
             const {
               data: { user },
             } = await axios.get(
-              "http://localhost:5120/users/headConrol/" + control.id,
+              process.env.REACT_APP_HEADCONTROL + control.id,
               {
                 headers: {
                   Authorization: "Bearer " + tok,

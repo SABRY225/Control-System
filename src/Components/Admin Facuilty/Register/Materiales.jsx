@@ -62,7 +62,7 @@ export default function Materiales() {
       console.log(jsonData);
 
       const response = await axios.post(
-        "http://localhost:5120/subject/add",
+        process.env.REACT_APP_ADDSUBJECT,
         jsonData, // Pass JSON data here
         {
           headers: {

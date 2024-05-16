@@ -10,9 +10,9 @@ export default function Task_schedule() {
     const getControlTask = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/controlTask/get-tasks-by-control-id?Cid=" +
-            control.control.id,
+          process.env.REACT_APP_TASKSOFCONTROL,
           {
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -34,9 +34,10 @@ export default function Task_schedule() {
   const DoneTask = async ({ id }) => {
     try {
       const { data } = await axios.put(
-        "http://localhost:5120/controlTask/isDone?Tid=" + id,
+        process.env.REACT_APP_TASKSOFCONTROLISDONE,
         {},
         {
+          params:{Tid:id},
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -51,7 +52,6 @@ export default function Task_schedule() {
 
   return (
     <>
-      
       <div className="container">
         <div className="row m-2">
           <div className="Title-Task ">المهام</div>
@@ -71,7 +71,7 @@ export default function Task_schedule() {
                       Done
                     </button>
                   )}
-                  <div>{task.isDone > 0 ? "انتهت" : "لم انتهت"}</div>
+                  <div>{task.isDone > 0 ? "انتهت" : "لم تنتهي"}</div>
                 </div>
                 <div className="col-12 task-title text-center p-2">
                   {task.description}

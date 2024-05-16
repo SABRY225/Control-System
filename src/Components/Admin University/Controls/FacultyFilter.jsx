@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-// import { Faculties } from './Faculties';
 import DetailsOfControl from '../DetailsOfControl/DetailsOfControl'; 
 import { useSelector } from 'react-redux';
 import axios from 'axios';

@@ -148,7 +148,7 @@ const AcademicYearDetails = () => {
       <div className="continer">
         <div className="row justify-content-end m-3 ">
           <div className="col-md-12 text-center ">
-            <div className="Table-title">ملاحظات رئيس الكنترول</div>
+            <div className="Table-title">ملاحظات عميد الكلية</div>
           </div>
         </div>
         <div className="row justify-content-center">

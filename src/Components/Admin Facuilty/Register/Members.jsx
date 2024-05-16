@@ -18,7 +18,7 @@ export default function Members() {
       console.log(jsonData);
 
       const response = await axios.post(
-        "http://localhost:5120/account/register",
+        process.env.REACT_APP_REGISTER,
         jsonData, // Pass JSON data here
         {
           headers: {
