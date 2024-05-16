@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../../StyleHeadofControl.css";
-import Subtract from "../../../../assets/Subtract.png";
-import Trash from "../../../../assets/Trash.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
@@ -9,17 +7,9 @@ import {
   faChevronDown,
   faPaperPlane,
   faTrash,
-  faEdit,
-  faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import { subjects } from "../../../Admin Facuilty/Manage Control/Create Control/subjects";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addControl,
-  addSelectedSubject,
-  removeSelectedSubject,
-  clearSelectedSubjects,
-} from "../../../../Redux/controlSlice";
+
 import EditeTask from "./EditeTask";
 import { Link } from "react-router-dom";
 import axios from "axios";

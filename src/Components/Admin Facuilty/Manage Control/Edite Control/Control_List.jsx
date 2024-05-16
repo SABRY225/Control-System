@@ -50,6 +50,7 @@ const ControlList = () => {
           },
         }
       );
+      getControl();
       // Filter out the deleted control from the dataControl state
       const updatedDataControl = dataControl.filter(data => data.id !== control);
       setDataControl(updatedDataControl);

@@ -53,10 +53,10 @@ export default function Header() {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item nav-item-navbar">
-                                    <Link class="nav-link" to='/Admin_Facuilty/'>الكنترولات </Link>
+                                    <Link class="nav-link " to='/Admin_Facuilty/'>الكنترولات </Link>
                                 </li>
                                 <li class="nav-item nav-item-navbar">
-                                    <Link class="nav-link" to="/Admin_Facuilty/CreateControl">ادارة الكنترولات </Link>
+                                    <Link class="nav-link " to="/Admin_Facuilty/CreateControl">ادارة الكنترولات </Link>
                                 </li>
                                 <li class="nav-item nav-item-navbar">
                                     <Link class="nav-link" to='/Admin_Facuilty/Register'>التسجيل </Link>
@@ -90,7 +90,7 @@ export default function Header() {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item nav-item-navbar">
-                                    <Link class="nav-link" to="/Admin_University/">الكنترولات </Link>
+                                    <Link class="nav-link active" to="/Admin_University/">الكنترولات </Link>
                                 </li>
                             </ul>
                             <div className="d-flex">
@@ -134,7 +134,7 @@ export default function Header() {
                 >
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item nav-item-navbar">
-                      <Link className="nav-link" to="/Staff/">
+                      <Link className="nav-link active" to="/Staff/">
                         الكنترولات
                       </Link>
                     </li>

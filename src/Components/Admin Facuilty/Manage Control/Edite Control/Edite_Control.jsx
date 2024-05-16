@@ -7,13 +7,17 @@ function Edite_Control() {
     const fId = useSelector((state) => state.Profile.Fid);
     const CId = useSelector((state) => state.Profile.IdControl);
     const token = useSelector((state) => state.auth.token);
+    const [selectedSubjectsRevers, setSelectedSubjectsRevers] = useState([]);
+    const [dataMember, setDataMember] = useState([]);
+    const [Head, setHead] = useState([]);
+    const [Member, setMember] = useState([]);
     // 
     useEffect(() => {
-        getSubject();
+      getSubjectControl();
+      fetchDataMemeber();
+      getSubject();
         fetchData();
         getStaff();
-        // getSubjectControl();
-        // getStaffControl();
     },[fId,CId,token]);
 
     // Handle checkbox toggle for including major
@@ -29,7 +33,6 @@ function Edite_Control() {
     const [selectedSubject, setSelectedSubject] = useState('');
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);  
-    const [selectedSubjectsRevers, setSelectedSubjectsRevers] = useState([]);
     const [dataSubject,setDataSubject]=useState([])
     // Function to fetch subject data
     const getSubject = async () => {
@@ -48,27 +51,28 @@ function Edite_Control() {
                 console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
             }
         };
-    // const getSubjectControl = async () => {
-    //         try {
-    //             const { data } = await axios.get(
-    //                 'http://localhost:5120/Subject/subjects-of-control', // API endpoint URL
-    //                 {
-    //                     params: { controld :CId },
-    //                     headers: {
-    //                         Authorization: "Bearer " + token, // Authorization token
-    //                         "Content-Type": "application/json", // Content type
-    //                     },
-    //                 }
-    //             );
-    //             setSelectedSubjectsRevers(data); // Set the retrieved data to the state variable 'data'
-    //             // for (const key in selectedSubjectsRevers) {
-    //             //     setSelectedSubjects([...selectedSubjects,selectedSubjectsRevers[key].name]);
-    //             //     setSelectedSubjectsIDs([...selectedSubjectsIDs,selectedSubjectsRevers[key].id])
-    //             // }
-    //         } catch (error) {
-    //             console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
-    //         }
-    //     };
+    const getSubjectControl = async () => {
+            try {
+                const { data } = await axios.get(
+                    'http://localhost:5120/Subject/subjects-of-control', // API endpoint URL
+                    {
+                        params: { controld :CId },
+                        headers: {
+                            Authorization: "Bearer " + token, // Authorization token
+                            "Content-Type": "application/json", // Content type
+                        },
+                    }
+                );
+                // setSelectedSubjectsRevers(data); // Set the retrieved data to the state variable 'data'
+                
+                for (const key in data) {
+                    setSelectedSubjects([data[key].name]);
+                    setSelectedSubjectsIDs([data[key].id])
+                }
+            } catch (error) {
+                console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
+            }
+        };
 
     const subjects = dataSubject;
     const handleAddSubject = () => {
@@ -104,7 +108,6 @@ function Edite_Control() {
     // controlManagerID
     const [selectedChairperson, setSelectedChairperson] = useState('');
     const [selectedChairpersons, setSelectedChairpersons] = useState([]);
-    const [selectedChairpersonsRevers, setSelectedChairpersonsRevers] = useState([]);
     const [personsIDs, setPersonsIDs] = useState([]);
     const [dataStaff, setDataStaff] = useState([]);
     const getStaff = async () => {
@@ -124,24 +127,38 @@ function Edite_Control() {
             console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
         }
     };
-    // const getStaffControl = async () => {
-    //     try {
-    //         const dataStaff = await axios.get(
-    //             'http://localhost:5120/Users/user-for-control', // API endpoint URL
-    //             {
-    //                 params: { controlId :CId }, // Parameters passed to the API endpoint
-    //                 headers: {
-    //                     Authorization: "Bearer " + token, // Authorization token
-    //                     "Content-Type": "application/json", // Content type
-    //                 },
-    //             }
-    //         );
-    //         setSelectedChairpersonsRevers(dataStaff); 
-    //         console.log(selectedChairpersonsRevers);
-    //     } catch (error) {
-    //         console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
-    //     }
-    // };
+    const fetchDataMemeber = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5120/Users/user-for-control",
+          {
+            params: { controlId: CId },
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        setDataMember(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    useEffect(() => {
+      // console.log(dataMember.length);
+      for (let i = 0; i < dataMember.length; i++) {
+        console.log(dataMember[i].jobType);
+        if (dataMember[i].jobType === "Head") {
+          setSelectedChairpersons((prev) => [...prev, dataMember[i].user.name]);
+          setPersonsIDs((prev) => [...prev, dataMember[i].user.id]);
+        } else {
+          setSelectedCommitteeMembers((prev) => [...prev, dataMember[i].user.name]);
+          setSelectedCommitteeMembersIDs((prev) => [...prev, dataMember[i].user.id]);
+        }
+      }
+    }, [dataMember]);
+    console.log(Head);
+    console.log(Member);
     const chairpers = dataStaff.data;
     const handleAddChairperson = () => {
         if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 2) {
@@ -256,7 +273,7 @@ function Edite_Control() {
             }
         };
 
-    console.log(dataControl);
+    // console.log(selectedSubjectsRevers);
     const [name, setName] = useState('');
     const [faculity_Phase, setFaculity_Phase] = useState('')
     const [faculity_Node, setFaculity_Node] = useState('');
@@ -279,6 +296,7 @@ function Edite_Control() {
                 id="name"
                 name="name"
                 placeholder={dataControl.name}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -294,6 +312,7 @@ function Edite_Control() {
                 id="acaD_YEAR"
                 name="acaD_YEAR"
                 placeholder={dataControl.acaD_YEAR}
+                value={acaD_YEAR}
                 onChange={(e) => setAcaD_YEAR(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -308,6 +327,7 @@ function Edite_Control() {
                 id="faculity_Semester"
                 name="faculity_Semester"
                 placeholder={dataControl.faculity_Semester}
+                value={faculity_Semester}
                 onChange={(e) => setFaculity_Semester(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -327,6 +347,7 @@ function Edite_Control() {
                 id="faculity_Phase"
                 name="faculity_Phase"
                 placeholder={dataControl.faculity_Phase}
+                value={faculity_Phase}
                 onChange={(e) => setFaculity_Phase(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -380,6 +401,7 @@ function Edite_Control() {
                   className="form-control"
                   id="faculity_Node"
                   name="faculity_Node"
+                  // value={faculity_Node}
                   placeholder={dataControl.faculity_Node}
                   onChange={(e) => setFaculity_Node(e.target.value)}
                   style={{
@@ -396,7 +418,7 @@ function Edite_Control() {
                 className="form-control"
                 id="start_Date"
                 name="start_Date"
-                placeholder={dataControl.start_Date}
+                // value={dataControl.start_Date}
                 onChange={(e) => setStart_Date(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -410,7 +432,7 @@ function Edite_Control() {
                 className="form-control"
                 id="end_Date"
                 name="end_Date"
-                placeholder={dataControl.end_Date}
+                // value={dataControl.end_Date}
                 onChange={(e) => SetEnd_Date(e.target.value)}
                 style={{
                   backgroundColor: "#E1E1E1",
@@ -462,7 +484,7 @@ function Edite_Control() {
             >
               <h5 className="mx-3 pt-2">مواد الكنترول</h5>
               <div className="row justify-content-center align-items-center">
-                {selectedSubjects.map((subject, index) => (
+                { selectedSubjects.map((subject, index) => (
                   <div
                     key={index}
                     className="subject-row rounded-2 mx-3 my-2"

@@ -2,24 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
 
 export default function CreationControl() {
-    // const selectedSubjects = useSelector((state) => state.control.selectedSubjects);
+
     const dispatch = useDispatch();
     const fId = useSelector((state) => state.Profile.Fid);
     const tok = useSelector((state) => state.auth.token);
-    
-    // console.log(tok);
-    // console.log(fId);
+    const semester = `${new Date().getFullYear()}/${
+        new Date().getFullYear() - 1
+      }`;
     // start values
     const [name, setName] = useState("")
     const [faculity_Phase, setFaculity_Phase] = useState("");
     const [faculity_Node, setFaculity_Node] = useState("");
     const [start_Date, setStart_Date] = useState("");
     const [end_Date, SetEnd_Date] = useState("");
-    const [acaD_YEAR, setAcaD_YEAR] = useState("");
+    const [acaD_YEAR, setAcaD_YEAR] = useState(semester);
     const [faculity_Semester, setFaculity_Semester] = useState("");
     // End Values
     // Initialize state variable 'data' as an empty array
@@ -73,8 +72,6 @@ export default function CreationControl() {
     // Store subjects data in 'subjects' variable
     const subjects = data;
     const chairpers = dataStaff.data;
-    // console.log(data);
-    // console.log(chairpers);
 
     // controlManagerID
     const [selectedChairperson, setSelectedChairperson] = useState('');
@@ -194,22 +191,11 @@ export default function CreationControl() {
             setSelectedMajor('');
         }
     };
-    // console.log(selectedChairpersons);
-    // console.log(personsIDs);
-    // console.log(selectedCommitteeMembers);
-    // console.log(selectedCommitteeMembersId);
-    // console.log(selectedSubjects);
-    // console.log(selectedSubjectsIDs);
-    // console.log(selectedChairperson);
-    //
+
     let controlManagerID =personsIDs[0];
     let SubjectsIds =selectedSubjectsIDs;
     let UsersIds=selectedCommitteeMembersId;
-
-    ///
-    
-    
-
+      ///
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -238,8 +224,6 @@ export default function CreationControl() {
         }
     };
 
-
-
     return (
         <form onSubmit={handleSubmit}>
 
@@ -257,6 +241,7 @@ export default function CreationControl() {
                             style={{
                                 backgroundColor: '#E1E1E1',
                             }}
+                            placeholder='ما هو اسم الكنترول....'
                             required
                         />
                     </div>
@@ -272,8 +257,7 @@ export default function CreationControl() {
                             style={{
                                 backgroundColor: '#E1E1E1',
                             }}
-                            placeholder='ex: 2023/2024'
-                            required
+                            disabled
                         />
                     </div>
                     <div className="form-group">

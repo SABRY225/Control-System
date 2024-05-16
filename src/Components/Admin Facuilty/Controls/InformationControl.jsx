@@ -8,12 +8,13 @@ import { setDetails } from "../../../Redux/detailsSlice";
 
 export default function InformationControl() {
   const [controls, setControls] = useState([]);
+  const [stateOfControls, setStateOfControls] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const tok = useSelector((state) => state.auth.token);
   const Fid = useSelector((state) => state.Profile.Fid);
   const semester = `${new Date().getFullYear()}/${
-    new Date().getFullYear() + 1
+    new Date().getFullYear() - 1
   }`;
   const getControls = useCallback(() => {
     const getControls = async () => {
@@ -27,8 +28,10 @@ export default function InformationControl() {
           }
         );
         for (const control of data) {
-          // console.log(control);
-          try {
+          console.log(control.acaD_YEAR);
+          if (control.acaD_YEAR==semester) {
+            setStateOfControls(true)
+            try {
             const {
               data: { user },
             } = await axios.get(
@@ -44,6 +47,10 @@ export default function InformationControl() {
           } catch (e) {
             console.log(e.message);
           }
+          }else{
+            console.log("plaplaplaplalapala");
+          }
+
         }
       } catch (error) {
         console.log(error.message);
@@ -61,21 +68,18 @@ export default function InformationControl() {
     dispatch(setDetails({ control: control }));
     navigate("control");
   };
-
+console.log(stateOfControls);
   return (
     <div className="container HomeClassInfoControls">
       {/* Semes_Acad_Title */}
-      <div className="row  Semes_Acad_Title m-2">
-        <div className="col-5  text-end Semes_Acad_Title-col">{semester}</div>
-        <div className="col-2   Semes_Acad_Title-col">-</div>
-        <div className="col-5   text-start Semes_Acad_Title-col">
-          semester 2
-        </div>
+      <div className="row  text-center Semes_Acad_Title m-2">
+        <div className="col  Semes_Acad_Title-col">{semester}</div>
       </div>
       {/* Semes_Acad_Title */}
       <div className="container ClassesControls">
         <div className="row justify-content-center">
-          {controls.map((control) => {
+          {stateOfControls===true ? <>
+            {controls.map((control) => {
             // console.log(control.control);
             return (
               <div
@@ -93,7 +97,12 @@ export default function InformationControl() {
                 </div>
               </div>
             );
-          })}
+          })}</>:<>
+          
+          <div className="col-md-12 my-3">
+                <p className="text-center fs-2 fw-bold">لم يتم انشاء كنترولات لحد الان</p>
+              </div>
+          </>}
         </div>
       </div>
     </div>
