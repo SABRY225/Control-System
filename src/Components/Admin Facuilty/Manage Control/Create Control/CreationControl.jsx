@@ -516,7 +516,7 @@ export default function CreationControl() {
 
 
                 <div className=' d-flex justify-content-center align-items-center w-100 my-5'>
-                    <button className="btn btn-outline-success " style={{ padding: "0.5rem 4rem" }}>
+                    <button className="btn btn-outline-success fw-bold " style={{ padding: "0.5rem 4rem", background:"#03a9f4",color:"#ffffff"}}>
                         ارسال
                     </button>
                 </div>
