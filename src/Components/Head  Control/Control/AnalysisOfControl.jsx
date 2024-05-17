@@ -21,9 +21,9 @@ export default function AnalysisOfControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Subject/subjects-of-control?controld=" +
-            control.control.id,
+          process.env.REACT_APP_SUBJECTOFCONTROL,
           {
+            params:{controld:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -47,7 +47,7 @@ export default function AnalysisOfControl() {
     const getNote = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/controlnotes/notetoheadcontrol/" +
+          process.env.REACT_APP_NOTTOHEADCONTROL +
             control.control.id,
           {
             headers: {
@@ -77,9 +77,9 @@ export default function AnalysisOfControl() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        "http://localhost:5120/controlnotes?Cid=" + control.control.id,
-        jsonNote,
+        process.env.REACT_APP_CONTROLNOTES ,
         {
+          params:{Cid:control.control.id},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function AnalysisOfControl() {
     console.log(id);
     try {
       const response = await axios.put(
-        "http://localhost:5120/subject/isDone/" + id,
+        process.env.REACT_APP_SUBJECTISDONE + id,
         {},
         {
           headers: {
@@ -123,7 +123,6 @@ export default function AnalysisOfControl() {
   };
 
   const options = {};
-  const isAccepted = true;
   return (
     <>
       <div className="container">

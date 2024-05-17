@@ -16,11 +16,8 @@ const DetailsOfControl = ({ faculty }) => {
 
   const handleYearClick = (yearInfo) => {
     dispatch(setDetails({ control:yearInfo, faculty }));
-    // console.log("clicked !!");
-    // console.log(year, committeeName, committeeNickname, status, faculty, semester);
     navigate("./AcademicYearDetails");
   };
-  // console.log(controls);
   return (
     <div className="container mt-4">
       <div className="page">

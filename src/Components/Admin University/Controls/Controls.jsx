@@ -4,8 +4,8 @@ import { Outlet } from 'react-router-dom';
 export default function Controls() {
   return (
     <>
-       <FacultyFilter />
-       <Outlet />
+      <FacultyFilter />
+      <Outlet />
        {/* <DetailsOfControl /> */}
     </>
   )

@@ -12,7 +12,7 @@ const FacultyFilter = () => {
     async function getAllFaculty() {
       try {
         const response = await axios.get(
-          "http://localhost:5120/faculty/get-all-faculties",
+          process.env.REACT_APP_GETALLFACULTIES,
           {
             headers: {
               Authorization: "Bearer " + tok,

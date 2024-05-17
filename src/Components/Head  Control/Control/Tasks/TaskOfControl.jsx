@@ -37,9 +37,9 @@ export default function TaskOfControl() {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/users/user-for-control?controlId=" +
-            control.control.id,
+          process.env.REACT_APP_USEROFCONTROL,
           {
+            params:{controlId:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -58,9 +58,9 @@ export default function TaskOfControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Subject/subjects-of-control?controld=" +
-            control.control.id,
+          process.env.REACT_APP_SUBJECTOFCONTROL,
           {
+            params:{controld:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -78,9 +78,9 @@ export default function TaskOfControl() {
     const getTasks = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/controlTask/get-tasks-by-control-id?Cid=" +
-            control.control.id,
+          process.env.REACT_APP_TASKSOFCONTROL,
           {
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -159,10 +159,10 @@ export default function TaskOfControl() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5120/controlTask/create-task?Cid=" +
-          control.control.id,
+        process.env.REACT_APP_CREATETASK,
         JSON.stringify({ description, userTaskIds }),
         {
+          params:{Cid:control.control.id},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
@@ -180,8 +180,9 @@ export default function TaskOfControl() {
     console.log(id);
     try {
       const { data } = await axios.delete(
-        "http://localhost:5120/controlTask/delete-task?Tid=" + id,
+        process.env.REACT_APP_DELETETASK,
         {
+          params:{Tid:id},
           headers: {
             Authorization: "Bearer " + tok,
           },

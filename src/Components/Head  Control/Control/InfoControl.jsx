@@ -10,22 +10,21 @@ export default function InfoControl() {
   const HeadControl = control.user.name;
   const [controlMembers, setControlsMember] = useState([]);
   const [controlSubjects, setControlsSubject] = useState([]);
-  const isAccepted = true;
 
   const getControlMember = useCallback(() => {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/users/user-for-control?controlId=" +
-            control.control.id,
+          process.env.REACT_APP_USEROFCONTROL
+            ,
           {
+            params:{controlId:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
         setControlsMember(data);
-        //   console.log(data);
       } catch (error) {
         console.log(error.message);
       }
@@ -37,9 +36,9 @@ export default function InfoControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/Subject/subjects-of-control?controld=" +
-            control.control.id,
+          process.env.REACT_APP_SUBJECTOFCONTROL,
           {
+            params:{controlId:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
