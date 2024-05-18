@@ -99,7 +99,7 @@ console.log(stateOfControls);
           
           <div className="col-md-12 my-3">
                 <p className="text-center fs-2 fw-bold">لم يتم انشاء كنترولات حتى الان</p>
-              </div>
+          </div>
           </>}
         </div>
       </div>

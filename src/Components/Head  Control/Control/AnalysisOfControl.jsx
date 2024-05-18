@@ -111,7 +111,7 @@ export default function AnalysisOfControl() {
     }
   };
   const data = {
-    labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
+    labels: ["المواد التي تم انجازها", "المواد التي لم يتم انجازها"],
     datasets: [
       {
         lable: "Poll",
@@ -127,10 +127,10 @@ export default function AnalysisOfControl() {
     <>
       <div className="container">
         {/* Title control */}
-        <div className="row text-center">
+        <div className="row text-end">
           <div className="col-12">
             <div className="Title-Control rtl">
-              كنترول لعام {control.control.acaD_YEAR} تحت ادارة رائس الكنترول د/{" "}
+              كنترول لعام {control.control.acaD_YEAR} تحت ادارة رئيس الكنترول د/{" "}
               {HeadControl}
             </div>
           </div>

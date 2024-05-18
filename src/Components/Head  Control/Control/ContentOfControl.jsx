@@ -46,8 +46,8 @@ export default function ContentOfControl() {
     return (
         <>
             <div className="container text-center ">
-                <div className="d-flex pt-2 pl-2 ">
-                    <div className="col-md m-2 ">
+                <div className=" d-flex justify-content-center pt-2 pl-2 ">
+                    <div className="col-auth m-2 ">
                         <button
                             className="btn mx-3"
                             style={{
@@ -62,7 +62,7 @@ export default function ContentOfControl() {
                             المهام
                         </button>
                     </div>
-                    <div className="col-md m-2 ">
+                    <div className="col-auth m-2 ">
                         <button
                             className="btn mx-3"
                             style={{
@@ -77,7 +77,7 @@ export default function ContentOfControl() {
                             الاحصائيات
                         </button>
                     </div>
-                    <div className="col-md  m-2">
+                    <div className="col-auth  m-2">
                         <button
                             className="btn mx-3"
                             style={{

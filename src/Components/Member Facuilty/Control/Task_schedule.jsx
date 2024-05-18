@@ -54,14 +54,14 @@ export default function Task_schedule() {
     <>
       <div className="container">
         <div className="row m-2">
-          <div className="Title-Task ">المهام</div>
+          <div className="Title-Task text-end">المهام</div>
         </div>
         <div className="row justify-content-center">
           {/* Start */}
           {Tasks.map((task) => {
             return (
               <div key={task.id} className="col-md-3 task m-2">
-                <div className="col-12 d-flex justify-content-between align-items-center task-head p-2 text-center">
+                <div className="col-12 d-flex justify-content-between align-items-center task-head p-2 text-center" style={{height:"7vh"}} >
                   {!task.isDone && (
                     <button
                       className="Done"
@@ -71,7 +71,7 @@ export default function Task_schedule() {
                       Done
                     </button>
                   )}
-                  <div>{task.isDone > 0 ? "انتهت" : "لم تنتهي"}</div>
+                  <div >{task.isDone > 0 ? <span style={{color:"#2ECC71",}} >انتهت</span > : <span style={{color:"#E74C3C "}}>لم تنتهي</span>}</div>
                 </div>
                 <div className="col-12 task-title text-center p-2">
                   {task.description}

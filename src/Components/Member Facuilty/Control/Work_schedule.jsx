@@ -36,40 +36,41 @@ export default function Work_schedule() {
   };
   return (
     <>
-      <div className="container text-center ">
-        <div className="d-flex pt-2 pl-2 ">
-          <div className="col-md m-2 ">
-            <button
-              className="btn mx-3"
-              style={{
-                backgroundColor: isTaskActive ? "#43BBFF" : "#98DAFF",
-                color: isTaskActive ? "white" : "black",
-                boxShadow: isTaskActive ? "0 4px 8px rgba(0,0,0,0.2)" : "none",
-              }}
-              onClick={handelTaskClick}
-            >
-              المهام
-            </button>
-          </div>
-          <div className="col-md  m-2">
-            <button
-              className="btn mx-3"
-              style={{
-                backgroundColor: isControlActive ? "#43BBFF" : "#98DAFF",
-                color: isControlActive ? "white" : "black",
-                boxShadow: isControlActive
-                  ? "0 4px 8px rgba(0,0,0,0.2)"
-                  : "none",
-              }}
-              onClick={handelControlClick}
-            >
-              الكنترول
-            </button>
-          </div>
-        </div>
-        {showControl && <DetaliesWork_schedule />}
-        {showTask && <Task_schedule />}
-      </div>
+<div className="container my-4">
+  <div className="d-flex justify-content-center align-items-center mb-4">
+    <div className="col-auto">
+      <button
+        className="btn mx-3  "
+        style={{
+          backgroundColor: isTaskActive ? "#43BBFF" : "#98DAFF",
+          color: isTaskActive ? "white" : "black",
+          boxShadow: isTaskActive ? "0 4px 8px rgba(0,0,0,0.2)" : "none",
+          width:"10rem"
+        }}
+        onClick={handelTaskClick}
+      >
+        المهام
+      </button>
+    </div>
+    <div className="col-auto ">
+      <button
+        className="btn mx-3 "
+        style={{
+          backgroundColor: isControlActive ? "#43BBFF" : "#98DAFF",
+          color: isControlActive ? "white" : "black",
+          boxShadow: isControlActive ? "0 4px 8px rgba(0,0,0,0.2)" : "none",
+          width:"10rem"
+        }}
+        onClick={handelControlClick}
+      >
+        الكنترول
+      </button>
+    </div>
+  </div>
+  {showControl && <DetaliesWork_schedule />}
+  {showTask && <Task_schedule />}
+</div>
+
     </>
   );
 }

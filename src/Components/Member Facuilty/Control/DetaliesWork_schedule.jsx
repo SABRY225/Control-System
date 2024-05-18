@@ -87,15 +87,15 @@ export default function DetaliesWork_schedule() {
     <div className="container rtl">
       {/* Title control */}
       <div className="rtl details-line my-5 d-sm-inline-block d-lg-flex justify-content-start align-items-center">
-        <span className="fw-bold fs-5">
-          كنترول لعام {control.control.acaD_YEAR} تحت ادارة رائس الكنترول د/{" "}
+        <span className="Title-Control rtl">
+          كنترول لعام {control.control.acaD_YEAR} تحت ادارة رئيس الكنترول د/{" "}
           {HeadControl}
         </span>
       </div>
       {/* Title Table*/}
       <div className="row Table-title m-5">
         <div className=" text-end">
-          <div>اعضاء الكنترول</div>
+          <div>أعضاء الكنترول</div>
         </div>
       </div>
       {/* Table Member Control */}
@@ -145,7 +145,7 @@ export default function DetaliesWork_schedule() {
         })}
       </div>
 
-      <div className="continer">
+      <div className="continer " style={{marginBottom:"3rem"}}>
         <div className="row justify-content-center m-1 ">
           <div className="col-10 border  p-3 rounded">
             <form onSubmit={onSendNote}>

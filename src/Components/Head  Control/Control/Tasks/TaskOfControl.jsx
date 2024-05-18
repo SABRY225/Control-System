@@ -178,8 +178,8 @@ export default function TaskOfControl() {
   };
   const deleteTask = async ({ id }) => {
     console.log(id);
-    try {
-      const { data } = await axios.delete(
+    if (window.confirm("هل تريد ازالة المهمة ؟؟")) {
+            const { data } = await axios.delete(
         process.env.REACT_APP_DELETETASK,
         {
           params:{Tid:id},
@@ -189,29 +189,24 @@ export default function TaskOfControl() {
         }
       );
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-      alert("Task deleted successfully");
-      console.log(data);
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
   return (
     <>
       <div className="row text-end m-3">
-        <div className="col-12 Title-Task ">اضافه مهام أعضاء الكنترول</div>
+        <div className="col-12 Title-Task ">انشاء مهام لأعضاء الكنترول</div>
       </div>
       <form action="#" onSubmit={onSendTask}>
         <div className="row text-center">
           <div className="col-md-4">
             <div className="col">
-              <div className="d-flex justify-content-center mb-3">
+              <div className="d-flex justify-content-center mb-3 rtl">
                 <select
                   className="form-select"
                   style={{
                     backgroundColor: "#CFEEFF",
                     color: "black",
-                    width: "35%",
                   }}
                   onChange={(e) => {
                     setControlDetails({
@@ -258,10 +253,10 @@ export default function TaskOfControl() {
                     return (
                       <div
                         key={user.user.id}
-                        className="subject-row col-10 rounded-2 mx-3 my-2"
+                        className="subject-row col-6 rounded-2 mx-3 my-2"
                         style={{ backgroundColor: "#D9D9D9", color: "black" }}
                       >
-                        <span>{user.user.name}</span>
+                        <span style={{margin:"0rem 1rem",fontSize:"0.9rem"}}>{user.user.name}</span>
                         <FontAwesomeIcon
                           icon={faTrashAlt}
                           style={{
@@ -289,7 +284,6 @@ export default function TaskOfControl() {
                   style={{
                     backgroundColor: "#CFEEFF",
                     color: "black",
-                    width: "35%",
                   }}
                   onChange={(e) =>
                     setControlDetails({
@@ -333,10 +327,10 @@ export default function TaskOfControl() {
                   {selectSubjects.map((subject) => (
                     <div
                       key={subject.id}
-                      className="subject-row col-md-5 rounded-2 mx-3 my-2"
+                      className="subject-row col-6 rounded-2 mx-3 my-2"
                       style={{ backgroundColor: "#D9D9D9", color: "black" }}
                     >
-                      <span>{subject.name}</span>
+                      <span style={{margin:"0rem 1rem",fontSize:"0.9rem"}}>{subject.name}</span>
                       <FontAwesomeIcon
                         icon={faTrashAlt}
                         style={{
@@ -380,7 +374,7 @@ export default function TaskOfControl() {
         </div>
       </div>
 
-      <div className="row justify-content-center">
+      <div className="row justify-content-center m-2">
         {/* Start */}
         {tasks.map((task) => {
           let dateObj = new Date(task.creationDate);
@@ -390,7 +384,7 @@ export default function TaskOfControl() {
           let day = dateObj.getDate();
 
           return (
-            <div className="col-md-3 task m-2">
+            <div className="col-md-5 task m-2">
               <div className="col-12 d-flex task-head p-2 ">
                 <div className="col-4 d-flex">
                   <div className="col" onClick={() => deleteTask(task)}>
@@ -401,7 +395,7 @@ export default function TaskOfControl() {
                   {year}-{month}-{day}
                 </div>
                 <div className="col-3">
-                  {task.isDone ? "انتهت" : "لم تنتهي"}
+                  {task.isDone ? <span style={{color:"#2ECC71"}}>انتهت</span > : <span style={{color:"#E74C3C "}}>لم تنتهي</span>}
                 </div>
               </div>
               <div className="col-12 task-title text-center p-2">
