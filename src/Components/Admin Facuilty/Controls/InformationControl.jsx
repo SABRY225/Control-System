@@ -47,8 +47,6 @@ export default function InformationControl() {
           } catch (e) {
             console.log(e.message);
           }
-          }else{
-            console.log("plaplaplaplalapala");
           }
 
         }

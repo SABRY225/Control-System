@@ -7,11 +7,63 @@ function Edite_Control() {
     const fId = useSelector((state) => state.Profile.Fid);
     const CId = useSelector((state) => state.Profile.IdControl);
     const token = useSelector((state) => state.auth.token);
-    const [selectedSubjectsRevers, setSelectedSubjectsRevers] = useState([]);
     const [dataMember, setDataMember] = useState([]);
     const [Head, setHead] = useState([]);
     const [Member, setMember] = useState([]);
-    // 
+    //     
+    // ===================================================================
+    const [values,setValues]=useState({
+      name:'',
+      faculity_Phase:'',
+      faculity_Node:'',
+      start_Date:'',
+      end_Date:'',
+      acaD_YEAR:'',
+      faculity_Semester:'',
+      selectedMajor:''
+    })
+    const [dataControl, setDataControl] = useState('');
+        const fetchData = async () => {
+                try {
+                    // Fetch data from the API using axios
+                    const response = await axios.get(`http://localhost:5120/Controls/detail/${CId}`,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + token, // Authorization token
+                                "Content-Type": "application/json", // Content type
+                            },
+                        });
+                    // Set the fetched data
+                    setDataControl(response.data);
+                    setValues({
+                      ...values,
+                      name:response.data.name,
+                      faculity_Phase:response.data.faculity_Phase,
+                      faculity_Node:response.data.faculity_Node,
+                      start_Date:response.data.start_Date,
+                      end_Date:response.data.end_Date,
+                      acaD_YEAR:response.data.acaD_YEAR,
+                      faculity_Semester:response.data.faculity_Semester,
+                    })
+    
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+        // console.log("dataControl :" ,dataControl);
+        // const jsonString = Object.values(dataControl);
+        // console.log("jsonString : ",jsonString[0]);
+        // const ahmed=jsonString[0]
+    // const [name, setName] = useState(ahmed);
+    // const [faculity_Phase, setFaculity_Phase] = useState(dataControl.faculity_Phase)
+    // const [faculity_Node, setFaculity_Node] = useState(dataControl.faculity_Node);
+    // const [start_Date, setStart_Date] = useState(dataControl.start_Date);
+    // const [end_Date, SetEnd_Date] = useState(dataControl.end_Date);
+    // const [acaD_YEAR, setAcaD_YEAR] = useState([dataControl.acaD_YEAR]);
+    // const [faculity_Semester, setFaculity_Semester] = useState(dataControl.faculity_Semester);
+
+    const [selectedMajor, setSelectedMajor] = useState(dataControl.selectedMajor);
+    const [includeMajor, setIncludeMajor] = useState(false);
     useEffect(() => {
       getSubjectControl();
       fetchDataMemeber();
@@ -38,7 +90,7 @@ function Edite_Control() {
     const getSubject = async () => {
             try {
                 const { data } = await axios.get(
-                    `http://localhost:5120/Subject/faculty/${fId}`, // API endpoint URL
+                  "http://localhost:5120/Subject/faculty/"+fId, // API endpoint URL
                     {
                         headers: {
                             Authorization: "Bearer " + token, // Authorization token
@@ -53,26 +105,29 @@ function Edite_Control() {
         };
     const getSubjectControl = async () => {
             try {
-                const { data } = await axios.get(
-                    'http://localhost:5120/Subject/subjects-of-control', // API endpoint URL
-                    {
-                        params: { controld :CId },
-                        headers: {
-                            Authorization: "Bearer " + token, // Authorization token
-                            "Content-Type": "application/json", // Content type
-                        },
-                    }
-                );
-                // setSelectedSubjectsRevers(data); // Set the retrieved data to the state variable 'data'
-                
-                for (const key in data) {
-                    setSelectedSubjects([data[key].name]);
-                    setSelectedSubjectsIDs([data[key].id])
+              const { data } = await axios.get(
+                process.env.REACT_APP_SUBJECTOFCONTROL,
+                {
+                    params: { controld: CId },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
                 }
-            } catch (error) {
-                console.error("Error fetching subject data:", error); // Log any errors that occur during fetching
-            }
-        };
+            );
+            // Using functional updates to avoid stale closures
+            setSelectedSubjects(prevSubjects => [
+                ...prevSubjects,
+                ...data.map(subject => subject.name)
+            ]);
+            setSelectedSubjectsIDs(prevIDs => [
+                ...prevIDs,
+                ...data.map(subject => subject.id)
+            ]);
+        } catch (error) {
+            console.error("Error fetching subject data:", error);
+        }
+    };
 
     const subjects = dataSubject;
     const handleAddSubject = () => {
@@ -112,8 +167,8 @@ function Edite_Control() {
     const [dataStaff, setDataStaff] = useState([]);
     const getStaff = async () => {
         try {
-            const dataStaff = await axios.get(
-                'http://localhost:5120/Users/user-for-faculty', // API endpoint URL
+            const data= await axios.get(
+                "http://localhost:5120/Users/user-for-faculty", // API endpoint URL
                 {
                     params: { id :fId }, // Parameters passed to the API endpoint
                     headers: {
@@ -122,7 +177,7 @@ function Edite_Control() {
                     },
                 }
             );
-            setDataStaff(dataStaff); // Set the retrieved data to the state variable 'dataStaff'
+            setDataStaff(data); // Set the retrieved data to the state variable 'dataStaff'
         } catch (error) {
             console.error("Error fetching staff data:", error); // Log any errors that occur during fetching
         }
@@ -130,7 +185,7 @@ function Edite_Control() {
     const fetchDataMemeber = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5120/Users/user-for-control",
+              process.env.REACT_APP_USEROFCONTROL,
           {
             params: { controlId: CId },
             headers: {
@@ -145,21 +200,33 @@ function Edite_Control() {
     };
 
     useEffect(() => {
-      // console.log(dataMember.length);
+      if (dataMember.length === 0) return;
+    
+      const chairpersons = [];
+      const chairpersonIDs = [];
+      const committeeMembers = [];
+      const committeeMemberIDs = [];
+    
       for (let i = 0; i < dataMember.length; i++) {
-        console.log(dataMember[i].jobType);
         if (dataMember[i].jobType === "Head") {
-          setSelectedChairpersons((prev) => [...prev, dataMember[i].user.name]);
-          setPersonsIDs((prev) => [...prev, dataMember[i].user.id]);
+          chairpersons.push(dataMember[i].user.name);
+          chairpersonIDs.push(dataMember[i].user.id);
         } else {
-          setSelectedCommitteeMembers((prev) => [...prev, dataMember[i].user.name]);
-          setSelectedCommitteeMembersIDs((prev) => [...prev, dataMember[i].user.id]);
+          committeeMembers.push(dataMember[i].user.name);
+          committeeMemberIDs.push(dataMember[i].user.id);
         }
       }
+    
+      setSelectedChairpersons((prev) => [...prev, ...chairpersons]);
+      setPersonsIDs((prev) => [...prev, ...chairpersonIDs]);
+      setSelectedCommitteeMembers((prev) => [...prev, ...committeeMembers]);
+      setSelectedCommitteeMembersIDs((prev) => [...prev, ...committeeMemberIDs]);
+    
     }, [dataMember]);
     console.log(Head);
     console.log(Member);
     const chairpers = dataStaff.data;
+    console.log("chairpers : ",chairpers);
     const handleAddChairperson = () => {
         if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 2) {
             const selectedChairpersonObject = chairpers.find(chairperson => chairperson.id === selectedChairperson);
@@ -187,7 +254,6 @@ function Edite_Control() {
         setSelectedChairpersons(updatedChairpersons);
         setPersonsIDs(updatedPersonsIDs);
     };
-
     const [selectedCommitteeMember, setSelectedCommitteeMember] = useState('');
     const [selectedCommitteeMembers, setSelectedCommitteeMembers] = useState([]);
     const [selectedCommitteeMembersId, setSelectedCommitteeMembersIDs] = useState([]);
@@ -224,11 +290,17 @@ function Edite_Control() {
     let controlManagerID =personsIDs[0];
     let SubjectsIds =selectedSubjectsIDs;
     let UsersIds=selectedCommitteeMembersId;
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const formData ={name, faculity_Phase,faculity_Semester,acaD_YEAR,start_Date,end_Date ,controlManagerID,SubjectsIds,UsersIds};
+          const name=values.name;
+          const faculity_Phase=values.faculity_Phase;
+          const faculity_Node=values.faculity_Node;
+          const start_Date=values.start_Date;
+          const end_Date=values.end_Date;
+          const acaD_YEAR=values.acaD_YEAR;
+          const faculity_Semester=values.faculity_Semester;
+            const formData ={name,faculity_Phase,faculity_Node,start_Date,end_Date,acaD_YEAR,faculity_Semester,controlManagerID,SubjectsIds,UsersIds};
             const jsonData = JSON.stringify(formData);
 
             console.log(jsonData);
@@ -252,38 +324,9 @@ function Edite_Control() {
             console.log("Control edite error:", error);
         }
     };
+//-===================================-=======================-==================
 
-    // ===================================================================
-    const [dataControl, setDataControl] = useState('');
-    const fetchData = async () => {
-            try {
-                // Fetch data from the API using axios
-                const response = await axios.get(`http://localhost:5120/Controls/detail/${CId}`,
-                    {
-                        headers: {
-                            Authorization: "Bearer " + token, // Authorization token
-                            "Content-Type": "application/json", // Content type
-                        },
-                    });
-                // Set the fetched data
-                setDataControl(response.data);
 
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-    // console.log(selectedSubjectsRevers);
-    const [name, setName] = useState('');
-    const [faculity_Phase, setFaculity_Phase] = useState('')
-    const [faculity_Node, setFaculity_Node] = useState('');
-    const [start_Date, setStart_Date] = useState('');
-    const [end_Date, SetEnd_Date] = useState('');
-    const [acaD_YEAR, setAcaD_YEAR] = useState('');
-    const [faculity_Semester, setFaculity_Semester] = useState('');
-
-    const [selectedMajor, setSelectedMajor] = useState('');
-    const [includeMajor, setIncludeMajor] = useState(false);
     return (
       <form onSubmit={handleSubmit}>
         <div className="row m-5 rtl">
@@ -295,13 +338,11 @@ function Edite_Control() {
                 className="form-control"
                 id="name"
                 name="name"
-                placeholder={dataControl.name}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={values.name}
+                onChange={(e) => setValues({...values,name:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                 }}
-                required
               />
             </div>
             <div className="form-group">
@@ -311,13 +352,12 @@ function Edite_Control() {
                 className="form-control"
                 id="acaD_YEAR"
                 name="acaD_YEAR"
-                placeholder={dataControl.acaD_YEAR}
-                value={acaD_YEAR}
-                onChange={(e) => setAcaD_YEAR(e.target.value)}
+                value={values.acaD_YEAR}
+                onChange={(e) => setValues({...values,acaD_YEAR:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                 }}
-                // placeholder="ex: 2023/2024"
+                disabled
               />
             </div>
             <div className="form-group">
@@ -326,9 +366,8 @@ function Edite_Control() {
                 className="form-select"
                 id="faculity_Semester"
                 name="faculity_Semester"
-                placeholder={dataControl.faculity_Semester}
-                value={faculity_Semester}
-                onChange={(e) => setFaculity_Semester(e.target.value)}
+                value={values.faculity_Semester}
+                onChange={(e) => setValues({...values,faculity_Semester:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                   color: "black",
@@ -346,9 +385,8 @@ function Edite_Control() {
                 className="form-select"
                 id="faculity_Phase"
                 name="faculity_Phase"
-                placeholder={dataControl.faculity_Phase}
-                value={faculity_Phase}
-                onChange={(e) => setFaculity_Phase(e.target.value)}
+                value={values.faculity_Phase}
+                onChange={(e) => setValues({...values,faculity_Phase:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                   color: "black",
@@ -369,6 +407,9 @@ function Edite_Control() {
                 </option>
                 <option value="السنة الدراسية الخامسة">
                   السنة الدراسية الخامسة
+                </option>
+                <option value="السنة الدراسية الخامسة">
+                  السنة الدراسية السادسة
                 </option>
               </select>
             </div>
@@ -401,9 +442,8 @@ function Edite_Control() {
                   className="form-control"
                   id="faculity_Node"
                   name="faculity_Node"
-                  // value={faculity_Node}
-                  placeholder={dataControl.faculity_Node}
-                  onChange={(e) => setFaculity_Node(e.target.value)}
+                  value={values.faculity_Node}
+                  onChange={(e) => setValues({...values,faculity_Node:e.target.value})}
                   style={{
                     backgroundColor: "#E1E1E1",
                   }}
@@ -418,8 +458,8 @@ function Edite_Control() {
                 className="form-control"
                 id="start_Date"
                 name="start_Date"
-                // value={dataControl.start_Date}
-                onChange={(e) => setStart_Date(e.target.value)}
+                value={values.start_Date}
+                onChange={(e) => setValues({...values,start_Date:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                 }}
@@ -432,8 +472,8 @@ function Edite_Control() {
                 className="form-control"
                 id="end_Date"
                 name="end_Date"
-                // value={dataControl.end_Date}
-                onChange={(e) => SetEnd_Date(e.target.value)}
+                value={values.end_Date}
+                onChange={(e) => setValues({...values,end_Date:e.target.value})}
                 style={{
                   backgroundColor: "#E1E1E1",
                 }}
@@ -449,7 +489,6 @@ function Edite_Control() {
                 style={{
                   backgroundColor: "#CFEEFF",
                   color: "black",
-                  width: "35%",
                 }}
                 placeholder={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
@@ -494,7 +533,7 @@ function Edite_Control() {
                       width: "40%",
                     }}
                   >
-                    <span>{subject}</span>
+                    <span style={{fontSize:"0.9rem"}}>{subject}</span>
                     <FontAwesomeIcon
                       icon={faTrashAlt}
                       style={{
@@ -519,7 +558,6 @@ function Edite_Control() {
                 style={{
                   backgroundColor: "#CFEEFF",
                   color: "black",
-                  width: "55%",
                 }}
                 placeholder={selectedChairperson}
                 onChange={(e) => setSelectedChairperson(e.target.value)}
@@ -556,10 +594,9 @@ function Edite_Control() {
                       style={{
                         backgroundColor: "#D9D9D9",
                         color: "black",
-                        width: "40%",
                       }}
                     >
-                      <span>{chairperson}</span>
+                      <span style={{fontSize:"0.9rem"}}>{chairperson}</span>
 
                       <FontAwesomeIcon
                         icon={faTrashAlt}
@@ -584,7 +621,6 @@ function Edite_Control() {
                   style={{
                     backgroundColor: "#CFEEFF",
                     color: "black",
-                    width: "55%",
                   }}
                   placeholder={selectedCommitteeMember}
                   onChange={(e) => setSelectedCommitteeMember(e.target.value)}
@@ -624,7 +660,7 @@ function Edite_Control() {
                       }}
                     >
                       {" "}
-                      <span>{committeeMember}</span>
+                      <span style={{fontSize:"0.9rem"}}>{committeeMember}</span>
                       <FontAwesomeIcon
                         icon={faTrashAlt}
                         style={{
@@ -644,8 +680,8 @@ function Edite_Control() {
           </div>
           <div className=" d-flex justify-content-center align-items-center w-100 my-5">
             <button
-              className="btn btn-outline-primary "
-              style={{ padding: "0.5rem 4rem" }}
+              className="btn btn-outline-success fw-bold "
+              style={{padding: "0.5rem 4rem", background: 'rgb(3, 169, 244)', color: "rgb(255, 255, 255)"}}
             >
               تعديل
             </button>

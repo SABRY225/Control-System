@@ -46,7 +46,7 @@ export default function Header() {
             <>
                 <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)" }}>
                     <div className="container-fluid">
-                        <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >لجان الكنترولات</div>
+                        <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >CMS</div>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -83,7 +83,7 @@ export default function Header() {
             <>
                 <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)" }}>
                     <div className="container-fluid">
-                        <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >لجان الكنترولات</div>
+                        <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >CMS</div>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -115,7 +115,7 @@ export default function Header() {
             >
               <div className="container-fluid">
                 <div className="navbar-brand Logo" style={{ marginLeft: "5%" }}>
-                  لجان الكنترولات
+                CMS 
                 </div>
                 <button
                   className="navbar-toggler"

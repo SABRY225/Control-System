@@ -375,7 +375,7 @@ export default function CreationControl() {
                         {/* Dropdown */}
                         <select
                             className="form-select"
-                            style={{ backgroundColor: '#CFEEFF', color: 'black', width: '35%', }}
+                            style={{ backgroundColor: '#CFEEFF', color: 'black' }}
                             value={selectedSubject}
                             onChange={(e) => setSelectedSubject(e.target.value)}
                         >
@@ -423,7 +423,7 @@ export default function CreationControl() {
                     <div className="d-flex align-items-center justify-content-start mb-3">
                         <select
                             className="form-select"
-                            style={{ backgroundColor: '#CFEEFF', color: 'black', width: '55%', }}
+                            style={{ backgroundColor: '#CFEEFF', color: 'black'}}
                             value={selectedChairperson}
                             onChange={(e) => setSelectedChairperson(e.target.value)}
                         >
@@ -473,7 +473,7 @@ export default function CreationControl() {
                         <div className="d-flex align-items-center justify-content-start mb-3">
                             <select
                                 className="form-select "
-                                style={{ backgroundColor: '#CFEEFF', color: 'black', width: '55%', }}
+                                style={{ backgroundColor: '#CFEEFF', color: 'black'}}
                                 value={selectedCommitteeMember}
                                 onChange={(e) => setSelectedCommitteeMember(e.target.value)}
                             >
