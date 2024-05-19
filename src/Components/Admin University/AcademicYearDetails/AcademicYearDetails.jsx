@@ -54,10 +54,10 @@ const AcademicYearDetails = () => {
 
   const getNote = useCallback(() => {
     async function getNote() {
+      console.log(process.env.REACT_APP_NOTETOHEADUNIVARSITY + control.id);
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_NOTETOHEADUNIVARSITY +
-            control.id,
+          "http://localhost:5120/controlnotes/notestoheaduniversity/" + control.id,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -84,7 +84,7 @@ const AcademicYearDetails = () => {
   };
 
   const data = {
-    labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
+    labels: ["المواد التي تم انجازها", "المواد التي لم يتم انجازها"],
     datasets: [
       {
         lable: "Poll",

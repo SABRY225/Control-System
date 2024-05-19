@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDetails } from "../../../Redux/detailsSlice";
 import "./DetailsOfControl.css";
@@ -6,10 +6,26 @@ import { useNavigate } from "react-router-dom";
 
 const DetailsOfControl = ({ faculty }) => {
   const { controls } = faculty;
-
+  const [control,setControl]=useState([])
   const semester = `${new Date().getFullYear()}/${
     new Date().getFullYear() - 1
   }`;
+
+  useEffect(() => {
+    // Reset the filtered controls state before setting new values
+    setControl([]);
+
+    // Filter the controls based on the acaD_YEAR matching the semester
+    for (const control of controls) {
+      if (control.acaD_YEAR === semester) {
+        try {
+          setControl(prev => [...prev, control]);
+        } catch (e) {
+          console.log(e.message);
+        }
+      }
+    }
+  }, [controls, semester]);
   // Mocked semester value (can be fetched from admin settings or API)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +43,7 @@ const DetailsOfControl = ({ faculty }) => {
           </div>
 
           {/* Displaying Academic Years */}
-          {controls.map((control) => (
+          {control.map((control) => (
             <div key={control.id} className="col-md-5">
               <div
                 style={{ cursor: "pointer" }}
