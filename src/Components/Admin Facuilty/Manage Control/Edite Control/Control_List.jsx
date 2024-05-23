@@ -24,8 +24,9 @@ const ControlList = () => {
   const getControl = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5120/Controls/'+fId,
+        process.env.REACT_APP_CONTROLS,
         {
+          params:{Fid:fId},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
@@ -56,7 +57,7 @@ const ControlList = () => {
     try {
       if (window.confirm("هل تريد ازالة الكنترول نهائيا ؟")){
       const response = await axios.delete(
-        `http://localhost:5120/Controls/delete/${control}`,
+        process.env.REACT_APP_DELETECONTROLS+control,
         {
           headers: {
             Authorization: "Bearer " + tok, // Authorization token

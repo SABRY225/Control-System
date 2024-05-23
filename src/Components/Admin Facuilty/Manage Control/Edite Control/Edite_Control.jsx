@@ -26,8 +26,9 @@ function Edite_Control() {
         const fetchData = async () => {
                 try {
                     // Fetch data from the API using axios
-                    const response = await axios.get(`http://localhost:5120/Controls/detail/${CId}`,
+                    const response = await axios.get(process.env.REACT_APP_DETAILCONTROLS,
                         {
+                          params:{id:CId},
                             headers: {
                                 Authorization: "Bearer " + token, // Authorization token
                                 "Content-Type": "application/json", // Content type
@@ -50,18 +51,6 @@ function Edite_Control() {
                     console.log(error);
                 }
             };
-        // console.log("dataControl :" ,dataControl);
-        // const jsonString = Object.values(dataControl);
-        // console.log("jsonString : ",jsonString[0]);
-        // const ahmed=jsonString[0]
-    // const [name, setName] = useState(ahmed);
-    // const [faculity_Phase, setFaculity_Phase] = useState(dataControl.faculity_Phase)
-    // const [faculity_Node, setFaculity_Node] = useState(dataControl.faculity_Node);
-    // const [start_Date, setStart_Date] = useState(dataControl.start_Date);
-    // const [end_Date, SetEnd_Date] = useState(dataControl.end_Date);
-    // const [acaD_YEAR, setAcaD_YEAR] = useState([dataControl.acaD_YEAR]);
-    // const [faculity_Semester, setFaculity_Semester] = useState(dataControl.faculity_Semester);
-
     const [selectedMajor, setSelectedMajor] = useState(dataControl.selectedMajor);
     const [includeMajor, setIncludeMajor] = useState(false);
     useEffect(() => {
@@ -90,7 +79,7 @@ function Edite_Control() {
     const getSubject = async () => {
             try {
                 const { data } = await axios.get(
-                  "http://localhost:5120/Subject/faculty/"+fId, // API endpoint URL
+                  process.env.REACT_APP_SUBJECTFACULTY+fId, // API endpoint URL
                     {
                         headers: {
                             Authorization: "Bearer " + token, // Authorization token
@@ -168,7 +157,7 @@ function Edite_Control() {
     const getStaff = async () => {
         try {
             const data= await axios.get(
-                "http://localhost:5120/Users/user-for-faculty", // API endpoint URL
+                process.env.REACT_APP_USEROFFACULTY, // API endpoint URL
                 {
                     params: { id :fId }, // Parameters passed to the API endpoint
                     headers: {
@@ -307,7 +296,7 @@ function Edite_Control() {
             console.log(formData);
             // // Make a POST request to the authentication endpoint
             const response = await axios.put(
-                'http://localhost:5120/Controls/edit',
+                process.env.REACT_APP_EDITECONTROLS,
                 jsonData ,{
                     params: { Cid :CId }, // Parameters passed to the API endpoint
                     headers: {

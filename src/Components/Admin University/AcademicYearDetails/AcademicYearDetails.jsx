@@ -57,7 +57,7 @@ const AcademicYearDetails = () => {
       console.log(process.env.REACT_APP_NOTETOHEADUNIVARSITY + control.id);
       try {
         const { data } = await axios.get(
-          "http://localhost:5120/controlnotes/notestoheaduniversity/" + control.id,
+          process.env.REACT_APP_NOTETOHEADUNIVARSITY + control.id,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -106,9 +106,10 @@ const AcademicYearDetails = () => {
 
   return (
     <div className="academic-year-details-container rtl container page">
-      <div className="details-line my-5 d-sm-inline-block d-lg-flex justify-content-start align-items-center">
-        <span className="fw-bold fs-5">
-          كنترول {control.acaD_YEAR} كلية {faculty.name} لعام{" "}
+      <div className="details-line my-5 d-sm-inline-block d-lg-flex justify-content-start align-items-center" style={{fontSize:"1rem"}}>
+        <span className=" fs-5">
+          كنترول {control.name} كلية {faculty.name} لعام{" "}
+          {control.acaD_YEAR} {" "}
           {control.faculity_Semester} تحت ادارة عميد الكلية{" "}
           {control.userCreator.name} ورئيس الكنترول {HeadControl}
           {/* Render circle with dynamic color */}
@@ -125,11 +126,9 @@ const AcademicYearDetails = () => {
         ></span>
       </div>
 
-      <div className="subjects-container d-flex justify-content-between flex-row-reverse">
-        <div className="col-md-4 text-center ">
-          <Doughnut data={data} options={options}></Doughnut>
-        </div>
-        <div className="subjects-column">
+      <div className="container d-flex justify-content-center ">
+      <div className="row justify-content-around m-5">
+      <div className="col-md">
           <h4>المواد</h4>
           {subjects.map((subject) => (
             <div key={subject.id} className="subject fs-5">
@@ -144,9 +143,13 @@ const AcademicYearDetails = () => {
             </div>
           ))}
         </div>
+      <div className="col-md ">
+          <Doughnut data={data} options={options}></Doughnut>
+        </div>
       </div>
-      <div className="continer">
-        <div className="row justify-content-end m-3 ">
+      </div>
+      <div className="continer m-3">
+        <div className="row justify-content-end ">
           <div className="col-md-12 text-center ">
             <div className="Table-title">ملاحظات عميد الكلية</div>
           </div>

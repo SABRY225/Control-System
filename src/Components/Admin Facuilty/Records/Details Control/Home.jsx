@@ -16,7 +16,8 @@ export default function HomeControlRecodes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_DETAILCONTROLS+IdControl, {
+        const response = await axios.get(process.env.REACT_APP_DETAILCONTROLS, {
+          params:{id:IdControl},
           headers: {
             Authorization: "Bearer " + tok,
           },

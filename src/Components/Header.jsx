@@ -44,7 +44,7 @@ export default function Header() {
     if (role === 'AdminFaculty') {
         return (
             <>
-                <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)" }}>
+                <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)" ,padding:"0rem" }}>
                     <div className="container-fluid">
                         <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >CMS</div>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,10 +67,13 @@ export default function Header() {
                             </ul>
                             <div className="d-flex">
                                 <div className='User'>
-                                    <div className='UserText'>{data.name}</div>
+                                    <div className='UserText p-1'>{data.name}</div>
                                     <div ><img className='UserImage' src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png" alt="" /></div>
                                 </div>
-                                <button class="btn btn-outline-dark " type="submit" onClick={logout}>LOGOUT</button>
+                                <div className='p-1'>
+                                <button className="btn btn-outline-dark  " type="submit" onClick={logout}>LOGOUT</button>
+                                </div>
+
                             </div>
 
                         </div>
@@ -81,7 +84,7 @@ export default function Header() {
     } else if (role === 'AdminUniversity') {
         return (
             <>
-                <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)" }}>
+                <nav className="navbar navbar-expand-lg " style={{ background: "rgba(152, 218, 255, 1)",padding:"0rem" }}>
                     <div className="container-fluid">
                         <div className="navbar-brand Logo" style={{ marginLeft: "5%" }} >CMS</div>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +114,7 @@ export default function Header() {
           <>
             <nav
               className="navbar navbar-expand-lg "
-              style={{ background: "rgba(152, 218, 255, 1)" }}
+              style={{ background: "rgba(152, 218, 255, 1)" ,padding:"0rem" }}
             >
               <div className="container-fluid">
                 <div className="navbar-brand Logo" style={{ marginLeft: "5%" }}>

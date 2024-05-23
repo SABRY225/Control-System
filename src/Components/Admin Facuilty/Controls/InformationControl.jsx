@@ -17,11 +17,13 @@ export default function InformationControl() {
     new Date().getFullYear() - 1
   }`;
   const getControls = useCallback(() => {
+    console.log(process.env.REACT_APP_CONTROLS+ Fid);
     const getControls = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_CONTROLS + Fid,
+          process.env.REACT_APP_CONTROLS ,
           {
+            params:{Fid},
             headers: {
               Authorization: "Bearer " + tok,
             },

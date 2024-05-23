@@ -19,7 +19,7 @@ export default function SearchOfControl() {
         try {
             const response = await axios.get(process.env.REACT_APP_SEARCHCONTROLS,
                 {
-                    params: { AY: acad_Year },
+                    params: { AcadYear: acad_Year },
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
                         "Content-Type": "application/json", // Content type

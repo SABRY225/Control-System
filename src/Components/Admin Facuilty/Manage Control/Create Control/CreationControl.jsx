@@ -10,8 +10,7 @@ export default function CreationControl() {
     const fId = useSelector((state) => state.Profile.Fid);
     const tok = useSelector((state) => state.auth.token);
     const semester = `${new Date().getFullYear()}/${
-        new Date().getFullYear() - 1
-      }`;
+        new Date().getFullYear() - 1}`;
     // start values
     const [name, setName] = useState("")
     const [faculity_Phase, setFaculity_Phase] = useState("");
@@ -30,7 +29,7 @@ export default function CreationControl() {
     const getSubject = async () => {
         try {
             const { data } = await axios.get(
-                `http://localhost:5120/Subject/faculty/${fId}`, // API endpoint URL
+                process.env.REACT_APP_SUBJECTFACULTY+fId, // API endpoint URL
                 {
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
@@ -48,7 +47,7 @@ export default function CreationControl() {
     const getStaff = async () => {
         try {
             const dataStaff = await axios.get(
-                'http://localhost:5120/Users/user-for-faculty', // API endpoint URL
+                process.env.REACT_APP_USEROFFACULTY, // API endpoint URL
                 {
                     params: { id:fId }, // Parameters passed to the API endpoint
                     headers: {
@@ -207,7 +206,7 @@ export default function CreationControl() {
             console.log(formData);
             // Make a POST request to the authentication endpoint
             const response = await axios.post(
-                `http://localhost:5120/Controls/create/${fId}`,
+                process.env.REACT_APP_CREATECONTROLS+fId,
                 jsonData ,{
                     headers: {
                         Authorization: "Bearer " + tok, // Authorization token
@@ -462,12 +461,8 @@ export default function CreationControl() {
                                     </div>
                                 </>
                             ))}
-
-
                         </div>
-
                     </div>
-
                     {/* Committee Members Section */}
                     <div className="my-3">
                         <div className="d-flex align-items-center justify-content-start mb-3">
