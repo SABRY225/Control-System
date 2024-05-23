@@ -52,26 +52,26 @@ function Login() {
         <div className='HomeLogin  '>
             <div className="container">
                 <div className="row justify-content-center ">
-                    <div class="wrapper">
-                        <div class="logo">
+                    <div className="wrapper">
+                        <div className="logo">
                             <img src={LogoUniversity} alt="LogoUniversity" className='ImageLogo' />
                         </div>
-                        <div class="text-center mt-4 name">
+                        <div className="text-center mt-4 name">
                             South Valley Universtiy
                         </div>
-                        <form class="p-3 mt-3" onSubmit={handleSubmit}>
-                            <div class="form-field d-flex align-items-center">
-                                <span class="far fa-user"></span>
+                        <form className="p-3 mt-3" onSubmit={handleSubmit}>
+                            <div className="form-field d-flex align-items-center">
+                                <span className="far fa-user"></span>
                                 <input type="text" name="userName" id="userName" placeholder="Username" value={userName}
                                     onChange={(e) => setUsername(e.target.value)}
                                     style={{color:"#34495E"}} />
                             </div>
-                            <div class="form-field d-flex align-items-center">
-                                <span class="fas fa-key"></span>
+                            <div className="form-field d-flex align-items-center">
+                                <span className="fas fa-key"></span>
                                 <input type="password" name="password" id="pwd" placeholder="Password" value={password}
                                     onChange={(e) => setPassword(e.target.value)} />
                             </div>
-                            <button class="btn mt-3">Login</button>
+                            <button className="btn mt-3">Login</button>
                         </form>
                     </div>
                 </div>

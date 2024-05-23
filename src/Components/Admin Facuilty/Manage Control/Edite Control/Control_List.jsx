@@ -57,8 +57,9 @@ const ControlList = () => {
     try {
       if (window.confirm("هل تريد ازالة الكنترول نهائيا ؟")){
       const response = await axios.delete(
-        process.env.REACT_APP_DELETECONTROLS+control,
+        process.env.REACT_APP_DELETECONTROLS,
         {
+          params:{id:control},
           headers: {
             Authorization: "Bearer " + tok, // Authorization token
             "Content-Type": "application/json",
