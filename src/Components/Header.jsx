@@ -147,7 +147,6 @@ export default function Header() {
                     </div>
                   </div>
                 </div>
-                <button class="btn btn-outline-dark " type="submit" onClick={logout}>LOGOUT</button>
               </div>
 
             </div>
@@ -214,13 +213,6 @@ export default function Header() {
                     </div>
                   </div>
                 </div>
-                <button
-                  class="btn btn-outline-dark "
-                  type="submit"
-                  onClick={logout}
-                >
-                  LOGOUT
-                </button>
               </div>
             </div>
           </div>
