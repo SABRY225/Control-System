@@ -77,8 +77,6 @@ export default function Materiales() {
     } catch (error) {
       // console.log("Login error:", error);
       alert("يرجي أعادة المحاولة")
-
-
     }
   };
   // console.log(facultyNode);

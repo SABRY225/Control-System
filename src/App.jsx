@@ -7,11 +7,10 @@ import Store from './Redux/Story';
 import 'react-toastify/dist/ReactToastify.css';
 import Reocrd_Controles from './Pages/Reocrd_Controles';
 import { Admin_Facuilty,Admin_University,Head_Control, RegisterPages, } from "./Pages/index";
-import LayoutAPP from "./Layout/LayoutAPP";
+import {LayoutAPP,LayoutAuth,JustFirst} from "./Layout/index";
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import {DataControl,HomeControlRecodes, InformationControl, SearchOfControl,RgisterMember_Materiales} from './Components/Admin Facuilty/index';
 import Login from './Components/Login/Login';
-import LayoutAuth from './Layout/LayoutAuth';
 import { DetaliesWork_schedule, Task_schedule, Work_schedule } from './Components/Member Facuilty/index';
 import { ContentOfControl, EditeTask, HomeOfHead, InfoControl, TaskOfControl } from './Components/Head  Control/index';
 import ControlManagement from './Components/Admin Facuilty/Manage Control/Create Control/MangeControl';
@@ -19,8 +18,9 @@ import AcademicYearDetails from './Components/Admin University/AcademicYearDetai
 import Controls from './Components/Admin University/Controls/Controls';
 // import ControlList from './Components/Admin Facuilty/Manage Control/Edite Control/Control_List';
 import ProtectedRoutes from './Components/ProtectedRoutes/ProtectedRoutes';
-import JustFirst from './Layout/JustFirst';
 import Edite_Control from './Components/Admin Facuilty/Manage Control/Edite Control/Edite_Control';
+import Profile from './Components/Profile/Profile';
+import Setting from './Components/Setting/Setting';
 
 
 const routers = createBrowserRouter([
@@ -48,14 +48,8 @@ const routers = createBrowserRouter([
           { index: true, element: <InformationControl /> },
           { path: "CreateControl", element: <ControlManagement /> },
           { path: "Edite_Control", element: <Edite_Control /> },
-          {
-            path: "control",
-            element: <DataControl />,
-          },
-          {
-            path: "Records",
-            element: <Reocrd_Controles />,
-            children: [
+          { path: "control",element: <DataControl />},
+          { path: "Records",element: <Reocrd_Controles />,children: [
               { index: true, element: <SearchOfControl /> },
               { path: "control", element: <HomeControlRecodes /> },
             ],
@@ -92,6 +86,8 @@ const routers = createBrowserRouter([
           },
         ],
       },
+      { path:"profile", element: <Profile /> },
+      { path:"setting", element: <Setting /> },
       { path: "*", element: <ErrorPage /> },
     ],
   },
