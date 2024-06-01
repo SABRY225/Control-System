@@ -5,6 +5,11 @@ const initialState = {
     Fid:'',
     IdControl:' ',
     IdControlRecord:' ',
+    national: '',
+    firstName: '',
+    college: '',
+    email: '',
+    userImage:''
 };
 
 
@@ -19,6 +24,21 @@ const profileSlice = createSlice({
         setFid: (state, { payload }) => {
             state.Fid = payload;
         },
+        setName: (state, { payload }) => {
+            state.firstName = payload;
+        },
+        setNationalID: (state, { payload }) => {
+            state.national = payload;
+        },
+        setCollege: (state, { payload }) => {
+            state.college = payload;
+        },
+        setEmail: (state, { payload }) => {
+            state.email = payload;
+        },
+        setUserImage: (state, { payload }) => {
+            state.userImage = payload;
+        },
         setIdControl: (state, { payload }) => {
             state.IdControl = payload;
         },
@@ -28,5 +48,5 @@ const profileSlice = createSlice({
     }
 });
 
-export const {setId ,setFid,setIdControl,setIdControlRecord} = profileSlice.actions;
+export const {setId ,setFid,setIdControl,setIdControlRecord,setName,setNationalID,setCollege,setEmail} = profileSlice.actions;
 export default profileSlice.reducer;

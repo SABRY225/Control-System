@@ -1,8 +1,9 @@
 import React from 'react'
-
+import PasswordReset from './PasswordReset'
+import "./StyleSetting.css"
 function Setting() {
   return (
-    <div>Setting</div>
+    <div><PasswordReset /></div>
   )
 }
 
