@@ -30,7 +30,20 @@ export default function Members() {
       event.target.reset();
       alert("تم تسجيل المستخدم بنجاح")
     } catch (error) {
-      alert("يرجي اعادة المحاولة ")
+      let err;
+      if (error.response.data.errors) {
+        const errors = error.response.data.errors;
+        let errorMessages = [];
+        for (let key in errors) {
+          if (errors.hasOwnProperty(key)) {
+            errorMessages.push(errors[key]);
+          }
+        }
+        err = errorMessages.join("\n");
+      }
+      else err = error.response.data;
+      console.log(error);
+      alert(err);
 
     }
   };

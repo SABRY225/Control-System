@@ -450,7 +450,6 @@ export default function CreationControl() {
             </button>
             {isLoading ? alert("......جاري انشاء كنترول جديد"): ''}
 
-
         </form>
     );
 }
