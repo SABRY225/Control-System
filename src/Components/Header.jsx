@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, logoutSuccess } from '../Redux/authSlice';
-import { setFid, setId, setName } from '../Redux/ProfileSlice';
+import { setCollege, setEmail, setFid, setId, setName,setNationalID,setUserImage } from '../Redux/ProfileSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
@@ -23,18 +23,21 @@ export default function Header() {
 
   const getData = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5120/Users/current-user', {
+      const { data } = await axios.get(process.env.REACT_APP_CURRENTUSER, {
         headers: {
           'Authorization': 'Bearer ' + tok,
           'Content-Type': 'application/json'
         }
       });
-      setData(data);
       console.log(data);
+      setData(data);
       dispatch(setId(data.id));
-      dispatch(setFid(data.facultyID));
+      dispatch(setFid(data.faculityLeaderID));
       dispatch(setName(data.name));
-      console.log(setName(data.name));
+      dispatch(setEmail(data.email));
+      dispatch(setNationalID(data.userName));
+      dispatch(setCollege(data.faculityName));
+      dispatch(setUserImage(data.userImage));
     } catch (error) {
       if (error.message === "Request failed with status code 401") {
         dispatch(loginSuccess(''));

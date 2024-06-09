@@ -17,7 +17,7 @@ export default function DetaliesWork_schedule() {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_USEROFCONTROL ,
+          process.env.REACT_APP_GETUSERSFORCONTROL ,
           {
             params:{controlId:control.control.id},
             headers: {
@@ -37,9 +37,9 @@ export default function DetaliesWork_schedule() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_SUBJECTOFCONTROL,
+          process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{controld:control.control.id},
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -66,7 +66,7 @@ export default function DetaliesWork_schedule() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        process.env.REACT_APP_CONTROLNOTES ,
+        process.env.REACT_APP_CREATENOTE ,
         jsonNote,
         {
           params:{Cid:control.control.id},

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ControlList from '../Edite Control/Control_List';
 import CreationControl from './CreationControl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPen } from '@fortawesome/free-solid-svg-icons';
 
 const ControlManagement = () => {
 
@@ -40,6 +42,8 @@ const ControlManagement = () => {
                         }
                     >
                         إنشاء كنترول
+                        <FontAwesomeIcon icon={faPen} />
+
                     </button>
 
                     {/* Edit Control Button */}
@@ -52,7 +56,9 @@ const ControlManagement = () => {
                         }}
                         onClick={handelEditeClick}
                     >
-                        تعديل كنترول
+                        تعديل كنترول 
+                        <FontAwesomeIcon icon={faEdit} />
+
                     </button>
                 </div>
             </div>

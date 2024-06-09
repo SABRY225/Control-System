@@ -22,7 +22,7 @@ const SearchOfControl = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SEARCHCONTROLS, {
+      const response = await axios.get(process.env.REACT_APP_GETCONTROLSBYACADEMICYEAR, {
         params: { AcadYear: acadYear },
         headers: {
           Authorization: 'Bearer ' + tok, // Authorization token
@@ -42,7 +42,7 @@ const SearchOfControl = () => {
   console.log(originalData);
   const handleViewDetails = (controlId) => {
     dispatch(setIdControlRecord(controlId));
-    navigate('/Admin_Facuilty/Records/control');
+    navigate('/Admin_Faculity/Records/control');
   };
 
   return (

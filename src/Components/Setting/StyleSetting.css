@@ -49,13 +49,6 @@
     background-color: #0056b3;
 }
 
-.send-otp p {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #28a745;
-    text-align: center;
-}
-
 /* src/components/ChangePassword.css */
 .change-password {
     max-width: 400px;
@@ -108,9 +101,16 @@
     background-color: #0056b3;
 }
 
-.change-password p {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #0c0909;
+
+
+.success-message {
+    color: green;
     text-align: center;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
 }

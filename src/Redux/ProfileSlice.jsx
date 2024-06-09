@@ -48,5 +48,5 @@ const profileSlice = createSlice({
     }
 });
 
-export const {setId ,setFid,setIdControl,setIdControlRecord,setName,setNationalID,setCollege,setEmail} = profileSlice.actions;
+export const {setId ,setFid,setIdControl,setIdControlRecord,setName,setNationalID,setCollege,setEmail,setUserImage} = profileSlice.actions;
 export default profileSlice.reducer;

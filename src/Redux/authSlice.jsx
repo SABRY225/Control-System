@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     token: '',
     role: '',
+    email:' ',
 
 };
 
@@ -26,8 +27,11 @@ const authSlice = createSlice({
         isStaff: (state) => {
             state.role = 'Staff';
         },
+        setEmail: (state,{ payload }) => {
+            state.email = payload;
+        },
     }
 });
 
-export const { loginSuccess, logoutSuccess,isAdminUniversity, isAdminFaculty,isStaff } = authSlice.actions;
+export const { loginSuccess, logoutSuccess,isAdminUniversity, isAdminFaculty,isStaff,setEmail } = authSlice.actions;
 export default authSlice.reducer;

@@ -21,7 +21,8 @@ import ProtectedRoutes from './Components/ProtectedRoutes/ProtectedRoutes';
 import Edite_Control from './Components/Admin Facuilty/Manage Control/Edite Control/Edite_Control';
 import Profile from './Components/Profile/Profile';
 import Setting from './Components/Setting/Setting';
-
+import ForgotPassword from './Components/Login/ForgotPassword'
+import ResetPassword from './Components/Login/ResetPassword';
 
 const routers = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const routers = createBrowserRouter([
     element: <JustFirst />,
     children: [
       { index: true, element: <Login /> },
-      { path: "signin", element: <Login /> },
+      { path: "signin", element: <Login /> },      
       { path: "*", element: <ErrorPage /> },
     ],
   },
@@ -42,7 +43,7 @@ const routers = createBrowserRouter([
     ),
     children: [
       {
-        path: "Admin_Facuilty",
+        path: "Admin_Faculity",
         element: <Admin_Facuilty />,
         children: [
           { index: true, element: <InformationControl /> },
@@ -96,6 +97,8 @@ const routers = createBrowserRouter([
     element: <LayoutAuth />,
     children: [
       { path: "signin", element: <Login /> },
+      { path: "new-password", element: <ResetPassword/> },
+      { path: "forgotpassword", element: <ForgotPassword />},
       { path: "*", element: <ErrorPage /> },
     ],
   },

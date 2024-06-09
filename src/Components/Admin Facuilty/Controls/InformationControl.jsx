@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setDetails } from "../../../Redux/detailsSlice";
-
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function InformationControl() {
   const [controls, setControls] = useState([]);
@@ -13,82 +14,80 @@ export default function InformationControl() {
   const dispatch = useDispatch();
   const tok = useSelector((state) => state.auth.token);
   const Fid = useSelector((state) => state.Profile.Fid);
-  const semester = `${new Date().getFullYear()}/${
-    new Date().getFullYear() - 1
-  }`;
+  const semester = `${new Date().getFullYear()}/${new Date().getFullYear() - 1}`;
+
   const getControls = useCallback(() => {
-    console.log(process.env.REACT_APP_CONTROLS+ Fid);
-    const getControls = async () => {
+    const fetchControls = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_CONTROLS ,
+          `${process.env.REACT_APP_GETCONTROLSBYFACULITYID}${Fid}`,
           {
-            params:{Fid},
+            params: { fid: Fid },
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
-        for (const control of data) {
-          console.log(control.acaD_YEAR);
-          if (control.acaD_YEAR==semester) {
-            setStateOfControls(true)
-            try {
-            const {
-              data: { user },
-            } = await axios.get(
-              process.env.REACT_APP_HEADCONTROL + control.id,
-              {
-                headers: {
-                  Authorization: "Bearer " + tok,
-                },
-              }
-            );
-            // console.log(user);
-            setControls((prev) => [...prev, { user, control }]);
-          } catch (e) {
-            console.log(e.message);
-          }
-          }
 
+        const controlsData = [];
+        for (const control of data) {
+          if (control.acaD_YEAR === semester) {
+            setStateOfControls(true);
+            try {
+              const { data: nameData } = await axios.get(
+                process.env.REACT_APP_GETHEADOFCONTROL + control.id,
+                {
+                  headers: {
+                    Authorization: "Bearer " + tok,
+                  },
+                }
+              );
+              const user = nameData.name;
+              controlsData.push({ user, control });
+            } catch (e) {
+              toast.error("Failed to fetch head of control: " + e.message);
+            }
+          }
         }
+        setControls(controlsData);
+        toast.success("Controls data fetched successfully!");
       } catch (error) {
-        console.log(error.message);
+        toast.error("Failed to fetch controls data: " + error.message);
       }
     };
-    getControls();
-  }, [Fid]);
+    fetchControls();
+  }, [Fid, tok, semester]);
 
   useEffect(() => {
     getControls();
   }, [getControls]);
 
   const handleSendControl = (control) => {
-    console.log(control);
+    console.log(controls);
     dispatch(setDetails({ control: control }));
     navigate("control");
   };
-console.log(stateOfControls);
+
   return (
     <div className="container HomeClassInfoControls">
+      <ToastContainer />
       {/* Semes_Acad_Title */}
-      <div className="row  text-center Semes_Acad_Title m-2">
-        <div className="col  Semes_Acad_Title-col">{semester}</div>
+      <div className="row text-center Semes_Acad_Title m-2">
+        <div className="col Semes_Acad_Title-col">{semester}</div>
       </div>
       {/* Semes_Acad_Title */}
       <div className="container ClassesControls">
         <div className="row justify-content-center">
-          {stateOfControls===true ? <>
-            {controls.map((control) => {
-            // console.log(control.control);
-            return (
+          {stateOfControls ? (
+            controls.map((control) => (
               <div
-                className="col-4 m-3 boxControl pointer-event"
+                className="col-12 col-sm-6 col-md-4 m-3 boxControl pointer-event"
                 onClick={() => handleSendControl(control)}
+                key={control.control.id}
               >
                 <div className="row">
                   <div className="col-6 dataofControl">
-                    <div className="nameOfHeadControl">{control.user.name}</div>
+                    <div className="nameOfHeadControl">{control.user}</div>
                     <div className="nameOfJob">رئيس الكنترول</div>
                   </div>
                   <div className="col-6 text-center nameOfControl">
@@ -96,13 +95,14 @@ console.log(stateOfControls);
                   </div>
                 </div>
               </div>
-            );
-          })}</>:<>
-          
-          <div className="col-md-12 my-3">
-                <p className="text-center fs-2 fw-bold">لم يتم انشاء كنترولات حتى الان</p>
-          </div>
-          </>}
+            ))
+          ) : (
+            <div className="col-md-12 my-3">
+              <p className="text-center fs-2 fw-bold">
+                لم يتم انشاء كنترولات حتى الان
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

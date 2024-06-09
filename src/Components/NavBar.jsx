@@ -2,14 +2,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
-
+import logoWEbsite from "../assets/logoWEbsite.png"
 const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
     const commonLinks = {
         AdminFaculty: [
-            { path: '/Admin_Facuilty/', text: 'الكنترولات' },
-            { path: '/Admin_Facuilty/CreateControl', text: 'ادارة الكنترولات' },
-            { path: '/Admin_Facuilty/Register', text: 'التسجيل' },
-            { path: '/Admin_Facuilty/Records', text: 'السجل' }
+            { path: '/Admin_Faculity/', text: 'الكنترولات' },
+            { path: '/Admin_Faculity/CreateControl', text: 'ادارة الكنترولات' },
+            { path: '/Admin_Faculity/Register', text: 'التسجيل' },
+            { path: '/Admin_Faculity/Records', text: 'السجل' }
         ],
         AdminUniversity: [
             { path: '/Admin_University/', text: 'الكنترولات' }
@@ -22,7 +22,9 @@ const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
     return (
         <nav className="navbar navbar-expand-lg" style={{ background: "rgba(152, 218, 255, 1)", padding: "0rem" }}>
             <div className="container-fluid">
-                <div className="navbar-brand Logo" style={{ marginLeft: "5%" }}>CMS</div>
+                <div className="navbar-brand Logo" style={{ marginLeft: "5%" }}>
+                    CMS
+                </div>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

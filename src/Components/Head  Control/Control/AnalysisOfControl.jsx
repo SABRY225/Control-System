@@ -21,9 +21,9 @@ export default function AnalysisOfControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_SUBJECTOFCONTROL,
+          process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{controld:control.control.id},
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -47,7 +47,7 @@ export default function AnalysisOfControl() {
     const getNote = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_NOTTOHEADCONTROL +
+          process.env.REACT_APP_NOTESENDHEADCONTROL +
             control.control.id,
           {
             headers: {
@@ -77,7 +77,7 @@ export default function AnalysisOfControl() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        process.env.REACT_APP_CONTROLNOTES ,
+        process.env.REACT_APP_CREATENOTE,jsonNote,
         {
           params:{Cid:control.control.id},
           headers: {

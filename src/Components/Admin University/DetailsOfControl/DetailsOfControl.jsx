@@ -12,10 +12,7 @@ const DetailsOfControl = ({ faculty }) => {
   }`;
 
   useEffect(() => {
-    // Reset the filtered controls state before setting new values
     setControl([]);
-
-    // Filter the controls based on the acaD_YEAR matching the semester
     for (const control of controls) {
       if (control.acaD_YEAR === semester) {
         try {
@@ -26,7 +23,6 @@ const DetailsOfControl = ({ faculty }) => {
       }
     }
   }, [controls, semester]);
-  // Mocked semester value (can be fetched from admin settings or API)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

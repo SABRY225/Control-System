@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrashAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import "./creationControl.css"
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./creationControl.css";
+
 export default function CreationControl() {
     const dispatch = useDispatch();
     const fId = useSelector((state) => state.Profile.Fid);
@@ -19,19 +22,20 @@ export default function CreationControl() {
     const [acaDYear, setAcaDYear] = useState(semester);
     const [faculitySemester, setFaculitySemester] = useState("");
     const [data, setData] = useState([]);
+    const [dataSubject, setDataSubject] = useState([]);
     const [dataStaff, setDataStaff] = useState([]);
+    const [dataStaffColne, setDataStaffColne] = useState([]);
     const [selectedChairperson, setSelectedChairperson] = useState('');
     const [selectedChairpersons, setSelectedChairpersons] = useState([]);
     const [personsIDs, setPersonsIDs] = useState([]);
     const [selectedCommitteeMember, setSelectedCommitteeMember] = useState('');
     const [selectedCommitteeMembers, setSelectedCommitteeMembers] = useState([]);
     const [selectedCommitteeMembersId, setSelectedCommitteeMembersIDs] = useState([]);
-    const [includeMajor, setIncludeMajor] = useState(false);
-    const [selectedMajor, setSelectedMajor] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('');
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    
     useEffect(() => {
         getSubject();
         getStaff();
@@ -48,6 +52,7 @@ export default function CreationControl() {
                 }
             );
             setData(data);
+            setDataSubject(data);
         } catch (error) {
             console.error("Error fetching subject data:", error);
         }
@@ -55,9 +60,7 @@ export default function CreationControl() {
 
     const getStaff = async () => {
         try {
-            const { data: dataStaff } = await axios.get(
-                process.env.REACT_APP_USEROFFACULTY, {
-                    params: { id: fId },
+            const { data: dataStaff } = await axios.get(`${process.env.REACT_APP_GETUSERFORFACULITY}/${fId}`, {
                     headers: {
                         Authorization: `Bearer ${tok}`,
                         "Content-Type": "application/json",
@@ -65,6 +68,7 @@ export default function CreationControl() {
                 }
             );
             setDataStaff(dataStaff);
+            setDataStaffColne(dataStaff);
         } catch (error) {
             console.error("Error fetching staff data:", error);
         }
@@ -73,75 +77,119 @@ export default function CreationControl() {
     const handleAddSubject = () => {
         if (selectedSubject && !selectedSubjectsIDs.includes(selectedSubject)) {
             const selectedSubjectObject = data.find(subject => subject.id === selectedSubject);
-
+    
             if (selectedSubjectObject) {
                 setSelectedSubjects([...selectedSubjects, selectedSubjectObject.name]);
                 setSelectedSubjectsIDs([...selectedSubjectsIDs, selectedSubjectObject.id]);
                 setSelectedSubject('');
+    
+                // Remove the used subject from dataSubject
+                setData(data.filter(item => item.id !== selectedSubject));
             }
         } else {
-            alert('غير قابل لتكرار المقرر');
+            toast.error('غير قابل لتكرار المقرر');
         }
     };
+    
 
     const handleRemoveSubject = (subject) => {
         const updatedSubjects = selectedSubjects.filter((s) => s !== subject);
-        const subjectId = data.find((s) => s.name === subject)?.id;
-        const updatedSubjectsIDs = selectedSubjectsIDs.filter(id => id !== subjectId);
+        let subjectId ;
+        for (let index = 0; index < dataSubject.length; index++) {
+            if (subject === dataSubject[index].name) {
+                subjectId = dataSubject[index].id;
+                break; 
+            }
+        }
+        console.log(subjectId);
 
+        const updatedSubjectsIDs = selectedSubjectsIDs.filter(id => id !== subjectId);
+        const updatedSubjectsClone = selectedSubjects.find((s) => s == subject);
         setSelectedSubjects(updatedSubjects);
         setSelectedSubjectsIDs(updatedSubjectsIDs);
+
+        const removedSubject = {name:updatedSubjectsClone,id:subjectId};
+        console.log(removedSubject);
+        if (removedSubject) {
+            setData([...data, removedSubject]);
+        }
     };
 
     const handleAddChairperson = () => {
-        if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 2) {
+        if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 1) {
             const chairpersonObject = dataStaff.find(chairperson => chairperson.id === selectedChairperson);
-
+    
             if (chairpersonObject) {
                 setSelectedChairpersons([...selectedChairpersons, chairpersonObject.name]);
                 setPersonsIDs([...personsIDs, chairpersonObject.id]);
                 setSelectedChairperson('');
+    
+                // Remove the used chairperson from dataStaff
+                setDataStaff(dataStaff.filter(item => item.id !== selectedChairperson));
             }
         } else {
-            alert('اختيار رئيس كنترول واحد فقط');
+            toast.error('اختيار رئيس كنترول واحد فقط');
         }
     };
 
     const handleRemoveChairperson = (chairperson) => {
         const updatedChairpersons = selectedChairpersons.filter((cp) => cp !== chairperson);
-        const personId = dataStaff.find((cp) => cp.name === chairperson)?.id;
+        let personId ;
+        for (let index = 0; index < dataStaffColne.length; index++) {
+            if (chairperson === dataStaffColne[index].name) {
+                personId = dataStaffColne[index].id;
+                break; 
+            }
+        }
+        console.log(personId);
         const updatedPersonsIDs = personsIDs.filter(id => id !== personId);
 
         setSelectedChairpersons(updatedChairpersons);
         setPersonsIDs(updatedPersonsIDs);
-    };
+        const updatedChairpersonsClone = selectedChairpersons.find((cp) => cp == chairperson);
 
+        const removedChairperson = {name:updatedChairpersonsClone,id:personId};
+        console.log(removedChairperson);
+        if (removedChairperson) {
+            setDataStaff([...dataStaff, removedChairperson]);
+        }
+    };
     const handleAddCommitteeMember = () => {
         if (selectedCommitteeMember && !selectedCommitteeMembersId.includes(selectedCommitteeMember)) {
-            const committeeMemberObject = dataStaff.find(chairperson => chairperson.id === selectedCommitteeMember);
+            const committeeMemberObject = dataStaff.find(committeeMember => committeeMember.id === selectedCommitteeMember);
+    
             if (committeeMemberObject) {
                 setSelectedCommitteeMembers([...selectedCommitteeMembers, committeeMemberObject.name]);
                 setSelectedCommitteeMembersIDs([...selectedCommitteeMembersId, committeeMemberObject.id]);
                 setSelectedCommitteeMember('');
+    
+                // Remove the used committee member from dataStaff
+                setDataStaff(dataStaff.filter(item => item.id !== selectedCommitteeMember));
             }
         } else {
-            alert('This committee member is already added.');
+            toast.error('This committee member is already added.');
         }
     };
 
     const handleRemoveCommitteeMember = (committeeMember) => {
         const updatedCommitteeMembers = selectedCommitteeMembers.filter((cm) => cm !== committeeMember);
-        const committeeMemberId = dataStaff.find((cm) => cm.name === committeeMember)?.id;
+        let committeeMemberId ;
+        for (let index = 0; index < dataStaffColne.length; index++) {
+            if (committeeMember === dataStaffColne[index].name) {
+                committeeMemberId = dataStaffColne[index].id;
+                break; 
+            }
+        }
+        console.log(committeeMemberId);
         const updatedCommitteeMembersIDs = selectedCommitteeMembersId.filter(id => id !== committeeMemberId);
 
         setSelectedCommitteeMembers(updatedCommitteeMembers);
         setSelectedCommitteeMembersIDs(updatedCommitteeMembersIDs);
-    };
-
-    const handleIncludeMajorChange = (e) => {
-        setIncludeMajor(e.target.checked);
-        if (!e.target.checked) {
-            setSelectedMajor('');
+        const updatedCommitteeMembersClone = selectedCommitteeMembers.find((cm) => cm == committeeMember);
+        // Add the removed chairperson back to dataStaff
+        const removedCommitteeMember = {name:updatedCommitteeMembersClone,id:committeeMemberId};
+        if (removedCommitteeMember) {
+            setDataStaff([...dataStaff, removedCommitteeMember]);
         }
     };
 
@@ -157,14 +205,14 @@ export default function CreationControl() {
                 end_Date:endDate,
                 faculity_Node:faculityNode,
                 controlManagerID: personsIDs[0],
-                SubjectsIds: selectedSubjectsIDs,
-                UsersIds: selectedCommitteeMembersId
+                subjectsIds: selectedSubjectsIDs,
+                usersIds: selectedCommitteeMembersId
             };
             const jsonData = JSON.stringify(formData);
-            console.log(jsonData);
             setIsLoading(true);
+            console.log(jsonData);
             const response = await axios.post(
-                process.env.REACT_APP_CREATECONTROLS + fId,
+                process.env.REACT_APP_CREATECONTROL + fId,
                 jsonData, {
                     headers: {
                         Authorization: `Bearer ${tok}`,
@@ -173,13 +221,11 @@ export default function CreationControl() {
                 }
             );
             setIsLoading(false);
-            console.log("Control successful:", response);
-            alert("تم انشاء الكنترول بنجاح");
-            
+            toast.success("تم انشاء الكنترول بنجاح");
         } catch (error) {
+            setIsLoading(false);
+            toast.error("يرجي اعادة المحاولة");
             console.log("Control not successful:", error);
-
-            alert("يرجي اعادة المحاولة ");
         }
     };
 
@@ -245,6 +291,7 @@ export default function CreationControl() {
                             <option value="الفرقة الثانية">الفرقة الثانية</option>
                             <option value="الفرقة الثالثة">الفرقة الثالثة</option>
                             <option value="الفرقة الرابعة">الفرقة الرابعة</option>
+                            <option value="الفرقة الرابعة">الفرقة الخامسة</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -259,7 +306,8 @@ export default function CreationControl() {
                         >
                             <option value="">اختر الشعبة</option>
                             <option value="عام">شعبة عام</option>
-                            <option value="رياضة">شعبة رياضة</option>
+                            <option value="شعبة علوم حاسب">شعبة علوم حاسب</option>
+                            <option value=" تكنولوجيا المعلومات<">شعبة تكنولوجيا المعلومات</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -413,7 +461,7 @@ export default function CreationControl() {
                             ))}
                         </ul>
                     </div>
-                    <div className="form-group form-check">
+                    {/* <div className="form-group form-check">
                         <input
                             type="checkbox"
                             className="form-check-input"
@@ -442,15 +490,15 @@ export default function CreationControl() {
                                 <option value="التخصص الثاني">التخصص الثاني</option>
                             </select>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
-            <button type="submit" className="btn btn-primary" >
+            <div className='text-center'>
+            <button type="submit" className="btn-control" >
             إرسال
             </button>
-            {isLoading ? alert("......جاري انشاء كنترول جديد"): ''}
-
-
+            </div>
+            <ToastContainer />
         </form>
     );
 }

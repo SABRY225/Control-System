@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./FromRegisterStyle.css";
-
 
 export default function Materiales() {
   const tok = useSelector((state) => state.auth.token);
@@ -12,31 +13,33 @@ export default function Materiales() {
     async function getCurUser() {
       try {
         const response = await axios.get(
-          "http://localhost:5120/users/current-user",
+          process.env.REACT_APP_CURRENTUSER,
           {
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
-        const { facultyID } = response.data;
-        console.log(facultyID);
+        console.log(response.data);
+        const facultyID  = response.data.faculityLeaderID;
         try {
           const responseNode = await axios.get(
-            "http://localhost:5120/faculty/node/" + facultyID,
+            process.env.REACT_APP_GETFACULITYNODE + facultyID,
             {
               headers: {
                 Authorization: "Bearer " + tok,
               },
             }
           );
-          console.log("Login successful:", responseNode.data);
+          console.log("Faculty node fetched successfully:", responseNode);
           setFacultyNode(responseNode.data); // Update facultyNode state here
         } catch (error) {
-          console.log("Login error:", error);
+          console.error("Error fetching faculty node:", error);
+          toast.error("Failed to fetch faculty node. Please try again.");
         }
       } catch (error) {
-        console.log("Login error:", error);
+        console.error("Error fetching current user:", error);
+        toast.error("Failed to fetch current user. Please try again.");
       }
     }
     getCurUser();
@@ -46,8 +49,6 @@ export default function Materiales() {
   useEffect(() => {
     getNode();
   }, [getNode]);
-
-
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -72,14 +73,14 @@ export default function Materiales() {
         }
       );
       event.target.reset();
-      // console.log("Login successful:", response.data);
-      alert("تم تسجيل المادة بنجاح")
+      console.log("Subject added successfully:", response.data);
+      toast.success("Subject registered successfully!");
     } catch (error) {
-      // console.log("Login error:", error);
-      alert("يرجي أعادة المحاولة")
+      console.error("Error adding subject:", error);
+      toast.error("Failed to register subject. Please try again.");
     }
   };
-  // console.log(facultyNode);
+
   return (
     <>
       <div className="containerRegister">
@@ -103,22 +104,23 @@ export default function Materiales() {
             <div className="control-row-register col col-lg-6">
               <label htmlFor="faculty_node">Faculty Node</label>
               <select
-                class="form-select"
+                className="form-select"
                 id="faculty_node"
                 name="faculityNodeID"
                 required
               >
                 {facultyNode.map(fn => {
-                  return <option value={fn.code}>{fn.name}</option>
+                  return <option key={fn.code} value={fn.code}>{fn.name}</option>
                 })}
               </select>
             </div>
           </div>
-          <button type="submit" class="mt-3">
+          <button type="submit" className="mt-3">
             اضافة مادة جديد
           </button>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 }

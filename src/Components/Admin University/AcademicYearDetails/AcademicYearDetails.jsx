@@ -16,9 +16,9 @@ const AcademicYearDetails = () => {
     async function getControlSubject() {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_SUBJECTOFCONTROL ,
+          process.env.REACT_APP_SUBJECTSOFCONTROL ,
           {
-            params:{controld:control.id},
+            params:{Cid:control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -37,7 +37,7 @@ const AcademicYearDetails = () => {
     async function getHead() {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_HEADCONTROL + control.id,
+          process.env.REACT_APP_GETHEADOFCONTROL + control.id,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -54,10 +54,9 @@ const AcademicYearDetails = () => {
 
   const getNote = useCallback(() => {
     async function getNote() {
-      console.log(process.env.REACT_APP_NOTETOHEADUNIVARSITY + control.id);
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_NOTETOHEADUNIVARSITY + control.id,
+          process.env.REACT_APP_NOTESENDHEADUNIVARSITY+ control.id,
           {
             headers: {
               Authorization: "Bearer " + tok,

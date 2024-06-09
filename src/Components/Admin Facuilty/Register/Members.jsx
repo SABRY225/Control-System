@@ -1,7 +1,9 @@
 import axios from "axios";
-import "./FromRegisterStyle.css";
 import React from "react";
 import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import "./FromRegisterStyle.css";
 
 export default function Members() {
   const tok = useSelector((state) => state.auth.token);
@@ -28,10 +30,9 @@ export default function Members() {
         }
       );
       event.target.reset();
-      alert("تم تسجيل المستخدم بنجاح")
+      toast.success("User registered successfully!");
     } catch (error) {
-      alert("يرجي اعادة المحاولة ")
-
+      toast.error("Please try again.");
     }
   };
 
@@ -48,7 +49,7 @@ export default function Members() {
               <input id="name" type="text" name="name" required />
             </div>
             <div className="control-row-register col">
-              <label htmlFor="username">name-user</label>
+              <label htmlFor="username">Username</label>
               <input id="username" type="text" name="userName" required/>
             </div>
             <div className="control-row-register col">
@@ -78,6 +79,7 @@ export default function Members() {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 }

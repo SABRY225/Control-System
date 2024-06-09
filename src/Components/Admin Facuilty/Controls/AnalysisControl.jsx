@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import accepted from "../../../assets/accepted.png";
-import notaccepted from "../../../assets/notAccepted.png";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useSelector } from "react-redux";
@@ -8,47 +8,53 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
+// ChartJS registration
 ChartJS.register(ArcElement, Tooltip, Legend);
+
 export default function AnalysisControl() {
+  // State variables and Redux selectors
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
-  const HeadControl = control.user.name;
+  const HeadControl = control.user;
   const [controlSubjects, setControlsSubject] = useState([]);
   const [Notes, setNotes] = useState([]);
   const [countIsDone, setCountIsDone] = useState(0);
 
+  // Function to fetch control subjects
   const getControlSubject = useCallback(() => {
     const getControlSubject = async () => {
       try {
+        // API call to fetch control subjects
         const { data } = await axios.get(
-          process.env.REACT_APP_SUBJECTOFCONTROL ,
+          process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{controld:control.control.id},
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
+        // Logic to calculate countIsDone
         let cnt = 0;
         for (let i = 0; i < data.length; i++) {
           if (data[i].isDone) cnt++;
         }
-        // console.log(cnt,(cnt / data.length) * 100);
         setCountIsDone((cnt / data.length) * 100);
         setControlsSubject(data);
       } catch (error) {
-        console.log(error.message);
+        toast.error('Error fetching control subjects: ' + error.message);
       }
     };
     getControlSubject();
-  }, [control.control.id]);
+  }, [control.control.id, tok]);
 
+  // Function to fetch notes
   const getNote = useCallback(() => {
     const getNote = async () => {
       try {
+        // API call to fetch notes
         const { data } = await axios.get(
-          process.env.REACT_APP_NOTTOHEADFACULTY +
-            control.control.id,
+          process.env.REACT_APP_NOTESENDHEADFACULTY + control.control.id,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -56,46 +62,44 @@ export default function AnalysisControl() {
           }
         );
         setNotes(data);
-        // console.log(data);
       } catch (error) {
-        console.log(error.message);
+        toast.error('Error fetching notes: ' + error.message);
       }
     };
     getNote();
-  }, [control.control.id]);
+  }, [control.control.id, tok]);
 
+  // useEffect to fetch data on component mount
   useEffect(() => {
     getControlSubject();
     getNote();
   }, [getControlSubject, getNote]);
 
+  // Function to handle sending note
   const onSendNote = async (event) => {
     event.preventDefault();
     const fd = new FormData(event.target);
     const formData = Object.fromEntries(fd.entries());
-    console.log(formData);
-    const jsonNote = JSON.stringify(formData);
     try {
+      // API call to send note
       const response = await axios.post(
-        process.env.REACT_APP_CONTROLNOTES ,
-        jsonNote,
+        `${process.env.REACT_APP_CREATENOTE}${control.control.id}` ,
+        JSON.stringify(formData),
         {
-          params:{Cid:control.control.id},
-
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
           },
         }
       );
+      toast.success('Note is sent successfully');
       event.target.reset();
-      alert("Note is sended successfully");
-      console.log(response.data);
     } catch (error) {
-      console.log(error.message);
+      toast.error('Error sending note: ' + error.message);
     }
   };
 
+  // Chart data and options
   const data = {
     labels: ["المواد التي تم انجازها", "المواد التي لو يتم انجازها"],
     datasets: [
@@ -107,11 +111,10 @@ export default function AnalysisControl() {
       },
     ],
   };
-  //   console.log(controlSubjects);
   const options = {};
-  const isAccepted = true;
   return (
     <>
+    <ToastContainer />
       <div className="container">
         {/* Title control */}
         <div className="row text-center">
@@ -129,29 +132,42 @@ export default function AnalysisControl() {
             <div className=" text-end">المقرارت</div>
           </div>
           {/* Table Material Control */}
-          <div className="container">
-            <div className="row justify-content-center Table-data m-0">
-              <div className="col-md-4 text-center ">
-                <Doughnut data={data} options={options}></Doughnut>
-              </div>
-              <div className="col-md-8 rtl ">
-                {controlSubjects.map((subject) => (
-                  <div key={subject.id} className="subject fs-5">
-                    <span>{subject.name}</span>
-                    {subject.isDone > 0 && (
-                      <FontAwesomeIcon
-                        className="mx-3 fw-bold"
-                        icon={faCircleCheck}
-                        style={{
-                          color: "#44AA44",
-                        }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+{/* Table Material Control */}
+<div className="container">
+  <div className="row justify-content-center Table-data m-0">
+    <div className="col-md-4 text-center">
+      <Doughnut data={data} options={options}></Doughnut>
+    </div>
+    <div className="col-md-8 rtl">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>اسم المقرر</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          {controlSubjects.map((subject) => (
+            <tr key={subject.id}>
+              <td>{subject.name}</td>
+              <td>
+                {subject.isDone > 0 && (
+                  <FontAwesomeIcon
+                    className="mx-3 fw-bold"
+                    icon={faCircleCheck}
+                    style={{
+                      color: "#44AA44",
+                    }}
+                  />
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       {/*  Notes Control */}

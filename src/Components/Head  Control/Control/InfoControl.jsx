@@ -15,7 +15,7 @@ export default function InfoControl() {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_USEROFCONTROL
+          process.env.REACT_APP_GETUSERSFORCONTROL
             ,
           {
             params:{controlId:control.control.id},
@@ -35,9 +35,9 @@ export default function InfoControl() {
     const getControlSubject = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_SUBJECTOFCONTROL,
+          process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{controld:control.control.id},
+            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },

@@ -5,7 +5,8 @@ import { faTrashAlt, faCog } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { setIdControl } from '../../../../Redux/ProfileSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ControlList = () => {
   const fId = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
@@ -24,9 +25,8 @@ const ControlList = () => {
   const getControl = async () => {
     try {
       const response = await axios.get(
-        process.env.REACT_APP_CONTROLS,
+        `${process.env.REACT_APP_GETCONTROLSBYFACULITYID}${fId}`,
         {
-          params:{Fid:fId},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
@@ -57,9 +57,8 @@ const ControlList = () => {
     try {
       if (window.confirm("هل تريد ازالة الكنترول نهائيا ؟")){
       const response = await axios.delete(
-        process.env.REACT_APP_DELETECONTROLS,
+        `${process.env.REACT_APP_DELETECONTROL}${control}`,
         {
-          params:{id:control},
           headers: {
             Authorization: "Bearer " + tok, // Authorization token
             "Content-Type": "application/json",
@@ -70,15 +69,17 @@ const ControlList = () => {
       // Filter out the deleted control from the dataControl state
       const updatedDataControl = dataControl.filter(data => data.id !== control);
       setDataControl(updatedDataControl);
+      toast.success(response.data)
+
     }
     } catch (error) {
-      console.log("Control deletion error:", error);
+      toast.error(error);
     }
   };
 
   const handleEditeControl = (control) => {
     dispatch(setIdControl(control));
-    navigate('/Admin_Facuilty/Edite_Control')
+    navigate('/Admin_Faculity/Edite_Control')
   }
 
   return (
@@ -116,6 +117,7 @@ const ControlList = () => {
             ))}
           </div>)}
       </div>
+      <ToastContainer />
     </div>
   );
 };

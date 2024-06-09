@@ -16,8 +16,7 @@ export default function HomeControlRecodes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_DETAILCONTROLS, {
-          params:{id:IdControl},
+        const response = await axios.get(`${process.env.REACT_APP_DETAILSCONTROL}${IdControl}`, {
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -30,8 +29,8 @@ export default function HomeControlRecodes() {
 
     const fetchDataSubject = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_SUBJECTOFCONTROL, {
-          params: { Controld: IdControl },
+        const response = await axios.get(process.env.REACT_APP_SUBJECTSOFCONTROL, {
+          params: { Cid: IdControl },
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
@@ -46,7 +45,7 @@ export default function HomeControlRecodes() {
     const fetchDataMemeber = async () => {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_USEROFCONTROL,
+          process.env.REACT_APP_GETUSERSFORCONTROL,
           {
             params: { controlId: IdControl },
             headers: {
@@ -55,6 +54,7 @@ export default function HomeControlRecodes() {
           }
         );
         setDataMember(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +62,7 @@ export default function HomeControlRecodes() {
 
     const fetchDataNotes = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_NOTESOFCONTROL+IdControl, {
+        const response = await axios.get(process.env.REACT_APP_GETALLNOTES+IdControl, {
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -74,8 +74,8 @@ export default function HomeControlRecodes() {
     };
     const fetchDataTasks = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_TASKSOFCONTROL, {
-          params: { Cid: IdControl },
+        const response = await axios.get(process.env.REACT_APP_GETTASKSBYCONTROLID, {
+          params: { cid: IdControl },
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",

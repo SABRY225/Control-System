@@ -19,7 +19,7 @@ export default function HomeOfHead() {
     const getControls = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_CONTROLSOFUSER + Uid,
+          process.env.REACT_APP_GETCONTROLSFORUSER + Uid,
           {
             headers: {
               Authorization: "Bearer " + tok,

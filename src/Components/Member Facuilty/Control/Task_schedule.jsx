@@ -10,9 +10,9 @@ export default function Task_schedule() {
     const getControlTask = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_TASKSOFCONTROL,
+          process.env.REACT_APP_GETTASKSBYCONTROLID,
           {
-            params:{Cid:control.control.id},
+            params:{cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -34,10 +34,10 @@ export default function Task_schedule() {
   const DoneTask = async ({ id }) => {
     try {
       const { data } = await axios.put(
-        process.env.REACT_APP_TASKSOFCONTROLISDONE,
+        process.env.REACT_APP_STATUSOFTASK,
         {},
         {
-          params:{Tid:id},
+          params:{tid:id},
           headers: {
             Authorization: "Bearer " + tok,
           },

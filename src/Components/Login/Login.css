@@ -22,7 +22,15 @@
     background-color: #ecf0f3;
     border-radius: 15px;
 }
-
+.wrapper-forgot-password {
+    min-height: 350px;
+}
+.wrapper-reset-password{
+    min-height: 400px;
+}
+.wrapper-chande-password{
+    min-height: 350px;
+}
 .logo {
     width: 80px;
     margin: auto;
@@ -101,4 +109,16 @@
         margin: 30px 20px;
         padding: 40px 15px 15px 15px;
     }
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
 }
