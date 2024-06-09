@@ -3,7 +3,8 @@ import accepted from "../../../assets/accepted.png";
 import notaccepted from "../../../assets/notAccepted.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function DetaliesWork_schedule() {
   const [controlMembers, setControlsMember] = useState([]);
   const [controlSubjects, setControlsSubject] = useState([]);
@@ -17,9 +18,9 @@ export default function DetaliesWork_schedule() {
     const getControlMember = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_GETUSERSFORCONTROL ,
+          process.env.REACT_APP_GETUSERSFORCONTROL,
           {
-            params:{controlId:control.control.id},
+            params: { controlId: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -31,7 +32,7 @@ export default function DetaliesWork_schedule() {
       }
     };
     getControlMember();
-  }, [control.control.id,tok]);
+  }, [control.control.id, tok]);
 
   const getControlSubject = useCallback(() => {
     const getControlSubject = async () => {
@@ -39,7 +40,7 @@ export default function DetaliesWork_schedule() {
         const { data } = await axios.get(
           process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{Cid:control.control.id},
+            params: { Cid: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -66,86 +67,90 @@ export default function DetaliesWork_schedule() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        process.env.REACT_APP_CREATENOTE ,
+        process.env.REACT_APP_CREATENOTE+control.control.id,
         jsonNote,
         {
-          params:{Cid:control.control.id},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
           },
         }
       );
+      toast.success(response.data)
       event.target.reset();
-      console.log(response.data);
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
-    
+
   return (
     <div className="container rtl">
-      {/* Title control */}
+     <ToastContainer />
+
       <div className="rtl details-line my-5 d-sm-inline-block d-lg-flex justify-content-start align-items-center">
         <span className="Title-Control rtl">
           كنترول لعام {control.control.acaD_YEAR} تحت ادارة رئيس الكنترول د/{" "}
           {HeadControl}
         </span>
       </div>
-      {/* Title Table*/}
+
       <div className="row Table-title m-5">
-        <div className=" text-end">
+        <div className="col text-end">
           <div>أعضاء الكنترول</div>
         </div>
       </div>
-      {/* Table Member Control */}
+
       <div className="row justify-content-center Table-data">
-        {controlMembers.map((member) => {
-          // console.log(member.JobType);
-          if (member.jobType === "Member") {
-            return (
-              <div className="col-md-3 Column-Table rtl">
-                <div className="text-column-table">د/ {member.user.name}</div>
-              </div>
-            );
-          }
-        })}
+        <table className="table table-bordered">
+          <tbody>
+            {controlMembers.map((member) => {
+              if (member.jobType === "Member") {
+                return (
+                  <tr key={member.user.id}>
+                    <td>د/ {member.user.name}</td>
+                  </tr>
+                );
+              }
+            })}
+          </tbody>
+        </table>
       </div>
 
-      {/* Title Table*/}
       <div className="row Table-title m-5">
-        <div className=" text-end">
+        <div className="col text-end">
           <div>المقرارات</div>
         </div>
       </div>
-      {/* Table Member Control */}
+
       <div className="row justify-content-center Table-data">
-        {controlSubjects.map((subject) => {
-          console.log(subject.isDone);
-          return (
-            <div className="col-md-4 Column-Table d-flex flex-row-reverse justify-content-end">
-              <div className="text-2-column-table">{subject.name}</div>
-              <div className="state-column-table ">
-                {subject.isDone ? (
-                  <img
-                    src={accepted}
-                    alt="accepted"
-                    className="ImagIconState"
-                  />
-                ) : (
-                  <img
-                    src={notaccepted}
-                    alt="notaccepted"
-                    className="ImagIconState"
-                  />
-                )}
-              </div>
-            </div>
-          );
-        })}
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>اسم المقرر</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {controlSubjects.map((subject) => {
+              console.log(subject.isDone);
+              return (
+                <tr key={subject.id}>
+                  <td>{subject.name}</td>
+                  <td>
+                    <img
+                      src={subject.isDone ? accepted : notaccepted}
+                      alt={subject.isDone ? "accepted" : "notaccepted"}
+                      className="ImagIconState"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
-      <div className="continer " style={{marginBottom:"3rem"}}>
+      <div className="container " style={{ marginBottom: "3rem" }}>
         <div className="row justify-content-center m-1 ">
           <div className="col-10 border  p-3 rounded">
             <form onSubmit={onSendNote}>

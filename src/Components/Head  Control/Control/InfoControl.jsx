@@ -3,64 +3,71 @@ import accepted from "../../../assets/accepted.png";
 import notaccepted from "../../../assets/notAccepted.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function InfoControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
-
-  const HeadControl = control.user.name;
+  console.log(control);
+  const HeadControl = control.user;
   const [controlMembers, setControlsMember] = useState([]);
   const [controlSubjects, setControlsSubject] = useState([]);
 
+  // Fetch control members
   const getControlMember = useCallback(() => {
-    const getControlMember = async () => {
+    const fetchControlMember = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_GETUSERSFORCONTROL
-            ,
+          process.env.REACT_APP_GETUSERSFORCONTROL,
           {
-            params:{controlId:control.control.id},
+            params: { controlId: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
         setControlsMember(data);
+        toast.success("Members fetched successfully!");
       } catch (error) {
-        console.log(error.message);
+        toast.error("Failed to fetch members: " + error.message);
       }
     };
-    getControlMember();
-  }, []);
+    fetchControlMember();
+  }, [control.control.id, tok]);
+
+  // Fetch control subjects
   const getControlSubject = useCallback(() => {
-    const getControlSubject = async () => {
+    const fetchControlSubject = async () => {
       try {
         const { data } = await axios.get(
           process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{Cid:control.control.id},
+            params: { Cid: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
         setControlsSubject(data);
-
+        toast.success("Subjects fetched successfully!");
       } catch (error) {
-        console.log(error.message);
+        toast.error("Failed to fetch subjects: " + error.message);
       }
     };
-    getControlSubject();
-  }, []);
+    fetchControlSubject();
+  }, [control.control.id, tok]);
 
   useEffect(() => {
     getControlMember();
     getControlSubject();
-  }, [getControlMember]);
-    
+  }, [getControlMember, getControlSubject]);
+
   return (
     <div className="container rtl">
+      <ToastContainer />
         {/* Title control */}
-        <div className="row text-end">
+        <div className="row text-center">
           <div className="col-12">
             <div className="Title-Control rtl">
               كنترول لعام {control.control.acaD_YEAR} تحت ادارة رئيس الكنترول د/{" "}
@@ -68,57 +75,61 @@ export default function InfoControl() {
             </div>
           </div>
         </div>
-      {/* Title Table*/}
+      {/* Members Table */}
       <div className="row Table-title m-5">
-        <div className=" text-end">
-          <div> أعضاء الكنترول</div>
+        <div className="text-end">
+          <h3>أعضاء الكنترول</h3>
         </div>
       </div>
-      {/* Table Member Control */}
       <div className="row justify-content-center Table-data">
-        {controlMembers.map((member) => {
-          // console.log(member.JobType);
-          if (member.jobType === "Member") {
-            return (
-              <div className="col-md-3 Column-Table rtl">
-                <div className="text-column-table">د/ {member.user.name}</div>
-              </div>
-            );
-          }
-        })}
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">الاسم</th>
+              <th scope="col">الوظيفة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {controlMembers.map((member, index) => (
+              member.jobType === "Member" && (
+                <tr key={index}>
+                  <td>د/ {member.user.name}</td>
+                  <td>عضو كنترول</td>
+                </tr>
+              )
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      {/* Title Table*/}
+      {/* Subjects Table */}
       <div className="row Table-title m-5">
-        <div className=" text-end">
-          <div>المقرارات</div>
+        <div className="text-end">
+          <h3>المقرارات</h3>
         </div>
       </div>
-      {/* Table Member Control */}
       <div className="row justify-content-center Table-data">
-        {controlSubjects.map((subject) => {
-          // console.log(subject.isDone);
-          return (
-            <div className="col-md-4 Column-Table d-flex flex-row-reverse justify-content-end">
-              <div className="text-2-column-table">{subject.name}</div>
-              <div className="state-column-table ">
-                {subject.isDone ? (
-                  <img
-                    src={accepted}
-                    alt="accepted"
-                    className="ImagIconState"
-                  />
-                ) : (
-                  <img
-                    src={notaccepted}
-                    alt="notaccepted"
-                    className="ImagIconState"
-                  />
-                )}
-              </div>
-            </div>
-          );
-        })}
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">اسم المقرر</th>
+              <th scope="col">الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {controlSubjects.map((subject, index) => (
+              <tr key={index}>
+                <td>{subject.name}</td>
+                <td>
+                  {subject.isDone ? (
+                    <img src={accepted} alt="accepted" className="ImagIconState" />
+                  ) : (
+                    <img src={notaccepted} alt="notaccepted" className="ImagIconState" />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

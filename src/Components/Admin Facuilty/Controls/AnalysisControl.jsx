@@ -120,7 +120,7 @@ export default function AnalysisControl() {
         <div className="row text-center">
           <div className="col-12">
             <div className="Title-Control rtl">
-              كنترول لعام {control.control.acaD_YEAR} تحت ادارة رائس الكنترول د/{" "}
+              كنترول لعام {control.control.acaD_YEAR} تحت ادارة رئيس الكنترول د/{" "}
               {HeadControl}
             </div>
           </div>

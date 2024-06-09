@@ -10,6 +10,7 @@ export default function HomeOfHead() {
   const Uid = useSelector((state) => state.Profile.id)
   const Fid = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
+  const [headID,setHeadID]= useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const semester = `${new Date().getFullYear()}/${new Date().getFullYear() - 1
@@ -19,7 +20,7 @@ export default function HomeOfHead() {
     const getControls = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_GETCONTROLSFORUSER + Uid,
+          `${process.env.REACT_APP_GETCONTROLSFORUSER}/${Uid}`,
           {
             headers: {
               Authorization: "Bearer " + tok,
@@ -27,22 +28,23 @@ export default function HomeOfHead() {
           }
         );
         console.log(data);
+        // setControls(data)
         for (const DetilesControl of data) {
           const control = DetilesControl.control
           console.log(control);
           try {
             if (control.acaD_YEAR == semester) {
-              const {
-                data: { user },
-              } = await axios.get(
-                process.env.REACT_APP_HEADCONTROL + control.id,
+              const res= await axios.get(
+                'http://localhost:5120/Users/get-head-of-control/'+control.id,
                 {
                   headers: {
                     Authorization: "Bearer " + tok,
                   },
                 }
               );
-              //   console.log( control);
+                console.log(res);
+                const user=res.data.name
+                setHeadID(res.data.id);
               setControls((prev) => [...prev, { user, control }]);
             }
           } catch (e) {
@@ -62,18 +64,20 @@ export default function HomeOfHead() {
   }, [getControls, Fid]);
 
   const handleSendControl = (control) => {
-    // console.log(control);
+    console.log(headID);
+    console.log(Uid);
     dispatch(setDetails({ control: control }));
-    if (control.user.id == Uid) navigate("./control");
+    if (headID == Uid) navigate("./control");
     else navigate("controlMember");
   };
+  console.log(controls);
   return (
     <div className="container HomeClassInfoControls">
       {/* Semes_Acad_Title */}
       <div className="container ClassesControls">
         <div className="row justify-content-center">
           {
-            controls.length ? <>
+            controls.length>0 ? <>
               {controls.map((control) => {
                 // console.log(control.control);
                 return (
@@ -83,7 +87,7 @@ export default function HomeOfHead() {
                   >
                     <div className="row">
                       <div className="col-6 dataofControl">
-                        <div className="nameOfHeadControl">{control.user.name}</div>
+                        <div className="nameOfHeadControl">{control.user}</div>
                         <div className="nameOfJob">رئيس الكنترول</div>
                       </div>
                       <div className="col-6 text-center nameOfControl">

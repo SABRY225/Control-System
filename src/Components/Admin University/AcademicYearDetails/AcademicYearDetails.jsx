@@ -125,59 +125,71 @@ const AcademicYearDetails = () => {
         ></span>
       </div>
 
-      <div className="container d-flex justify-content-center ">
-      <div className="row justify-content-around m-5">
-      <div className="col-md">
-          <h4>المواد</h4>
-          {subjects.map((subject) => (
-            <div key={subject.id} className="subject fs-5">
-              <span>{subject.name}</span>
-              {subject.isDone > 0 && (
-                <FontAwesomeIcon
-                  className="mx-3 fw-bold"
-                  icon={faCircleCheck}
-                  style={{ color: "#44AA44" }}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      <div className="col-md ">
-          <Doughnut data={data} options={options}></Doughnut>
-        </div>
-      </div>
-      </div>
-      <div className="continer m-3">
-        <div className="row justify-content-end ">
-          <div className="col-md-12 text-center ">
-            <div className="Table-title">ملاحظات عميد الكلية</div>
-          </div>
-        </div>
+      <div className="container">
         <div className="row justify-content-center">
-          {Notes.map((note) => {
-            let dateObj = new Date(note.writeDate);
-            let year = dateObj.getFullYear();
-            let month = dateObj.getMonth() + 1;
-            let day = dateObj.getDate();
+          <div className="col-md-12">
+            <h4>المواد</h4>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">اسم المادة</th>
+                  <th scope="col">الحالة</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subjects.map((subject) => (
+                  <tr key={subject.id}>
+                    <td>{subject.name}</td>
+                    <td>
+                      {subject.isDone ? (
+                        <FontAwesomeIcon
+                          icon={faCircleCheck}
+                          style={{ color: "#44AA44" }}
+                        />
+                      ) : (
+                        "لم يتم الانتهاء"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* <div className="col-md-6">
+            <Doughnut data={data} options={options}></Doughnut>
+          </div> */}
+        </div>
+      </div>
 
-            return (
-              <div class="col-12 box_Notes  m-3 rtl">
-                <div className="m-3 rtl" style={{ fontSize: "20px" }}>
-                  {note.description}
-                </div>
-                <div className="d-flex justify-content-between">
-                  <div className="nameOfMemberNotes rtl mx-4">
-                    <div>د/ {note.writeBy.name}</div>
-                  </div>
-                  <div className="nameOfMemberNotes rtl mx-4">
-                    <div>
-                      {year}-{month}-{day}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+      <div className="container m-3">
+        <div className="row justify-content-center">
+          <div className="col-md-12">
+            <h4>ملاحظات عميد الكلية</h4>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">الملاحظة</th>
+                  <th scope="col">المكتوب بواسطة</th>
+                  <th scope="col">تاريخ الكتابة</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Notes.map((note) => (
+                  <tr key={note.id}>
+                    <td>{note.description}</td>
+                    <td>{note.writeBy.name}</td>
+                    <td>
+                      {new Date(note.writeDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

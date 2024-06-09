@@ -9,8 +9,9 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function TaskOfControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
@@ -21,46 +22,42 @@ export default function TaskOfControl() {
     term: "",
     startDate: "",
     endDate: "",
-    selectedSubject: {},
-    selectedUsers: {},
+    selectedSubject: "",
+    selectedUsers: "",
   });
   const [selectUsers, setSelectUsers] = useState([]);
   const [selectSubjects, setSelectSubjects] = useState([]);
-
-  const [Edite, setEdite] = useState(false);
-
   const [controlMembers, setControlsMember] = useState([]);
   const [controlSubjects, setControlsSubject] = useState([]);
   const [tasks, setTasks] = useState([]);
 
   const getControlMember = useCallback(() => {
-    const getControlMember = async () => {
+    const fetchControlMember = async () => {
       try {
         const { data } = await axios.get(
           process.env.REACT_APP_GETUSERSFORCONTROL,
           {
-            params:{controlId:control.control.id},
+            params: { controlId: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
           }
         );
         setControlsMember(data);
-        //   console.log(data);
       } catch (error) {
         console.log(error.message);
       }
     };
-    getControlMember();
-  }, []);
+    fetchControlMember();
+  }, [control.control.id, tok]);
 
   const getControlSubject = useCallback(() => {
-    const getControlSubject = async () => {
+    const fetchControlSubject = async () => {
       try {
         const { data } = await axios.get(
           process.env.REACT_APP_SUBJECTSOFCONTROL,
           {
-            params:{Cid:control.control.id},
+            params: { Cid: control.control.id },
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -71,16 +68,15 @@ export default function TaskOfControl() {
         console.log(error.message);
       }
     };
-    getControlSubject();
-  }, []);
+    fetchControlSubject();
+  }, [control.control.id, tok]);
 
   const getTasks = useCallback(() => {
-    const getTasks = async () => {
+    const fetchTasks = async () => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_GETTASKSBYCONTROLID,
+          process.env.REACT_APP_GETTASKSBYCONTROLID+control.control.id ,
           {
-            params:{Cid:control.control.id},
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -91,8 +87,8 @@ export default function TaskOfControl() {
         console.log(error.message);
       }
     };
-    getTasks();
-  }, []);
+    fetchTasks();
+  }, [control.control.id, tok]);
 
   useEffect(() => {
     getControlMember();
@@ -103,103 +99,104 @@ export default function TaskOfControl() {
   const handleAddMember = () => {
     const { selectedUsers } = controlDetails;
     if (selectedUsers) {
-      const user = controlMembers.find((e) => e.user.id == selectedUsers);
-      const isUserAlreadySelected = selectUsers.includes(user);
-      if (!isUserAlreadySelected) {
+      const user = controlMembers.find((e) => e.user.id === selectedUsers);
+      if (user && !selectUsers.some((u) => u.user.id === user.user.id)) {
         setSelectUsers((prev) => [...prev, user]);
-        // dispatch(addSelectedSubject(selectedUsers));
+        setControlsMember((prev) =>
+          prev.filter((u) => u.user.id !== user.user.id)
+        );
         setControlDetails((prevDetails) => ({
           ...prevDetails,
           selectedUsers: "",
         }));
       } else {
-        alert("This subject is already added.");
+        toast.error("This member is already added.")
       }
     }
   };
+
   const handleAddSubject = () => {
     const { selectedSubject } = controlDetails;
     if (selectedSubject) {
-      const subject = controlSubjects.find((e) => e.id == selectedSubject);
-      console.log(subject);
-      const isSubjectAlreadySelected = selectSubjects.includes(subject);
-      console.log(isSubjectAlreadySelected);
-      if (!isSubjectAlreadySelected) {
+      const subject = controlSubjects.find((e) => e.id === selectedSubject);
+      if (subject && !selectSubjects.some((s) => s.id === subject.id)) {
         setSelectSubjects((prev) => [...prev, subject]);
+        setControlsSubject((prev) =>
+          prev.filter((s) => s.id !== subject.id)
+        );
         setControlDetails((prevDetails) => ({
           ...prevDetails,
           selectedSubject: "",
         }));
       } else {
-        alert("This subject is already added.");
+        toast.error("This subject is already added.")
       }
     }
   };
+
   const handleRemoveUser = (userToRemove) => {
     setSelectUsers((prevUsers) =>
-      prevUsers.filter((user) => user !== userToRemove)
+      prevUsers.filter((user) => user.user.id !== userToRemove.user.id)
     );
+    setControlsMember((prev) => [...prev, userToRemove]);
   };
+
   const handleRemoveSubject = (subjectToRemove) => {
-    setSelectSubjects((prevSubject) =>
-      prevSubject.filter((subject) => subject !== subjectToRemove)
+    setSelectSubjects((prevSubjects) =>
+      prevSubjects.filter((subject) => subject.id !== subjectToRemove.id)
     );
+    setControlsSubject((prev) => [...prev, subjectToRemove]);
   };
+
   const onSendTask = async (event) => {
     event.preventDefault();
-    let description = "";
-    let userTaskIds = [];
-    for (const subject of selectSubjects) {
-      description += "-" + subject.name;
-    }
-    for (const user of selectUsers) {
-      userTaskIds.push(user.user.id);
-    }
-    description = description.slice(1);
+    let description = selectSubjects.map((subject) => subject.name).join("-");
+    let userTaskIds = selectUsers.map((user) => user.user.id);
 
     try {
-      const { data } = await axios.post(
-        process.env.REACT_APP_CREATETASK,
+      await axios.post(
+        process.env.REACT_APP_CREATETASK+control.control.id ,
         JSON.stringify({ description, userTaskIds }),
         {
-          params:{Cid:control.control.id},
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
           },
         }
       );
-      alert("Task created successfully");
-      // console.log(data);
-      getTasks();
+      toast.success("Task created successfully");
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
+
   const deleteTask = async ({ id }) => {
-    console.log(id);
     if (window.confirm("هل تريد ازالة المهمة ؟؟")) {
-            const { data } = await axios.delete(
-        process.env.REACT_APP_DELETETASK,
-        {
-          params:{tid:id},
-          headers: {
-            Authorization: "Bearer " + tok,
-          },
-        }
-      );
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+      try {
+        await axios.delete(
+          process.env.REACT_APP_DELETETASK+id,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+      } catch (error) {
+        toast.error(error.message)
+      }
     }
   };
 
   return (
     <>
+     <ToastContainer />
       <div className="row text-end m-3">
-        <div className="col-12 Title-Task ">انشاء مهام لأعضاء الكنترول</div>
+        <div className="col-12 Title-Task">انشاء مهام لأعضاء الكنترول</div>
       </div>
       <form action="#" onSubmit={onSendTask}>
         <div className="row text-center">
-          <div className="col-md-4">
+          <div className="col-md-4 mb-3">
             <div className="col">
               <div className="d-flex justify-content-center mb-3 rtl">
                 <select
@@ -216,15 +213,8 @@ export default function TaskOfControl() {
                   }}
                   value={controlDetails.selectedUsers}
                 >
-                  <option value="#">
-                    الأعضاء
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      style={{ color: "gray" }}
-                    />
-                  </option>
+                  <option value="#">الأعضاء</option>
                   {controlMembers.map((member) => {
-                    // console.log(member);
                     if (member.jobType === "Member")
                       return (
                         <option key={member.user.id} value={member.user.id}>
@@ -234,8 +224,8 @@ export default function TaskOfControl() {
                   })}
                 </select>
                 <button
-                  className="btn mx-3 "
-                  onClick={() => handleAddMember(controlDetails.selectedUsers)}
+                  className="btn mx-3"
+                  onClick={handleAddMember}
                   type="button"
                   style={{ backgroundColor: "#43BBFF", color: "white" }}
                 >
@@ -243,26 +233,30 @@ export default function TaskOfControl() {
                 </button>
               </div>
               <div
-                className="rectangle-container fs-5 rounded-2"
+                className="rectangle-container fs-5 rounded-2 p-3"
                 style={{ backgroundColor: "#EBF8FF" }}
               >
-                <h5 className="mx-3 pt-2">أعضاء الكنترول</h5>
+                <h5 className="mb-3">أعضاء الكنترول</h5>
                 <div className="row justify-content-center align-items-center">
                   {selectUsers.map((user) => {
-                    // console.log(user);
                     return (
                       <div
                         key={user.user.id}
-                        className="subject-row col-6 rounded-2 mx-3 my-2"
-                        style={{ backgroundColor: "#D9D9D9", color: "black" }}
+                        className="subject-row col-10 col-sm-5 rounded-2 mx-2 my-2 d-flex justify-content-between align-items-center"
+                        style={{
+                          backgroundColor: "#D9D9D9",
+                          color: "black",
+                          padding: "10px",
+                        }}
                       >
-                        <span style={{margin:"0rem 1rem",fontSize:"0.9rem"}}>{user.user.name}</span>
+                        <span style={{ margin: "0rem 1rem", fontSize: "0.9rem" }}>
+                          {user.user.name}
+                        </span>
                         <FontAwesomeIcon
                           icon={faTrashAlt}
                           style={{
                             color: "#FF0000",
                             cursor: "pointer",
-                            marginRight: "10px",
                           }}
                           onClick={() => handleRemoveUser(user)}
                         />
@@ -273,10 +267,11 @@ export default function TaskOfControl() {
               </div>
             </div>
           </div>
-          <div className="col-md-1 text-center toTask">
+          
+          <div className="col-md-1 text-center d-none d-md-block toTask">
             <div>To</div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 mb-3">
             <div className="col">
               <div className="d-flex justify-content-center mb-3">
                 <select
@@ -293,25 +288,16 @@ export default function TaskOfControl() {
                   }
                   value={controlDetails.selectedSubject}
                 >
-                  <option value="">
-                    المواد{" "}
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      style={{ color: "gray" }}
-                    />
-                  </option>
+                  <option value="">المواد</option>
                   {controlSubjects.map((subject) => (
                     <option key={subject.id} value={subject.id}>
                       {subject.name}
                     </option>
                   ))}
                 </select>
-                {/* Add button */}
                 <button
                   className="btn mx-3"
-                  onClick={() =>
-                    handleAddSubject(controlDetails.selectedSubject)
-                  }
+                  onClick={handleAddSubject}
                   style={{ backgroundColor: "#43BBFF", color: "white" }}
                   type="button"
                 >
@@ -319,24 +305,29 @@ export default function TaskOfControl() {
                 </button>
               </div>
               <div
-                className="rectangle-container fs-5 rounded-2"
+                className="rectangle-container fs-5 rounded-2 p-3"
                 style={{ backgroundColor: "#EBF8FF" }}
               >
-                <h5 className="mx-3 pt-2">المواد </h5>
+                <h5 className="mb-3">المواد</h5>
                 <div className="row justify-content-center align-items-center">
                   {selectSubjects.map((subject) => (
                     <div
                       key={subject.id}
-                      className="subject-row col-6 rounded-2 mx-3 my-2"
-                      style={{ backgroundColor: "#D9D9D9", color: "black" }}
+                      className="subject-row col-10 col-sm-5 rounded-2 mx-2 my-2 d-flex justify-content-between align-items-center"
+                      style={{
+                        backgroundColor: "#D9D9D9",
+                        color: "black",
+                        padding: "10px",
+                      }}
                     >
-                      <span style={{margin:"0rem 1rem",fontSize:"0.9rem"}}>{subject.name}</span>
+                      <span style={{ margin: "0rem 1rem", fontSize: "0.9rem" }}>
+                        {subject.name}
+                      </span>
                       <FontAwesomeIcon
                         icon={faTrashAlt}
                         style={{
                           color: "#FF0000",
                           cursor: "pointer",
-                          marginRight: "10px",
                         }}
                         onClick={() => handleRemoveSubject(subject)}
                       />
@@ -347,6 +338,7 @@ export default function TaskOfControl() {
             </div>
           </div>
         </div>
+
         <div className="row text-center m-3">
           <div className="col">
             <button
@@ -363,6 +355,7 @@ export default function TaskOfControl() {
           </div>
         </div>
       </form>
+      
       <div className="container">
         <div className="row">
           <hr />
@@ -370,21 +363,18 @@ export default function TaskOfControl() {
       </div>
       <div className="container">
         <div className="row text-end m-3">
-          <div className="col-12 Title-Task "> مهام أعضاء الكنترول</div>
+          <div className="col-12 Title-Task">مهام أعضاء الكنترول</div>
         </div>
       </div>
-
       <div className="row justify-content-center m-2">
-        {/* Start */}
         {tasks.map((task) => {
           let dateObj = new Date(task.creationDate);
-          // Extract year, month, and day from the date object
           let year = dateObj.getFullYear();
-          let month = dateObj.getMonth() + 1; // Months are zero-indexed, so add 1
+          let month = dateObj.getMonth() + 1;
           let day = dateObj.getDate();
 
           return (
-            <div className="col-md-5 task m-2">
+            <div className="col-md-5 task m-2" key={task.id}>
               <div className="col-12 d-flex task-head p-2 ">
                 <div className="col-4 d-flex">
                   <div className="col" onClick={() => deleteTask(task)}>
@@ -395,23 +385,26 @@ export default function TaskOfControl() {
                   {year}-{month}-{day}
                 </div>
                 <div className="col-3">
-                  {task.isDone ? <span style={{color:"#2ECC71"}}>انتهت</span > : <span style={{color:"#E74C3C "}}>لم تنتهي</span>}
+                  {task.isDone ? (
+                    <span style={{ color: "#2ECC71" }}>انتهت</span>
+                  ) : (
+                    <span style={{ color: "#E74C3C " }}>لم تنتهي</span>
+                  )}
                 </div>
               </div>
               <div className="col-12 task-title text-center p-2">
                 {task.description}
               </div>
               <div className="col-12 task-body text-end">
-                <ol type="">
-                  {task.users.map((user) => {
-                    return <li>{user.name}</li>;
-                  })}
+                <ol>
+                  {task.users.map((user) => (
+                    <li key={user.id}>{user.name}</li>
+                  ))}
                 </ol>
               </div>
             </div>
           );
         })}
-        {/* End */}
       </div>
     </>
   );
