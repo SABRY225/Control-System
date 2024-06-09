@@ -32,7 +32,8 @@ export default function Members() {
       event.target.reset();
       toast.success("User registered successfully!");
     } catch (error) {
-      toast.error("Please try again.");
+      alert("يرجي اعادة المحاولة ")
+
     }
   };
 
