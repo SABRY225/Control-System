@@ -30,7 +30,7 @@ export default function Members() {
       event.target.reset();
       alert("تم تسجيل المستخدم بنجاح")
     } catch (error) {
-      let err;
+      let err = "User is already registered";
       if (error.response.data.errors) {
         const errors = error.response.data.errors;
         let errorMessages = [];
@@ -41,7 +41,6 @@ export default function Members() {
         }
         err = errorMessages.join("\n");
       }
-      else err = error.response.data;
       console.log(error);
       alert(err);
 
