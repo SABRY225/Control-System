@@ -267,7 +267,6 @@ export default function CreationControl() {
             console.log("Control not successful:", error);
         }
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <div className="row">
@@ -343,6 +342,7 @@ export default function CreationControl() {
                             onChange={(e) => setFaculityNode(e.target.value)}
                             style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                         >
+                                <option value="">اختر شعبه</option>
                             {facultyNode.map(fn => {
                                 return (
                                     <option key={fn.code} value={fn.id}>
@@ -474,7 +474,7 @@ export default function CreationControl() {
                                 style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                             >
                                 <option value="">اختر المقرر</option>
-                                {data.map((subject) => (
+                                {data.filter((sb) => sb.faculityNodeID === faculityNode).map((subject) => (
                                     <option key={subject.id} value={subject.id}>
                                         {subject.name}
                                     </option>

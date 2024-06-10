@@ -565,7 +565,7 @@ function Edite_Control() {
                   style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                 >
                   <option value="">اختر المقرر</option>
-                  {dataSubject.map((subject, index) => (
+                  {dataSubject.filter(sb => sb.faculityNodeID === values.faculity_Node).map((subject, index) => (
                     <option key={index} value={subject.id}>
                       {subject.name}
                     </option>
