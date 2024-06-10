@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faChevronDown, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
@@ -57,12 +57,47 @@ function Edite_Control() {
   };
   const [selectedMajor, setSelectedMajor] = useState(dataControl.selectedMajor);
   const [includeMajor, setIncludeMajor] = useState(false);
+  const [facultyNode, setFacultyNode] = useState([]);
+  const getNode = useCallback(() => {
+    async function getCurUser() {
+      try {
+        const response = await axios.get(process.env.REACT_APP_CURRENTUSER, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        // console.log(response.data);
+        const facultyID = response.data.faculityLeaderID;
+        try {
+          const responseNode = await axios.get(
+            process.env.REACT_APP_GETFACULITYNODE + facultyID,
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          );
+          // console.log("Faculty node fetched successfully:", responseNode);
+          setFacultyNode(responseNode.data); // Update facultyNode state here
+        } catch (error) {
+          // console.error("Error fetching faculty node:", error);
+          toast.error("Failed to fetch faculty node. Please try again.");
+        }
+      } catch (error) {
+        // console.error("Error fetching current user:", error);
+        toast.error("Failed to fetch current user. Please try again.");
+      }
+    }
+    getCurUser();
+  }, [token]);
+
   useEffect(() => {
     getSubjectControl();
     fetchDataMemeber();
     getSubject();
     fetchData();
     getStaff();
+    getNode();
   }, [fId, CId, token]);
 
   // =======================================================
@@ -133,9 +168,9 @@ function Edite_Control() {
 
   const handleRemoveSubject = (subject) => {
     const updatedSubject = selectedSubjects.filter((cp) => cp !== subject);
-    let updatedSubjectID;
-    console.log(updatedSubjectID);
-    const updatedSubjectNowIDs = selectedSubjectsIDs.filter(id => id !== updatedSubjectID);
+    let Subjects = dataSubject.filter((sb) => updatedSubject.find(s => s == sb.name));
+    const updatedSubjectNowIDs = Subjects.map((s) => s.id);
+    console.log(updatedSubjectNowIDs);
     setSelectedSubjects(updatedSubject);
     setSelectedSubjectsIDs(updatedSubjectNowIDs);
 
@@ -305,8 +340,7 @@ function Edite_Control() {
     }
   };
   //-===================================-=======================-==================
-
-
+  
   return (
     <>
     <Link className="return-link" to="/Admin_Faculity/"><FontAwesomeIcon icon={faUndo} /> الرجوع</Link>
@@ -384,10 +418,13 @@ function Edite_Control() {
                 onChange={(e) => setValues({ ...values, faculity_Node: e.target.value })}
                 style={{ backgroundColor: '#E1E1E1', color: 'black' }}
               >
-                <option value="">اختر الشعبة</option>
-                <option value="عام">شعبة عام</option>
-                <option value="شعبة علوم حاسب">شعبة علوم حاسب</option>
-                <option value=" تكنولوجيا المعلومات<">شعبة تكنولوجيا المعلومات</option>
+                {facultyNode.map(fn => {
+                    return (
+                        <option key={fn.id} value={fn.id}>
+                        {fn.name}
+                        </option>
+                    );
+                })}
               </select>
             </div>
             <div className="form-group">
