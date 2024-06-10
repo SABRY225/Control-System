@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faChevronDown, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
@@ -57,12 +57,47 @@ function Edite_Control() {
   };
   const [selectedMajor, setSelectedMajor] = useState(dataControl.selectedMajor);
   const [includeMajor, setIncludeMajor] = useState(false);
+  const [facultyNode, setFacultyNode] = useState([]);
+  const getNode = useCallback(() => {
+    async function getCurUser() {
+      try {
+        const response = await axios.get(process.env.REACT_APP_CURRENTUSER, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        // console.log(response.data);
+        const facultyID = response.data.faculityLeaderID;
+        try {
+          const responseNode = await axios.get(
+            process.env.REACT_APP_GETFACULITYNODE + facultyID,
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          );
+          // console.log("Faculty node fetched successfully:", responseNode);
+          setFacultyNode(responseNode.data); // Update facultyNode state here
+        } catch (error) {
+          // console.error("Error fetching faculty node:", error);
+          toast.error("Failed to fetch faculty node. Please try again.");
+        }
+      } catch (error) {
+        // console.error("Error fetching current user:", error);
+        toast.error("Failed to fetch current user. Please try again.");
+      }
+    }
+    getCurUser();
+  }, [token]);
+
   useEffect(() => {
     getSubjectControl();
     fetchDataMemeber();
     getSubject();
     fetchData();
     getStaff();
+    getNode();
   }, [fId, CId, token]);
 
   // =======================================================
@@ -133,9 +168,9 @@ function Edite_Control() {
 
   const handleRemoveSubject = (subject) => {
     const updatedSubject = selectedSubjects.filter((cp) => cp !== subject);
-    let updatedSubjectID;
-    console.log(updatedSubjectID);
-    const updatedSubjectNowIDs = selectedSubjectsIDs.filter(id => id !== updatedSubjectID);
+    let Subjects = dataSubject.filter((sb) => updatedSubject.find(s => s == sb.name));
+    const updatedSubjectNowIDs = Subjects.map((s) => s.id);
+    console.log(updatedSubjectNowIDs);
     setSelectedSubjects(updatedSubject);
     setSelectedSubjectsIDs(updatedSubjectNowIDs);
 
@@ -204,9 +239,16 @@ function Edite_Control() {
     setSelectedCommitteeMembersIDs((prev) => [...prev, ...committeeMemberIDs]);
 
   }, [dataMember]);
-  console.log(Head);
-  console.log(Member);
-  const chairpers = dataStaff.data;
+  // console.log("Head", Head);
+  // console.log("Member",Member);
+  const [chairpers, setChairpers] = useState([]);
+  useEffect(() => {
+    if (dataStaff && dataStaff.data) {
+      console.log(dataMember, dataStaff.data);
+      const temp = dataStaff.data.filter((member) => !dataMember.find(m => m.user.id == member.id));
+      setChairpers([...temp]);
+    }
+  }, [dataStaff,dataMember ]); 
   console.log("chairpers : ", chairpers);
   const handleAddChairperson = () => {
     if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 1) {
@@ -216,6 +258,7 @@ function Edite_Control() {
         setSelectedChairpersons([...selectedChairpersons, selectedChairpersonObject.name]);
         setPersonsIDs([...personsIDs, selectedChairpersonObject.id]);
         setSelectedChairperson('');
+        setChairpers((prev) => prev.filter((m) => m.id != selectedChairperson));
       }
     } else {
       // Chairperson is already selected or the input is empty
@@ -225,9 +268,10 @@ function Edite_Control() {
   const handleRemoveChairperson = (chairperson) => {
     const updatedChairpersons = selectedChairpersons.filter(cp => cp !== chairperson);
     let updatedPersonsID;
-    for (let index = 0; index < chairpers.length; index++) {
-      if (chairperson === chairpers[index].name) {
-        updatedPersonsID = chairpers[index].id;
+    for (let index = 0; index < dataStaff.data.length; index++) {
+      if (chairperson === dataStaff.data[index].name) {
+        setChairpers((prev) => [...prev, dataStaff.data[index]]);
+        updatedPersonsID = dataStaff.data[index].id;
         break; // Once found, exit the loop
       }
     }
@@ -245,6 +289,10 @@ function Edite_Control() {
         setSelectedCommitteeMembers([...selectedCommitteeMembers, selectedCommitteeMembersObject.name]);
         setSelectedCommitteeMembersIDs([...selectedCommitteeMembersId, selectedCommitteeMembersObject.id]);
         setSelectedCommitteeMember('');
+        setChairpers((prev) =>
+          prev.filter((m) => m.id != selectedCommitteeMember)
+        );
+
       }
     }
     else {
@@ -255,9 +303,10 @@ function Edite_Control() {
   const handleRemoveCommitteeMember = (committeeMember) => {
     const updatedCommitteeMember = selectedCommitteeMembers.filter((cp) => cp !== committeeMember);
     let updatedcommitteeMemberID;
-    for (let index = 0; index < chairpers.length; index++) {
-      if (committeeMember === chairpers[index].name) {
-        updatedcommitteeMemberID = chairpers[index].id;
+    for (let index = 0; index < dataStaff.data.length; index++) {
+      if (committeeMember === dataStaff.data[index].name) {
+        setChairpers((prev) => [...prev, dataStaff.data[index]]);
+        updatedcommitteeMemberID = dataStaff.data[index].id;
         break; // Once found, exit the loop
       }
     }
@@ -305,8 +354,7 @@ function Edite_Control() {
     }
   };
   //-===================================-=======================-==================
-
-
+  
   return (
     <>
     <Link className="return-link" to="/Admin_Faculity/"><FontAwesomeIcon icon={faUndo} /> الرجوع</Link>
@@ -384,10 +432,13 @@ function Edite_Control() {
                 onChange={(e) => setValues({ ...values, faculity_Node: e.target.value })}
                 style={{ backgroundColor: '#E1E1E1', color: 'black' }}
               >
-                <option value="">اختر الشعبة</option>
-                <option value="عام">شعبة عام</option>
-                <option value="شعبة علوم حاسب">شعبة علوم حاسب</option>
-                <option value=" تكنولوجيا المعلومات<">شعبة تكنولوجيا المعلومات</option>
+                {facultyNode.map(fn => {
+                    return (
+                        <option key={fn.id} value={fn.id}>
+                        {fn.name}
+                        </option>
+                    );
+                })}
               </select>
             </div>
             <div className="form-group">
@@ -514,7 +565,7 @@ function Edite_Control() {
                   style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                 >
                   <option value="">اختر المقرر</option>
-                  {dataSubject.map((subject, index) => (
+                  {dataSubject.filter(sb => sb.faculityNodeID === values.faculity_Node).map((subject, index) => (
                     <option key={index} value={subject.id}>
                       {subject.name}
                     </option>

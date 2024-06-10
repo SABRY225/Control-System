@@ -110,7 +110,12 @@ export default function Materiales() {
                 required
               >
                 {facultyNode.map(fn => {
-                  return <option key={fn.code} value={fn.code}>{fn.name}</option>
+                  console.log(fn);
+                  return (
+                    <option key={fn.code} value={fn.id}>
+                      {fn.name}
+                    </option>
+                  );
                 })}
               </select>
             </div>

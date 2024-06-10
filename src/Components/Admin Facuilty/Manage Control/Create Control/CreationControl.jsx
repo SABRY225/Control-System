@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./creationControl.css";
+import { useCallback } from 'react';
 
 export default function CreationControl() {
     const dispatch = useDispatch();
@@ -35,11 +36,49 @@ export default function CreationControl() {
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    
+
+    const [facultyNode, setFacultyNode] = useState([]);
     useEffect(() => {
         getSubject();
         getStaff();
+        getNode();
     }, [tok, fId]);
+
+    const getNode = useCallback(() => {
+        async function getCurUser() {
+        try {
+            const response = await axios.get(
+            process.env.REACT_APP_CURRENTUSER,
+            {
+                headers: {
+                Authorization: "Bearer " + tok,
+                },
+            }
+            );
+            // console.log(response.data);
+            const facultyID  = response.data.faculityLeaderID;
+            try {
+            const responseNode = await axios.get(
+                process.env.REACT_APP_GETFACULITYNODE + facultyID,
+                {
+                headers: {
+                    Authorization: "Bearer " + tok,
+                },
+                }
+            );
+            // console.log("Faculty node fetched successfully:", responseNode);
+            setFacultyNode(responseNode.data); // Update facultyNode state here
+            } catch (error) {
+            // console.error("Error fetching faculty node:", error);
+            toast.error("Failed to fetch faculty node. Please try again.");
+            }
+        } catch (error) {
+            // console.error("Error fetching current user:", error);
+            toast.error("Failed to fetch current user. Please try again.");
+        }
+        }
+        getCurUser();
+    }, [tok]);
 
     const getSubject = async () => {
         try {
@@ -228,7 +267,6 @@ export default function CreationControl() {
             console.log("Control not successful:", error);
         }
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <div className="row">
@@ -304,10 +342,14 @@ export default function CreationControl() {
                             onChange={(e) => setFaculityNode(e.target.value)}
                             style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                         >
-                            <option value="">اختر الشعبة</option>
-                            <option value="عام">شعبة عام</option>
-                            <option value="شعبة علوم حاسب">شعبة علوم حاسب</option>
-                            <option value=" تكنولوجيا المعلومات<">شعبة تكنولوجيا المعلومات</option>
+                                <option value="">اختر شعبه</option>
+                            {facultyNode.map(fn => {
+                                return (
+                                    <option key={fn.code} value={fn.id}>
+                                    {fn.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
                     <div className="form-group">
@@ -432,7 +474,7 @@ export default function CreationControl() {
                                 style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                             >
                                 <option value="">اختر المقرر</option>
-                                {data.map((subject) => (
+                                {data.filter((sb) => sb.faculityNodeID === faculityNode).map((subject) => (
                                     <option key={subject.id} value={subject.id}>
                                         {subject.name}
                                     </option>
