@@ -22,20 +22,22 @@ const routers = createBrowserRouter([
     children: [
       {
         path: "Admin_Faculity",
-        element: <Admin_Facuilty />,
+        element: <Admin_Facuilty />
+        ,errorElement:(<ErrorPage />),
         children: [
-          { index: true, element: <InformationControl /> },
-          { path: "CreateControl", element: <ControlManagement /> },
-          { path: "Edite_Control", element: <Edite_Control /> },
-          { path: "control", element: <DataControl /> },
+          { index: true, element: <InformationControl /> ,errorElement:(<ErrorPage />)},
+          { path: "CreateControl", element: <ControlManagement />,errorElement:(<ErrorPage />) },
+          { path: "Edite_Control", element: <Edite_Control /> ,errorElement:(<ErrorPage />)},
+          { path: "control", element: <DataControl />,errorElement:(<ErrorPage />) },
           {
             path: "Records",
             element: <Reocrd_Controles />,
             children: [
-              { index: true, element: <SearchOfControl /> },
-              { path: "control", element: <HomeControlRecodes /> },
-              { path: "*", element: <ErrorPage /> },
-            ],
+              { index: true, element: <SearchOfControl /> ,errorElement:(<ErrorPage />)},
+              { path: "control", element: <HomeControlRecodes /> ,errorElement:(<ErrorPage />)},
+              { path: "*", element: <ErrorPage /> ,errorElement:(<ErrorPage />)},
+            ]
+            ,errorElement:(<ErrorPage />)
           },
           {
             path: "Register",
@@ -49,41 +51,45 @@ const routers = createBrowserRouter([
         path: "Admin_University",
         element: <Admin_University />,
         children: [
-          { index: true, element: <Controls /> },
-          { path: "AcademicYearDetails", element: <AcademicYearDetails /> },
-          { path: "*", element: <ErrorPage /> },
-        ],
+          { index: true, element: <Controls />,errorElement:(<ErrorPage />) },
+          { path: "AcademicYearDetails", element: <AcademicYearDetails /> ,errorElement:(<ErrorPage />)},
+          { path: "*", element: <ErrorPage /> ,errorElement:(<ErrorPage />)},
+        ]
+        ,errorElement:(<ErrorPage />)
       },
       {
         path: "Staff",
         element: <Head_Control />,
         children: [
-          { index: true, element: <HomeOfHead /> },
-          { path: "control", element: <ContentOfControl /> },
+          { index: true, element: <HomeOfHead /> ,errorElement:(<ErrorPage />)},
+          { path: "control", element: <ContentOfControl /> ,errorElement:(<ErrorPage />)},
           {
             path: "controlMember",
             element: <Work_schedule />,
             children: [
-              { index: true, element: <DetaliesWork_schedule /> },
-              { path: "tasks", element: <Task_schedule /> },
-            ],
+              { index: true, element: <DetaliesWork_schedule />,errorElement:(<ErrorPage />) },
+              { path: "tasks", element: <Task_schedule /> ,errorElement:(<ErrorPage />)},
+            ]
+            ,errorElement:(<ErrorPage />)
           },
-        ],
+          
+        ]
+        ,errorElement:(<ErrorPage />)
       },
-      { path: "profile", element: <Profile /> },
-      { path: "setting", element: <Setting /> },
-      { path: "*", element: <ErrorPage /> },
+      { path: "profile", element: <Profile /> ,errorElement:(<ErrorPage />)},
+      { path: "setting", element: <Setting /> ,errorElement:(<ErrorPage />)},
     ],
+    errorElement:(<ErrorPage />)
   },
   {
     path: "/",
     element: <LayoutAuth />,
     children: [
-      { path: "signin", element: <Login /> },
-      { path: "new-password", element: <ResetPassword /> },
-      { path: "forgotpassword", element: <ForgotPassword /> },
-      { path: "*", element: <ErrorPage /> },
+      { path: "signin", element: <Login /> ,errorElement:(<ErrorPage />)},
+      { path: "new-password", element: <ResetPassword /> ,errorElement:(<ErrorPage />)},
+      { path: "forgotpassword", element: <ForgotPassword /> ,errorElement:(<ErrorPage />)},
     ],
+    
   },
 ]);
 

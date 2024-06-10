@@ -23,7 +23,8 @@
     border-radius: 15px;
 }
 .wrapper-forgot-password {
-    min-height: 350px;
+    margin: 0rem 1rem;
+
 }
 .wrapper-reset-password{
     min-height: 400px;

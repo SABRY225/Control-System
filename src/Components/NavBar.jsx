@@ -18,7 +18,7 @@ const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
             { path: '/Staff/', text: 'الكنترول' }
         ]
     };
-
+    const links = commonLinks[role] || [];
     return (
         <nav className="navbar navbar-expand-lg" style={{ background: "rgba(152, 218, 255, 1)", padding: "0rem" }}>
             <div className="container-fluid">
@@ -30,7 +30,7 @@ const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        {commonLinks[role].map((link, index) => (
+                        {links.map((link, index) => (
                             <li key={index} className="nav-item nav-item-navbar">
                                 <Link className="nav-link" to={link.path}>{link.text}</Link>
                             </li>

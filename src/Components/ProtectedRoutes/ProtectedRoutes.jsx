@@ -1,14 +1,20 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function ProtectedRoutes({ children }) {
     const isLoggedIn = useSelector((state) => state.auth.token);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!isLoggedIn) {
-            window.location.href = '/signin'; // Redirect using window.location for external navigation
+            navigate('/signin');
         }
-    }, [isLoggedIn]);
-    return isLoggedIn ? children : null;
+    }, [isLoggedIn, navigate]);
+
+    if (!isLoggedIn) {
+        return null;
+    }
+
+    return children;
 }

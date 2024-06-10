@@ -8,53 +8,60 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./Login.css";
 import LogoUniversity from "../../assets/Logo.png";
 
-function Login() {
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
-    const [userName, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+const Login = () => {
+    const [credentials, setCredentials] = useState({ userName: "", password: "" });
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCredentials(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage('');
-        setError('');
-        if (userName.trim() === "" || password.trim() === "") {
+        const { userName, password } = credentials;
+        
+        if (!userName.trim() || !password.trim()) {
             toast.error("Please enter both username and password.");
             return;
         }
+        
         try {
-            console.log(process.env.REACT_APP_LOGIN);
             const response = await axios.post(
                 process.env.REACT_APP_LOGIN,
                 { userName, password },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
+                { headers: { "Content-Type": "application/json" } }
             );
+
             if (response.data.success) {
-                setMessage('Login successfully.');
                 toast.success('Login successfully.');
-                if (response.data.roles === 'AdminUniversity') {
-                    dispatch(isAdminUniversity());
-                    navigate('/Admin_University');
-                } else if (response.data.roles === 'AdminFaculity') {
-                    dispatch(isAdminFaculty());
-                    navigate('/Admin_Faculity');
-                } else if (response.data.roles === 'Staff') {
-                    dispatch(isStaff());
-                    navigate('/Staff');
-                }
                 dispatch(loginSuccess(response.data.token));
+
+                switch (response.data.roles) {
+                    case 'AdminUniversity':
+                        dispatch(isAdminUniversity());
+                        navigate('/Admin_University');
+                        break;
+                    case 'AdminFaculity':
+                        dispatch(isAdminFaculty());
+                        navigate('/Admin_Faculity');
+                        break;
+                    case 'Staff':
+                        dispatch(isStaff());
+                        navigate('/Staff');
+                        break;
+                    default:
+                        toast.error('Unknown role.');
+                }
             } else {
-                setError('An error occurred. Please try again.');
                 toast.error('An error occurred. Please try again.');
             }
         } catch (error) {
-            console.log("Login error:", error);
+            console.error("Login error:", error);
             toast.error('An error occurred. Please try again.');
         }
     };
@@ -73,30 +80,36 @@ function Login() {
                         <form className="p-3 mt-3" onSubmit={handleSubmit}>
                             <div className="form-field d-flex align-items-center">
                                 <span className="far fa-user"></span>
-                                <input type="text" name="userName" id="userName" placeholder="Username" value={userName}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    style={{ color: "#34495E" }} />
+                                <input
+                                    type="text"
+                                    name="userName"
+                                    placeholder="Username"
+                                    value={credentials.userName}
+                                    onChange={handleChange}
+                                    style={{ color: "#34495E" }}
+                                />
                             </div>
                             <div className="form-field d-flex align-items-center">
                                 <span className="fas fa-key"></span>
-                                <input type="password" name="password" id="pwd" placeholder="Password" value={password}
-                                    onChange={(e) => setPassword(e.target.value)} />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={credentials.password}
+                                    onChange={handleChange}
+                                />
                             </div>
-                            <div className="checkbox-container">
-                                <Link to="/forgotpassword">
-                                    Forgot your password?
-                                </Link>
+                            <div className="checkbox-container wrapper-forgot-password">
+                                <Link to="/forgotpassword">Forgot your password ?</Link>
                             </div>
-                            <button className="btn mt-3">Login</button>
+                            <button className="btn mt-3" type="submit">Login</button>
                         </form>
-                        {message && <p className="success-message">{message}</p>}
-                        {error && <p className="error-message">{error}</p>}
                     </div>
                 </div>
             </div>
             <ToastContainer />
         </div>
     );
-}
+};
 
 export default Login;
