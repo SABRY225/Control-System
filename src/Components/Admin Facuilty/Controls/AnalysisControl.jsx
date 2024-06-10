@@ -183,44 +183,48 @@ export default function AnalysisControl() {
                 className="col-12 TextAreaFiled text-end"
                 name="description"
               ></textarea>
+              <div className="text-center">
               <button className="btnSendNotes">Send</button>
+              </div>
             </form>
           </div>
         </div>
       </div>
       {/* resever Nots */}
-      <div className="continer">
-        <div className="row justify-content-end m-3 ">
-          <div className="col-md-12 text-center ">
-            <div className="Table-title">ملاحظات رئيس الكنترول</div>
-          </div>
-        </div>
-        <div className="row justify-content-center">
-          {Notes.map((note) => {
-            let dateObj = new Date(note.writeDate);
-            // Extract year, month, and day from the date object
-            let year = dateObj.getFullYear();
-            let month = dateObj.getMonth() + 1; // Months are zero-indexed, so add 1
-            let day = dateObj.getDate();
-
-            return (
-              <div class="col-12 box_Notes  m-3">
-                <div className="boxNotes_Title">{note.description}</div>
-                <div className="d-flex justify-content-between">
-                  <div className="nameOfMemberNotes rtl mx-4">
-                    <div>
-                      {year}-{month}-{day}
-                    </div>
-                  </div>
-                  <div className="nameOfMemberNotes rtl mx-4">
-                    <div>د/ {note.writeBy.name}</div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+      <div className="container text-end">
+      <div className="row justify-content-end m-3">
+        <div className="col-md-12 text-center">
+          <div className="Table-title">ملاحظات رئيس الكنترول</div>
         </div>
       </div>
+      <div className="row justify-content-center">
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>الوصف</th>
+              <th>كتب بواسطة</th>
+            </tr>
+          </thead>
+          <tbody style={{fontSize:"1rem"}}>
+            {Notes.map((note, index) => {
+              let dateObj = new Date(note.writeDate);
+              let year = dateObj.getFullYear();
+              let month = dateObj.getMonth() + 1;
+              let day = dateObj.getDate();
+
+              return (
+                <tr key={index}>
+                  <td>{`${year}-${month}-${day}`}</td>
+                  <td>{note.description}</td>
+                  <td>د/ {note.writeBy.name}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
     </>
   );
 }

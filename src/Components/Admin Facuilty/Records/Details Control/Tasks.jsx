@@ -1,35 +1,55 @@
-import React from 'react'
+import React from 'react';
 
-const Tasks = (data) => {
-  console.log(data.dataTasks);
-  const Tasks = data.dataTasks;
+const Tasks = ({ dataTasks }) => {
+  console.log(dataTasks);
+  const tasks = dataTasks;
+
   return (
     <>
-      <div className='TaskOfControl'>
+      <div className='TaskOfControl rtl'>
         <div className="row text-end">
           <div className='col-12 TaskOfControl-Title'>المهام</div>
         </div>
-        {/* <div className='container Task-Groupes' > */}
         <div className='row justify-content-center'>
-          {/* Start */}
-          {Tasks.map(item => (
-            <div class="col-md-5 box m-2" key={item.id}>
-              <div className='box_Title'>{item.description}</div>
-            </div>
-          ))}
-
-
-          {/* End */}
+          <div className="col-12">
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">اسم المهمة</th>
+                  <th scope="col">الأعضاء</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tasks.map(item => (
+                  <React.Fragment key={item.id}>
+                    <tr>
+                      <td>{item.description}</td>
+                      <td>
+                        <table className="table">
+                          <tbody>
+                            {item.users.map(user => (
+                              <tr key={user.id}>
+                                <td>{user.name}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      {/* </div> */}
       <div className="container">
         <div className="row">
           <hr />
         </div>
       </div>
     </>
-
-  )
+  );
 }
-export default Tasks
+
+export default Tasks;

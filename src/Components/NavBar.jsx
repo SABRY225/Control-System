@@ -6,16 +6,16 @@ import logoWEbsite from "../assets/logoWEbsite.png"
 const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
     const commonLinks = {
         AdminFaculty: [
-            { path: '/Admin_Faculity/', text: 'الكنترولات' },
-            { path: '/Admin_Faculity/CreateControl', text: 'ادارة الكنترولات' },
+            { path: '/Admin_Faculity/', text: 'الكنترول' },
+            { path: '/Admin_Faculity/CreateControl', text: 'ادارة الكنترول' },
             { path: '/Admin_Faculity/Register', text: 'التسجيل' },
-            { path: '/Admin_Faculity/Records', text: 'السجل' }
+            { path: '/Admin_Faculity/Records', text: 'الأرشيف' }
         ],
         AdminUniversity: [
-            { path: '/Admin_University/', text: 'الكنترولات' }
+            { path: '/Admin_University/', text: 'الكنترول' }
         ],
         Staff: [
-            { path: '/Staff/', text: 'الكنترولات' }
+            { path: '/Staff/', text: 'الكنترول' }
         ]
     };
 

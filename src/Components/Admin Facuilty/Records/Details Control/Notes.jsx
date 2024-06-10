@@ -1,38 +1,48 @@
-import React from 'react'
- const Notes=(data)=> {
-  console.log(data.dataNotes);
-  const Notes = data.dataNotes;
+import React from 'react';
+
+const Notes = ({ dataNotes }) => {
+  console.log(dataNotes);
+  const notes = dataNotes;
+
   return (
     <>
-    <div className="NoteOfControl">
-      <div className="row text-end ">
-        <div className="col-12 note-title">
-          ملاحظات رئيس الكنترول
+      <div className="NoteOfControl text-end">
+        <div className="row text-end">
+          <div className="col-12 note-title">
+            ملاحظات رئيس الكنترول
+          </div>
+        </div>
+        <div className='row justify-content-center'>
+          <div className="col-12">
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">الوصف</th>
+                  <th scope="col">التاريخ</th>
+                  <th scope="col">كاتب الملاحظة</th>
+                </tr>
+              </thead>
+              <tbody>
+                {notes.map(item => {
+                  let dateObj = new Date(item.writeDate);
+                  let year = dateObj.getFullYear();
+                  let month = dateObj.getMonth() + 1;
+                  let day = dateObj.getDate();
+                  return (
+                    <tr key={item.id}>
+                      <td>{item.description}</td>
+                      <td>{`${year}-${month}-${day}`}</td>
+                      <td>د/ {item.writeBy.name}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <div className='row justify-content-center'>
-        {/* Start */}
-        {Notes.map(item => (
-            <div class="col-md-5 box m-2" key={item.id}>
-              <div className='box_Title'>{item.description}</div>
-              <div className="row">
-                <div className="col dataofTask">
-                  <div className="dataOfTask">{item.writeDate}</div>
-                </div>
-                <div className="col memberOfTask">
-                  <div className='nameOfMember'>{item.writeBy.name}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        {/* End */}
-
-      </div>
-      </div>
     </>
-
-  )
+  );
 }
 
-
-export default Notes
+export default Notes;

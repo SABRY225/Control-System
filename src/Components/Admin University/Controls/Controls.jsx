@@ -1,5 +1,5 @@
 import React from 'react'
-import {FacultyFilter , DetailsOfControl} from '../index';
+import {FacultyFilter } from '../../constant/Path';
 import { Outlet } from 'react-router-dom';
 export default function Controls() {
   return (

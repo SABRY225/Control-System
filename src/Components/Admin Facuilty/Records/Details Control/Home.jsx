@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ControlMaterials, ControlMembers, DetailsOfControl, Notes, Tasks } from '../../index';
+import { ControlMaterials, ControlMembers, DetailsOfControl, Notes, Tasks } from '../../../constant/Path';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
 export default function HomeControlRecodes() {
   const tok = useSelector((state) => state.auth.token);
@@ -62,7 +64,7 @@ export default function HomeControlRecodes() {
 
     const fetchDataNotes = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_GETALLNOTES+IdControl, {
+        const response = await axios.get(process.env.REACT_APP_GETALLNOTES + IdControl, {
           headers: {
             Authorization: "Bearer " + tok,
           },
@@ -74,14 +76,14 @@ export default function HomeControlRecodes() {
     };
     const fetchDataTasks = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_GETTASKSBYCONTROLID, {
-          params: { cid: IdControl },
+        const response = await axios.get(process.env.REACT_APP_GETTASKSBYCONTROLID + IdControl, {
           headers: {
             Authorization: "Bearer " + tok,
             "Content-Type": "application/json",
           },
         });
         setDataTasks(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -93,6 +95,10 @@ export default function HomeControlRecodes() {
     fetchDataTasks();
   }, [IdControl, tok]);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <>
       <DetailsOfControl dataControl={dataControl} />
@@ -100,6 +106,9 @@ export default function HomeControlRecodes() {
       <ControlMembers dataMember={dataMember} />
       <Tasks dataTasks={dataTasks} />
       <Notes dataNotes={dataNotes} />
+      <div className="text-center my-4">
+        <button className="btn btn-primary btn-print" onClick={handlePrint}>Print Page <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon></button>
+      </div>
     </>
   );
 }

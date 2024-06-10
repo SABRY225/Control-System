@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Members, Materiales } from '../index';
+import { Members, Materiales } from '../../constant/Path';
 
 
 export default function RgisterMember_Materiales() {

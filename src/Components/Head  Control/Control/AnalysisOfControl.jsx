@@ -74,7 +74,7 @@ export default function AnalysisOfControl() {
     const jsonNote = JSON.stringify(formData);
     try {
       const response = await axios.post(
-        process.env.REACT_APP_CREATENOTE+control.control.id,
+        process.env.REACT_APP_CREATENOTE + control.control.id,
         jsonNote,
         {
           headers: {
@@ -121,7 +121,7 @@ export default function AnalysisOfControl() {
   };
 
   const options = {};
-console.log(controlSubjects);
+
   return (
     <>
       <div className="container">
@@ -193,34 +193,38 @@ console.log(controlSubjects);
 
         {/* Display Notes */}
         <div className="container">
-          <div className="row justify-content-end m-3">
+          <div className="row justify-content-center m-3">
             <div className="col-md-12 text-center">
               <div className="Table-title">ملاحظات من أعضاء الكنترول</div>
             </div>
           </div>
           <div className="row justify-content-center">
-            {Notes.map((note) => {
-              let dateObj = new Date(note.writeDate);
-              let year = dateObj.getFullYear();
-              let month = dateObj.getMonth() + 1;
-              let day = dateObj.getDate();
-
-              return (
-                <div key={note.id} className="col-12 box_Notes m-3">
-                  <div className="boxNotes_Title">{note.description}</div>
-                  <div className="d-flex justify-content-between">
-                    <div className="nameOfMemberNotes rtl mx-4">
-                      <div>
-                        {year}-{month}-{day}
-                      </div>
-                    </div>
-                    <div className="nameOfMemberNotes rtl mx-4">
-                      <div>د/ {note.writeBy.name}</div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            <div className="col-md-12">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">الوصف</th>
+                    <th scope="col">التاريخ</th>
+                    <th scope="col">كاتب الملاحظة</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Notes.map((note) => {
+                    let dateObj = new Date(note.writeDate);
+                    let year = dateObj.getFullYear();
+                    let month = dateObj.getMonth() + 1;
+                    let day = dateObj.getDate();
+                    return (
+                      <tr key={note.id}>
+                        <td>{note.description}</td>
+                        <td>{`${year}-${month}-${day}`}</td>
+                        <td>{`د/ ${note.writeBy.name}`}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

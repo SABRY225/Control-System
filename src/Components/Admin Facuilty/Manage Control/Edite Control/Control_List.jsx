@@ -107,10 +107,10 @@ const ControlList = () => {
                     <FontAwesomeIcon
                       className='mx-5'
                       icon={faTrashAlt}
-                      style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' }}
+                      style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' ,fontSize:"1.5rem"}}
                       onClick={() => handleDeleteControl(control.id)} // Pass control ID or unique identifier
                     />
-                    <FontAwesomeIcon className='mx-5' icon={faCog} style={{ color: '#6C757D', cursor: 'pointer' }} onClick={() => handleEditeControl(control.id)} />
+                    <FontAwesomeIcon className='mx-5' icon={faCog} style={{ color: '#6C757D', cursor: 'pointer', fontSize:"1.5rem"}} onClick={() => handleEditeControl(control.id)} />
                   </div>
                 </div>
               </div>

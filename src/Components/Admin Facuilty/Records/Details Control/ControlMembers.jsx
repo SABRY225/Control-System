@@ -1,57 +1,54 @@
 import React, { useEffect, useState } from "react";
 
 const ControlMembers = ({ dataMember }) => {
-  const [Head, setHead] = useState([]);
-  const [Member, setMember] = useState([]);
+  const [head, setHead] = useState(null);
+  const [members, setMembers] = useState([]);
+
   useEffect(() => {
-    // console.log(dataMember.length);
-    for (let i = 0; i < dataMember.length; i++) {
-      console.log(dataMember[i].jobType);
-      if (dataMember[i].jobType === "Head") {
-        setHead((prev) => [...prev, dataMember[i].user.name]);
-      } else {
-        setMember((prev) => [...prev, dataMember[i].user.name]);
-      }
+    const headMember = dataMember.find(member => member.jobType === "Head");
+    const otherMembers = dataMember.filter(member => member.jobType !== "Head");
+
+    if (headMember) {
+      setHead(headMember.user.name);
     }
+
+    setMembers(otherMembers.map(member => member.user.name));
   }, [dataMember]);
 
-  console.log(Head);
-  console.log(Member);
   return (
     <>
-      <div className="ControlMembers">
+            <div className="ControlMembers text-end">
         <div className="row text-end">
           <div className="col-12 ControlMembers-Title">
             بيانات أعضاء الكنترول
           </div>
         </div>
-        <div className="ControlMembers-Groupes">
-          <div className="ControlMembers-Groupe-1">
-            <div className="ControlMembers-Groupe-title">رئيس الكنترول</div>
-            {/* Row Start */}
-            <div className="ControlMembers-Groupe-Head">
-              <div className="row ">
-                <div className="col-12 data_column rtl">د/ {Head[0]}</div>
-              </div>
-            </div>
-            {/* Row End */}
-          </div>
-          <div className="ControlMembers-Groupe-1">
-            <div className="ControlMembers-Groupe-title">أعضاء الكنترول </div>
-            {/* Row Start */}
-            <div className="row text-center ">
-              {Member.map((member, index) => {
-                return (
-                  <div className="col-md-4 column_ControlMembers" key={index}>
-                    <div className=" data_column rtl">د / { member}</div>
-                  </div>
-                );
-              })}
-              
-            </div>
-            {/* Row End */}
-          </div>
-        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">دور العضو</th>
+              <th scope="col">اسم العضو</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>رئيس الكنترول</td>
+              <td>{head ? `د/ ${head}` : "لا يوجد رئيس كنترول"}</td>
+            </tr>
+            {members.length > 0 ? (
+              members.map((member, index) => (
+                <tr key={index}>
+                  <td>عضو كنترول</td>
+                  <td>د/ {member}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="2">لا يوجد أعضاء كنترول</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
       <div className="container">
         <div className="row">
