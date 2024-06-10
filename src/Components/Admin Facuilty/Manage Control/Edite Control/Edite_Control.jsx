@@ -239,9 +239,16 @@ function Edite_Control() {
     setSelectedCommitteeMembersIDs((prev) => [...prev, ...committeeMemberIDs]);
 
   }, [dataMember]);
-  console.log(Head);
-  console.log(Member);
-  const chairpers = dataStaff.data;
+  // console.log("Head", Head);
+  // console.log("Member",Member);
+  const [chairpers, setChairpers] = useState([]);
+  useEffect(() => {
+    if (dataStaff && dataStaff.data) {
+      console.log(dataMember, dataStaff.data);
+      const temp = dataStaff.data.filter((member) => !dataMember.find(m => m.user.id == member.id));
+      setChairpers([...temp]);
+    }
+  }, [dataStaff,dataMember ]); 
   console.log("chairpers : ", chairpers);
   const handleAddChairperson = () => {
     if (selectedChairperson && !personsIDs.includes(selectedChairperson) && selectedChairpersons.length < 1) {
@@ -251,6 +258,7 @@ function Edite_Control() {
         setSelectedChairpersons([...selectedChairpersons, selectedChairpersonObject.name]);
         setPersonsIDs([...personsIDs, selectedChairpersonObject.id]);
         setSelectedChairperson('');
+        setChairpers((prev) => prev.filter((m) => m.id != selectedChairperson));
       }
     } else {
       // Chairperson is already selected or the input is empty
@@ -260,9 +268,10 @@ function Edite_Control() {
   const handleRemoveChairperson = (chairperson) => {
     const updatedChairpersons = selectedChairpersons.filter(cp => cp !== chairperson);
     let updatedPersonsID;
-    for (let index = 0; index < chairpers.length; index++) {
-      if (chairperson === chairpers[index].name) {
-        updatedPersonsID = chairpers[index].id;
+    for (let index = 0; index < dataStaff.data.length; index++) {
+      if (chairperson === dataStaff.data[index].name) {
+        setChairpers((prev) => [...prev, dataStaff.data[index]]);
+        updatedPersonsID = dataStaff.data[index].id;
         break; // Once found, exit the loop
       }
     }
@@ -280,6 +289,10 @@ function Edite_Control() {
         setSelectedCommitteeMembers([...selectedCommitteeMembers, selectedCommitteeMembersObject.name]);
         setSelectedCommitteeMembersIDs([...selectedCommitteeMembersId, selectedCommitteeMembersObject.id]);
         setSelectedCommitteeMember('');
+        setChairpers((prev) =>
+          prev.filter((m) => m.id != selectedCommitteeMember)
+        );
+
       }
     }
     else {
@@ -290,9 +303,10 @@ function Edite_Control() {
   const handleRemoveCommitteeMember = (committeeMember) => {
     const updatedCommitteeMember = selectedCommitteeMembers.filter((cp) => cp !== committeeMember);
     let updatedcommitteeMemberID;
-    for (let index = 0; index < chairpers.length; index++) {
-      if (committeeMember === chairpers[index].name) {
-        updatedcommitteeMemberID = chairpers[index].id;
+    for (let index = 0; index < dataStaff.data.length; index++) {
+      if (committeeMember === dataStaff.data[index].name) {
+        setChairpers((prev) => [...prev, dataStaff.data[index]]);
+        updatedcommitteeMemberID = dataStaff.data[index].id;
         break; // Once found, exit the loop
       }
     }
