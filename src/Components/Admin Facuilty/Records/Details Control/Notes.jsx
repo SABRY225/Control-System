@@ -9,7 +9,7 @@ const Notes = ({ dataNotes }) => {
       <div className="NoteOfControl text-end">
         <div className="row text-end">
           <div className="col-12 note-title">
-            ملاحظات رئيس الكنترول
+            ملاحظات الكنترول
           </div>
         </div>
         <div className='row justify-content-center'>

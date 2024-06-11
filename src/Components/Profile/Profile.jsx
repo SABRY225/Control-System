@@ -19,7 +19,7 @@ const UserProfile= ({ user }) => {
 function Profile() {
   const username = useSelector((state) => state.Profile.firstName);
   const email = useSelector((state) => state.Profile.email);
-  const userImage = useSelector((state) => state.Profile.userImage);
+  // const userImage = useSelector((state) => state.Profile.userImage);
   const national = useSelector((state) => state.Profile.national);
   const college = useSelector((state) => state.Profile.college);
   const user = {

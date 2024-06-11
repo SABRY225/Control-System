@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Profile from "../assets/profile.png";
-import lessThen from "../assets/less-than.png";
 import setting from "../assets/setting.png";
 import Logout from "../assets/logout.png";
 

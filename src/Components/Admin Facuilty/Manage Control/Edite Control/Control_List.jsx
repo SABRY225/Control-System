@@ -7,6 +7,7 @@ import { setIdControl } from '../../../../Redux/ProfileSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useCallback } from 'react';
 const ControlList = () => {
   const fId = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
@@ -15,10 +16,12 @@ const ControlList = () => {
   const semester = `${new Date().getFullYear()}/${
     new Date().getFullYear() - 1
   }`;
+
+  
   // allControllers
   useEffect(() => {
     getControl();
-  },[]);
+  },[tok]);
 
   const [dataControl, setDataControl] = useState([]);
 
@@ -104,13 +107,23 @@ const ControlList = () => {
                   </div>
                   {/* Icons for delete and settings */}
                   <div className="d-flex align-items-center mt-3">
+                    <div className='d-flex ms-3' onClick={() => handleDeleteControl(control.id)} // Pass control ID or unique identifier
+                    style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' ,fontSize:"1.2rem"}}
+                    >
+                      <p>
+                      حذف 
+                      </p>
                     <FontAwesomeIcon
-                      className='mx-5'
+                      className='mx-2'
                       icon={faTrashAlt}
-                      style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' ,fontSize:"1.5rem"}}
-                      onClick={() => handleDeleteControl(control.id)} // Pass control ID or unique identifier
                     />
-                    <FontAwesomeIcon className='mx-5' icon={faCog} style={{ color: '#6C757D', cursor: 'pointer', fontSize:"1.5rem"}} onClick={() => handleEditeControl(control.id)} />
+                    </div>
+                    <div className='d-flex me-3 algin-center' style={{ color: '#6C757D', cursor: 'pointer', fontSize:"1.2rem"}} onClick={() => handleEditeControl(control.id)} >
+                      <p>
+                    تعديل
+                      </p>
+                    <FontAwesomeIcon className='mx-2' icon={faCog} />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -84,7 +86,9 @@ export default function AnalysisOfControl() {
         }
       );
       event.target.reset();
+      toast.success("Note is successfully!");
       getNote();
+
     } catch (error) {
       console.log(error.message);
     }
@@ -102,6 +106,7 @@ export default function AnalysisOfControl() {
           },
         }
       );
+      console.log(response);
       getControlSubject();
     } catch (error) {
       console.log(error.message);
@@ -121,9 +126,11 @@ export default function AnalysisOfControl() {
   };
 
   const options = {};
-
+console.log(controlSubjects);
   return (
     <>
+      <ToastContainer />
+
       <div className="container">
         {/* Title control */}
         <div className="row text-center">

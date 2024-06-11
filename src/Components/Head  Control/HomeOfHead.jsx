@@ -35,7 +35,7 @@ export default function HomeOfHead() {
           try {
             if (control.acaD_YEAR == semester) {
               const res= await axios.get(
-                'http://localhost:5120/Users/get-head-of-control/'+control.id,
+                process.env.REACT_APP_GETHEADOFCONTROL+control.id,
                 {
                   headers: {
                     Authorization: "Bearer " + tok,

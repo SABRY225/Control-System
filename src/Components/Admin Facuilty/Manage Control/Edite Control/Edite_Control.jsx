@@ -28,6 +28,8 @@ function Edite_Control() {
     selectedMajor: ''
   })
   const [dataControl, setDataControl] = useState('');
+  const [acadYears, setAcadYears] = useState([]);
+
   const fetchData = async () => {
     try {
       // Fetch data from the API using axios
@@ -91,6 +93,24 @@ function Edite_Control() {
     getCurUser();
   }, [token]);
 
+  const getAcadYears = useCallback( async () =>{
+    try{
+        const response = await axios.get(
+            process.env.REACT_APP_GETALLACADYEARS,
+            {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+            }
+        );
+        setAcadYears(response.data);
+        // console.log(response.data);
+        }catch(er){
+        console.error("Error fetching Data Control data:", er);
+    }
+},[]); 
+
+
   useEffect(() => {
     getSubjectControl();
     fetchDataMemeber();
@@ -98,6 +118,7 @@ function Edite_Control() {
     fetchData();
     getStaff();
     getNode();
+    getAcadYears();
   }, [fId, CId, token]);
 
   // =======================================================
@@ -322,6 +343,10 @@ function Edite_Control() {
   let UsersIds = selectedCommitteeMembersId;
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (SubjectsIds.length===0 || controlManagerID ===null ||UsersIds.length===0 ) {
+      toast.error("All Data must Enter");
+      return;
+    }
     try {
       const name = values.name;
       const faculity_Phase = values.faculity_Phase;
@@ -332,7 +357,7 @@ function Edite_Control() {
       const faculity_Semester = values.faculity_Semester;
       const formData = { name, faculity_Phase, faculity_Node, start_Date, end_Date, acaD_YEAR, faculity_Semester, controlManagerID, SubjectsIds, UsersIds };
       const jsonData = JSON.stringify(formData);
-
+      
       console.log(jsonData);
       console.log(formData);
       // // Make a POST request to the authentication endpoint
@@ -351,6 +376,7 @@ function Edite_Control() {
 
     } catch (error) {
       toast.error(error);
+      console.log(error);
     }
   };
   //-===================================-=======================-==================
@@ -377,7 +403,7 @@ function Edite_Control() {
             </div>
             <div className="form-group">
               <label htmlFor="academicYear">السنة الأكاديمية</label>
-              <input
+              <select
                 type="text"
                 className="form-control"
                 id="acaDYear"
@@ -385,8 +411,15 @@ function Edite_Control() {
                 value={values.acaD_YEAR}
                 onChange={(e) => setValues({ ...values, acaD_YEAR: e.target.value })}
                 style={{ backgroundColor: '#E1E1E1' }}
-                disabled
-              />
+              >
+               {acadYears.map(ad => {
+                    return (
+                        <option key={ad.id} value={ad.id}>
+                        {ad.name}
+                        </option>
+                    );
+                })} 
+              </select>
             </div>
             <div className="form-group">
               <label htmlFor="term">الفصل الدراسي</label>
@@ -444,7 +477,7 @@ function Edite_Control() {
             <div className="form-group">
               <label htmlFor="startDate">تاريخ البداية</label>
               <input
-                type="datetime-local"
+                type="date"
                 className="form-control"
                 id="startDate"
                 name="startDate"
@@ -457,7 +490,7 @@ function Edite_Control() {
             <div className="form-group">
               <label htmlFor="endDate">تاريخ النهاية</label>
               <input
-                type="datetime-local"
+                type="date"
                 className="form-control"
                 id="endDate"
                 name="endDate"

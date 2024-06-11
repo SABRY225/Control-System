@@ -164,6 +164,7 @@ export default function TaskOfControl() {
           },
         }
       );
+      getTasks();
       toast.success("Task created successfully");
     } catch (error) {
       toast.error(error.message);
@@ -183,6 +184,7 @@ export default function TaskOfControl() {
         );
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
       } catch (error) {
+        console.log(error);
         toast.error(error.message)
       }
     }
@@ -194,7 +196,7 @@ export default function TaskOfControl() {
       <div className="row text-end m-3">
         <div className="col-12 Title-Task">انشاء مهام لأعضاء الكنترول</div>
       </div>
-      <form action="#" onSubmit={onSendTask}>
+      <form  onSubmit={onSendTask}>
         <div className="row text-center">
           <div className="col-md-4 mb-3">
             <div className="col">

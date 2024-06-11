@@ -5,7 +5,6 @@ import { faKey } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 
 const ChangePassword = ({ email }) => {
     const [otp, setOtp] = useState('');
@@ -15,7 +14,7 @@ const ChangePassword = ({ email }) => {
     const handleChangePassword = useCallback(async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(process.env.REACT_APP_CHANGEPASSWORD, {
+            await axios.put(process.env.REACT_APP_CHANGEPASSWORD, {
                 currentPassword,
                 otp,
                 newPassword,

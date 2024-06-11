@@ -11,7 +11,7 @@ const ForgotPassword = () => {
     const [email, setEmailInput] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // استخدام useNavigate بدلاً من navigator
+    const navigate = useNavigate(); 
     const dispatch = useDispatch();
 
     const handleEmailChange = (e) => {
@@ -24,7 +24,6 @@ const ForgotPassword = () => {
         setError('');
 
         try {
-            console.log(email);
             const response = await axios.post(`${process.env.REACT_APP_FORGETPASSWORD}?email=${encodeURIComponent(email)}`, {}, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,7 +34,6 @@ const ForgotPassword = () => {
             navigate('/new-password'); // استخدام navigate بدلاً من navigator
         } catch (err) {
             setError('An error occurred. Please try again.');
-            console.log(err);
         }
     };
 

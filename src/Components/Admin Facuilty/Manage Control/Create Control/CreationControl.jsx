@@ -36,13 +36,32 @@ export default function CreationControl() {
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedSubjectsIDs, setSelectedSubjectsIDs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [acadYears, setAcadYears] = useState([]);
     const [facultyNode, setFacultyNode] = useState([]);
     useEffect(() => {
         getSubject();
         getStaff();
         getNode();
+        getAcadYears();
     }, [tok, fId]);
+
+
+    const getAcadYears = useCallback( async () =>{
+        try{
+            const response = await axios.get(
+                process.env.REACT_APP_GETALLACADYEARS,
+                {
+                headers: {
+                    Authorization: "Bearer " + tok,
+                },
+                }
+            );
+            setAcadYears(response.data);
+            // console.log(response.data);
+            }catch(er){
+            console.error("Error fetching Data Control data:", er);
+        }
+    },[]); 
 
     const getNode = useCallback(() => {
         async function getCurUser() {
@@ -90,7 +109,10 @@ export default function CreationControl() {
                     },
                 }
             );
+            
             setData(data);
+            console.log(data);
+
             setDataSubject(data);
         } catch (error) {
             console.error("Error fetching subject data:", error);
@@ -234,12 +256,13 @@ export default function CreationControl() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const acadyear = acadYears.find(y => y.id == acaDYear);
         try {
             const formData = {
                 name,
                 faculity_Phase:faculityPhase,
                 faculity_Semester:faculitySemester,
-                acaD_YEAR:acaDYear,
+                acaD_YEAR: acadyear.name,
                 start_Date:startDate,
                 end_Date:endDate,
                 faculity_Node:faculityNode,
@@ -248,6 +271,7 @@ export default function CreationControl() {
                 usersIds: selectedCommitteeMembersId
             };
             const jsonData = JSON.stringify(formData);
+            console.log(jsonData);
             setIsLoading(true);
             console.log(jsonData);
             const response = await axios.post(
@@ -287,16 +311,23 @@ export default function CreationControl() {
                     </div>
                     <div className="form-group">
                         <label htmlFor="academicYear">السنة الأكاديمية</label>
-                        <input
-                            type="text"
-                            className="form-control"
+                        <select
+                            className="form-select"
                             id="acaDYear"
                             name="acaDYear"
                             value={acaDYear}
                             onChange={(e) => setAcaDYear(e.target.value)}
                             style={{ backgroundColor: '#E1E1E1' }}
-                            disabled
-                        />
+                        >
+                        <option value="">العام الاكاديمى</option>
+                            {acadYears.map(ad => {
+                                return (
+                                    <option key={ad.id} value={ad.id}>
+                                    {ad.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="term">الفصل الدراسي</label>
@@ -342,7 +373,7 @@ export default function CreationControl() {
                             onChange={(e) => setFaculityNode(e.target.value)}
                             style={{ backgroundColor: '#E1E1E1', color: 'black' }}
                         >
-                                <option value="">اختر شعبه</option>
+                            <option value="">اختر شعبه</option>
                             {facultyNode.map(fn => {
                                 return (
                                     <option key={fn.code} value={fn.id}>
@@ -355,7 +386,7 @@ export default function CreationControl() {
                     <div className="form-group">
                         <label htmlFor="startDate">تاريخ البداية</label>
                         <input
-                            type="datetime-local"
+                            type="date"
                             className="form-control"
                             id="startDate"
                             name="startDate"
@@ -368,7 +399,7 @@ export default function CreationControl() {
                     <div className="form-group">
                         <label htmlFor="endDate">تاريخ النهاية</label>
                         <input
-                            type="datetime-local"
+                            type="date"
                             className="form-control"
                             id="endDate"
                             name="endDate"

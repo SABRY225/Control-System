@@ -22,7 +22,7 @@ export default function InformationControl() {
         const { data } = await axios.get(
           `${process.env.REACT_APP_GETCONTROLSBYFACULITYID}${Fid}`,
           {
-            params: { fid: Fid },
+            // params: { fid: Fid },
             headers: {
               Authorization: "Bearer " + tok,
             },
@@ -50,9 +50,9 @@ export default function InformationControl() {
           }
         }
         setControls(controlsData);
-        toast.success("Controls data fetched successfully!");
+        // toast.success("Controls data fetched successfully!");
       } catch (error) {
-        toast.error("Failed to fetch controls data: " + error.message);
+        // toast.error("Failed to fetch controls data: " + error.message);
       }
     };
     fetchControls();

@@ -36,6 +36,7 @@ const Login = () => {
                 { userName, password },
                 { headers: { "Content-Type": "application/json" } }
             );
+            console.log(response);
 
             if (response.data.success) {
                 toast.success('Login successfully.');

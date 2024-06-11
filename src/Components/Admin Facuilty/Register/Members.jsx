@@ -6,34 +6,31 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./FromRegisterStyle.css";
 
 export default function Members() {
-  const tok = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token);
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    // Convert form data to JSON
-    const fd = new FormData(event.target);
-    const formData = Object.fromEntries(fd.entries());
-    console.log(formData);
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
 
     try {
-      const jsonData = JSON.stringify(formData);
-      console.log(jsonData);
-
       const response = await axios.post(
         process.env.REACT_APP_REGISTER,
-        jsonData, // Pass JSON data here
+        JSON.stringify(data),
         {
           headers: {
-            Authorization: "Bearer " + tok,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
+
       event.target.reset();
       toast.success("User registered successfully!");
     } catch (error) {
-      alert("يرجي اعادة المحاولة ")
-
+      toast.error("Registration failed, please try again.");
     }
   };
 
@@ -51,7 +48,7 @@ export default function Members() {
             </div>
             <div className="control-row-register col">
               <label htmlFor="username">Username</label>
-              <input id="username" type="text" name="userName" required/>
+              <input id="username" type="text" name="userName" required />
             </div>
             <div className="control-row-register col">
               <label htmlFor="email">Email</label>
@@ -59,7 +56,7 @@ export default function Members() {
             </div>
             <div className="control-row-register col">
               <label htmlFor="password">Password</label>
-              <input id="password" type="password" name="password" required/>
+              <input id="password" type="password" name="password" required />
             </div>
             <div className="control-row-register col">
               <label htmlFor="cp">Confirm Password</label>

@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
-import logoWEbsite from "../assets/logoWEbsite.png"
 const NavBar = ({ role, data, toggleMenu, isOpen, subMenuRef, logout }) => {
     const commonLinks = {
         AdminFaculty: [

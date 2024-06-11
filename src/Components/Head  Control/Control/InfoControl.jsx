@@ -28,7 +28,7 @@ export default function InfoControl() {
           }
         );
         setControlsMember(data);
-        toast.success("Members fetched successfully!");
+        // toast.success("Members fetched successfully!");
       } catch (error) {
         toast.error("Failed to fetch members: " + error.message);
       }
@@ -50,7 +50,7 @@ export default function InfoControl() {
           }
         );
         setControlsSubject(data);
-        toast.success("Subjects fetched successfully!");
+        // toast.success("Subjects fetched successfully!");
       } catch (error) {
         toast.error("Failed to fetch subjects: " + error.message);
       }

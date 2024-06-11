@@ -11,8 +11,8 @@ export default function DetaliesWork_schedule() {
   const [Notes, setNotes] = useState([]);
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
-
-  const HeadControl = control.user.name;
+  console.log(control);
+  const HeadControl = control.user;
 
   const getControlMember = useCallback(() => {
     const getControlMember = async () => {
