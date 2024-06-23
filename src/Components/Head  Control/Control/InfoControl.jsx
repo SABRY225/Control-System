@@ -10,7 +10,7 @@ export default function InfoControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
   console.log(control);
-  const HeadControl = control.user;
+  const HeadControl = control.Head;
   const [controlMembers, setControlsMember] = useState([]);
   const [controlSubjects, setControlsSubject] = useState([]);
 

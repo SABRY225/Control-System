@@ -9,17 +9,37 @@ import { useNavigate } from 'react-router-dom';
 const SearchOfControl = () => {
   const tok = useSelector((state) => state.auth.token);
   const [acadYear, setAcadYear] = useState('');
+  const [allAcadYear, setAllAcadYear] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [searching, setSearching] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
+    handleAcadYear();
     if (searching) {
       handleSearch();
     }
   }, [acadYear, searching]);
-
+  const handleAcadYear= async ()=>{
+    try {
+    const response = await axios.get(process.env.REACT_APP_GETALLACADYEARS, {
+      headers: {
+        Authorization: 'Bearer ' + tok, // Authorization token
+        'Content-Type': 'application/json', // Content type
+      },
+    });
+    if (!response.statusText) {
+      throw new Error('Failed to fetch data');
+    }
+    console.log(response.data);
+    setAllAcadYear(response.data)
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    setSearching(false);
+  }
+  }
   const handleSearch = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_GETCONTROLSBYACADEMICYEAR, {
@@ -67,7 +87,11 @@ const SearchOfControl = () => {
             }}
           >
             <option value="">العام الأكاديمي</option>
-            <option value="2025/2024">2025/2024</option>
+            {allAcadYear.map((acadYear,index)=>(
+            <option value={acadYear.name}>{acadYear.name}</option>
+
+            ))}
+            {/* <option value="2025/2024">2025/2024</option>
             <option value="2024/2023">2024/2023</option>
             <option value="2023/2022">2023/2022</option>
             <option value="2022/2021">2022/2021</option>
@@ -75,7 +99,7 @@ const SearchOfControl = () => {
             <option value="2020/2019">2020/2019</option>
             <option value="2019/2018">2019/2018</option>
             <option value="2018/2017">2018/2017</option>
-            <option value="2017/2016">2017/2016</option>
+            <option value="2017/2016">2017/2016</option> */}
           </select>
         </div>
       </div>

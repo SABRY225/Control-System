@@ -16,7 +16,6 @@ export default function HomeOfHead() {
   const semester = `${new Date().getFullYear()}/${new Date().getFullYear() - 1
     }`;
   const getControls = useCallback(() => {
-    console.log(Uid);
     const getControls = async () => {
       try {
         const { data } = await axios.get(
@@ -43,9 +42,10 @@ export default function HomeOfHead() {
                 }
               );
                 console.log(res);
-                const user=res.data.name
+                const Head=res.data.name
+                const HeadID=res.data.id
                 setHeadID(res.data.id);
-              setControls((prev) => [...prev, { user, control }]);
+              setControls((prev) => [...prev, { Head,HeadID, control }]);
             }
           } catch (e) {
             console.log(e.message);
@@ -63,12 +63,27 @@ export default function HomeOfHead() {
     getControls();
   }, [getControls, Fid]);
 
-  const handleSendControl = (control) => {
-    console.log(headID);
+  const handleSendControl = async(control) => {
+    console.log(control);
+    // console.log(headID);
     console.log(Uid);
-    dispatch(setDetails({ control: control }));
-    if (headID == Uid) navigate("./control");
-    else navigate("controlMember");
+    try {
+        const res= await axios.get(
+          process.env.REACT_APP_GETHEADOFCONTROL+control.control.id,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+            },
+          }
+        );
+          console.log(res.data.id);
+          console.log(control.HeadID);
+          dispatch(setDetails({ control: control }));
+          if (res.data.id === Uid) navigate("./control");
+          else navigate("controlMember");
+    } catch (e) {
+      console.log(e.message);
+    }
   };
   console.log(controls);
   return (
@@ -78,16 +93,17 @@ export default function HomeOfHead() {
         <div className="row justify-content-center">
           {
             controls.length>0 ? <>
-              {controls.map((control) => {
+              {controls.map((control,index) => {
                 // console.log(control.control);
                 return (
                   <div
                     className="col-4 m-3 boxControl pointer-event"
                     onClick={() => handleSendControl(control)}
+                    key={index}
                   >
                     <div className="row">
                       <div className="col-6 dataofControl">
-                        <div className="nameOfHeadControl">{control.user}</div>
+                        <div className="nameOfHeadControl">{control.Head}</div>
                         <div className="nameOfJob">رئيس الكنترول</div>
                       </div>
                       <div className="col-6 text-center nameOfControl">

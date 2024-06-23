@@ -7,23 +7,22 @@ import { setIdControl } from '../../../../Redux/ProfileSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useCallback } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+
 const ControlList = () => {
   const fId = useSelector((state) => state.Profile.Fid);
   const tok = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const semester = `${new Date().getFullYear()}/${
-    new Date().getFullYear() - 1
-  }`;
-
-  
-  // allControllers
-  useEffect(() => {
-    getControl();
-  },[tok]);
+  const semester = `${new Date().getFullYear()}/${new Date().getFullYear() - 1}`;
 
   const [dataControl, setDataControl] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedControl, setSelectedControl] = useState(null);
+
+  useEffect(() => {
+    getControl();
+  }, [tok]);
 
   const getControl = async () => {
     try {
@@ -36,101 +35,118 @@ const ControlList = () => {
           },
         }
       );
-      console.log(response.data);
-      
       const controlsMatchingSemester = response.data.filter(control => control.acaD_YEAR === semester);
-  
       if (controlsMatchingSemester.length > 0) {
         setDataControl(controlsMatchingSemester);
       } else {
-        // Handle case where no controls match the semester
         console.log("No controls found for the specified semester.");
       }
     } catch (error) {
       console.error("Error fetching Data Control data:", error);
-      // Handle errors, such as displaying an error message to the user
     }
   };
-  
 
-  // Delete
-  console.log("dataControl :",dataControl);
-  const handleDeleteControl = async (control) => {
-    console.log(control);
+  const handleDeleteControl = async () => {
     try {
-      if (window.confirm("هل تريد ازالة الكنترول نهائيا ؟")){
-      const response = await axios.delete(
-        `${process.env.REACT_APP_DELETECONTROL}${control}`,
-        {
-          headers: {
-            Authorization: "Bearer " + tok, // Authorization token
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      getControl();
-      // Filter out the deleted control from the dataControl state
-      const updatedDataControl = dataControl.filter(data => data.id !== control);
-      setDataControl(updatedDataControl);
-      toast.success(response.data)
-
-    }
+      if (selectedControl) {
+        const response = await axios.delete(
+          `${process.env.REACT_APP_DELETECONTROL}${selectedControl}`,
+          {
+            headers: {
+              Authorization: "Bearer " + tok,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        getControl();
+        const updatedDataControl = dataControl.filter(data => data.id !== selectedControl);
+        setDataControl(updatedDataControl);
+        toast.success(response.data);
+        setShowDeleteModal(false);
+      }
     } catch (error) {
       toast.error(error);
+      setShowDeleteModal(false);
     }
   };
 
-  const handleEditeControl = (control) => {
-    dispatch(setIdControl(control));
-    navigate('/Admin_Faculity/Edite_Control')
-  }
+  const handleEditeControl = (controlId) => {
+    dispatch(setIdControl(controlId));
+    navigate('/Admin_Faculity/Edite_Control');
+  };
+
+  const handleShowDeleteModal = (controlId) => {
+    setSelectedControl(controlId);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setSelectedControl(null);
+  };
 
   return (
-
     <div className="container mt-4">
-      <div className="page rtl" >
-        {!dataControl ? (
+      <div className="page rtl">
+        {!dataControl.length ? (
           <div className="col-md-12 my-3">
             <p className="text-center fs-2 fw-bold">لا يوجد لجان كنترول في الوقت الحالي</p>
           </div>
         ) : (
-          <div className="row justify-content-center text-center years-of-controls">
-            {/* Displaying Controls */}
-            {dataControl.map((control) => (
-              <div key={control.id} className="col-md-5">
-                <div
-                  className="d-flex flex-column justify-content-center align-items-center rounded-2 mt-4 p-3 border border-3 control-card"
-                // onClick={() => handleControlClick(control)} // Call handleControlClick on click
-                >
-                  <div className="d-flex">
-                    <h5>{control.name}</h5>
-                  </div>
-                  {/* Icons for delete and settings */}
-                  <div className="d-flex align-items-center mt-3">
-                    <div className='d-flex ms-3' onClick={() => handleDeleteControl(control.id)} // Pass control ID or unique identifier
-                    style={{ color: '#FF0000', cursor: 'pointer', marginRight: '10px' ,fontSize:"1.2rem"}}
+          <table className="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th>اسم الكنترول</th>
+                <th>تعديل الكنترول</th>
+                <th>حذف الكنترول</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataControl.map((control) => (
+                <tr key={control.id}>
+                  <td>{control.name}</td>
+                  <td>
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{ color: '#6C757D', cursor: 'pointer', fontSize: "1.2rem" }}
+                      onClick={() => handleEditeControl(control.id)}
                     >
-                      <p>
-                      حذف 
-                      </p>
-                    <FontAwesomeIcon
-                      className='mx-2'
-                      icon={faTrashAlt}
-                    />
+                      <p className='m-2'>تعديل</p>
+                      <FontAwesomeIcon className="mx-2" icon={faCog} />
                     </div>
-                    <div className='d-flex me-3 algin-center' style={{ color: '#6C757D', cursor: 'pointer', fontSize:"1.2rem"}} onClick={() => handleEditeControl(control.id)} >
-                      <p>
-                    تعديل
-                      </p>
-                    <FontAwesomeIcon className='mx-2' icon={faCog} />
+                  </td>
+                  <td>
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{ color: '#FF0000', cursor: 'pointer', fontSize: "1.2rem" }}
+                      onClick={() => handleShowDeleteModal(control.id)}
+                    >
+                      <p className='m-2'>حذف</p>
+                      <FontAwesomeIcon className="mx-2" icon={faTrashAlt} />
                     </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
       <ToastContainer />
+
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>تأكيد الحذف</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='text-center'>هل تريد ازالة الكنترول نهائيا ؟</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteModal}>
+            إلغاء
+          </Button>
+          <Button variant="danger" onClick={handleDeleteControl}>
+            حذف
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

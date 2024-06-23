@@ -8,6 +8,7 @@ import { Admin_Facuilty,Admin_University,Head_Control, RegisterPages,Reocrd_Cont
 import {LayoutAPP,LayoutAuth} from "./Layout/index";
 import { DetaliesWork_schedule, Task_schedule, Work_schedule,ContentOfControl, HomeOfHead,ControlManagement,ErrorPage,Profile,Setting,InformationControl,DataControl,SearchOfControl,HomeControlRecodes,RgisterMember_Materiales,Controls,ProtectedRoutes,AcademicYearDetails,Edite_Control,Login,ForgotPassword,ResetPassword} from './Components/constant/Path';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

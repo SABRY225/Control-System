@@ -15,7 +15,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function AnalysisOfControl() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
-  const HeadControl = control.user;
+  const HeadControl = control.Head;
   const [controlSubjects, setControlsSubject] = useState([]);
   const [Notes, setNotes] = useState([]);
   const [countIsDone, setCountIsDone] = useState(0);

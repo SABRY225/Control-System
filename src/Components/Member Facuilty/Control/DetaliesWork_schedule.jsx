@@ -12,7 +12,7 @@ export default function DetaliesWork_schedule() {
   const control = useSelector((state) => state.details.control);
   const tok = useSelector((state) => state.auth.token);
   console.log(control);
-  const HeadControl = control.user;
+  const HeadControl = control.Head;
 
   const getControlMember = useCallback(() => {
     const getControlMember = async () => {
